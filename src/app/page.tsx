@@ -4,6 +4,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { useEffect, useState } from 'react';
 import NumberFlow from '@number-flow/react';
 
+// Add this at the top of the file
+const isClient = typeof window !== 'undefined';
+
 // Add currency and amount types at the top with other constants
 interface CityData {
     name: string;
@@ -331,6 +334,8 @@ function createEmojiSprite(size: number): THREE.Sprite {
 
 // Add this function to create city markers
 function createCityMarker(city: CityData): THREE.Group {
+    if (!isClient) return new THREE.Group(); // Return empty group if not client
+
     const group = new THREE.Group();
     
     // Create floating dot using a sprite instead of a mesh
@@ -1012,7 +1017,9 @@ function Globe() {
             renderer.setSize(window.innerWidth, window.innerHeight);
         };
 
-        window.addEventListener('resize', handleResize);
+        if (isClient) {
+            window.addEventListener('resize', handleResize);
+        }
 
         // Update the click handler in the Globe component
         renderer.domElement.addEventListener('click', (event) => {
@@ -1049,7 +1056,9 @@ function Globe() {
 
         // Cleanup
         return () => {
-            window.removeEventListener('resize', handleResize);
+            if (isClient) {
+                window.removeEventListener('resize', handleResize);
+            }
             renderer.dispose();
             document.body.removeChild(renderer.domElement);
             clearInterval(flightInterval);
@@ -1084,15 +1093,10 @@ function Globe() {
     );
 }
 
-// Add window resize handler to update text sizes
-window.addEventListener('resize', () => {
-    // Recreate all text sprites with new sizes
-    // This would need to be implemented in your main component
-    // to update all existing text elements
-});
-
 // Add this helper function for creating floating text
 function createFloatingText(text: string): THREE.Sprite {
+    if (!isClient) return new THREE.Sprite(); // Return empty sprite if not client
+
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
     canvas.width = 256;
