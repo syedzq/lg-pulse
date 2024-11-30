@@ -2,7 +2,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import NumberFlow from '@number-flow/react';
 
 // Add currency and amount types at the top with other constants
@@ -105,9 +104,6 @@ const RECIPIENT_CITIES = [
     { name: "Windhoek", lat: -22.5609, lng: 17.0658, weight: 3, currency: "NAD" }
 ];
 
-// Add this constant near the top with other constants
-const TEXT_DISPLAY_THRESHOLD = 35; // Only show text for donations >= $35
-
 // Add these conversion rates near the top with other constants
 const CURRENCY_TO_USD: { [key: string]: number } = {
     'USD': 1,
@@ -123,11 +119,6 @@ const CURRENCY_TO_USD: { [key: string]: number } = {
     'ETB': 0.018,
     'EGP': 0.032
 };
-
-// Add this function to format large numbers
-function formatLargeNumber(num: number): string {
-    return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
 // Function to select a random city based on weights
 function getRandomCity(cities: typeof DONOR_CITIES | typeof RECIPIENT_CITIES) {
@@ -174,87 +165,6 @@ function generateDonationAmount(): number {
         return commonAmounts[Math.floor(Math.random() * 4)]; // 5-20
     }
 }
-
-// Function to create donation text sprite
-function createTextSprite(text: string): THREE.Sprite {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d')!;
-    canvas.width = 512;
-    canvas.height = 64;
-
-    // Calculate text size based on viewport
-    const viewportHeight = window.innerHeight;
-    const scaleFactor = viewportHeight / 1080;
-    const fontSize = Math.round(36 * scaleFactor);
-
-    // Text settings with viewport-adjusted font size
-    context.font = `${fontSize}px "Plus Jakarta Sans", Arial`;
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    
-    context.fillStyle = '#ffffff';
-    context.fillText(text, canvas.width / 2, canvas.height / 2);
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    
-    const spriteMaterial = new THREE.SpriteMaterial({ 
-        map: texture,
-        transparent: true,
-        depthTest: true
-    });
-    const sprite = new THREE.Sprite(spriteMaterial);
-    
-    // Scale sprite based on viewport
-    const spriteScale = 0.75 * (viewportHeight / 1080);
-    const ratio = canvas.width / canvas.height;
-    sprite.scale.set(spriteScale, spriteScale / ratio, 1);
-    
-    return sprite;
-}
-
-// Add this function to create ribbon geometry
-function createRibbonGeometry(curve: THREE.QuadraticBezierCurve3, width: number): THREE.BufferGeometry {
-    const points = curve.getPoints(50);
-    const geometry = new THREE.BufferGeometry();
-    const positions = [];
-    const indices = [];
-    
-    // Create vertices for ribbon
-    for (let i = 0; i < points.length; i++) {
-        const point = points[i];
-        const forward = i < points.length - 1 
-            ? points[i + 1].clone().sub(point) 
-            : point.clone().sub(points[i - 1]);
-        
-        // Calculate ribbon side vectors
-        const up = new THREE.Vector3(0, 1, 0);
-        const side = forward.clone().cross(up).normalize();
-        
-        // Add vertices for both sides of ribbon
-        positions.push(
-            point.x + side.x * width, point.y + side.y * width, point.z + side.z * width,
-            point.x - side.x * width, point.y - side.y * width, point.z - side.z * width
-        );
-        
-        // Create triangles
-        if (i < points.length - 1) {
-            const vertexIndex = i * 2;
-            indices.push(
-                vertexIndex, vertexIndex + 1, vertexIndex + 2,
-                vertexIndex + 1, vertexIndex + 3, vertexIndex + 2
-            );
-        }
-    }
-    
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setIndex(indices);
-    geometry.computeVertexNormals();
-    
-    return geometry;
-}
-
 // Add this interface for campaign data
 interface Campaign {
     title: string;
@@ -417,15 +327,6 @@ function createEmojiSprite(size: number): THREE.Sprite {
     sprite.scale.set(size, size / ratio, 1);
     
     return sprite;
-}
-
-// Convert TypedArray to Vector3[]
-function typedArrayToVector3Array(array: Float32Array): THREE.Vector3[] {
-    const vectors: THREE.Vector3[] = [];
-    for (let i = 0; i < array.length; i += 3) {
-        vectors.push(new THREE.Vector3(array[i], array[i + 1], array[i + 2]));
-    }
-    return vectors;
 }
 
 // Add this function to create city markers
@@ -639,18 +540,6 @@ function Globe() {
         controls.enableZoom = true;
         controls.minDistance = GLOBE_RADIUS * 3;
         controls.maxDistance = GLOBE_RADIUS * 5;
-
-        // Function to create pulsing circle
-        function createPulsingCircle(): THREE.Mesh {
-            const geometry = new THREE.SphereGeometry(0.02, 8, 8);
-            const material = new THREE.MeshBasicMaterial({
-                color: 0xffffff, // Changed to white
-                transparent: true,
-                opacity: 0.8,
-                depthTest: true
-            });
-            return new THREE.Mesh(geometry, material);
-        }
 
         // Create a container for all flight paths that will rotate with the globe
         const flightPathContainer = new THREE.Object3D();
@@ -1196,13 +1085,6 @@ function Globe() {
             />
         </div>
     );
-}
-
-// Add this function to handle path hover end
-function handlePathHoverEnd(pathData: PathData) {
-    pathData.cleanupTimeout = setTimeout(() => {
-        pathData.shouldCleanup = true;
-    }, 3000);
 }
 
 // Add window resize handler to update text sizes
