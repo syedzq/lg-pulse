@@ -987,8 +987,8 @@ function Globe() {
                 const shouldBeVisible = isHovered || timeSinceLastHover < 5000;
 
                 // Set target opacities
-                let targetOpacity = isHovered ? 1 : (shouldBeVisible ? 0.2 : 0);
-                let targetTraveledOpacity = isHovered ? 1 : (shouldBeVisible ? 0.8 : 0);
+                const targetOpacity = isHovered ? 1 : (shouldBeVisible ? 0.2 : 0);
+                const targetTraveledOpacity = isHovered ? 1 : (shouldBeVisible ? 0.8 : 0);
 
                 // Smooth transition
                 fullMaterial.opacity += (targetOpacity - fullMaterial.opacity) * 0.1;
