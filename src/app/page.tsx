@@ -581,9 +581,10 @@ function Globe() {
             hoveredPath = null;
             if (pathIntersects.length > 0) {
                 const path = pathIntersects[0].object as THREE.Mesh;
-                hoveredPath = activePaths.get(path);
+                const pathData = activePaths.get(path);
+                hoveredPath = pathData || null;
                 if (hoveredPath) {
-                    isGlobeHovered = false; // Prioritize path hover over globe hover
+                    isGlobeHovered = false;
                     
                     // Update tooltip
                     const { amount, fromCity, toCity, campaign } = hoveredPath;
@@ -852,19 +853,15 @@ function Globe() {
                 if (progress >= 1) {
                     const pathData = activePaths.get(fullPath);
                     
-                    if (pathData === hoveredPath) {
-                        // Don't cleanup if being hovered
-                        requestAnimationFrame(animate);
-                        return;
+                    if (pathData) {
+                        const timeSinceLastHover = Date.now() - pathData.lastHoverTime;
+                        if (timeSinceLastHover < 5000) {
+                            // Don't cleanup if recently hovered
+                            requestAnimationFrame(animate);
+                            return;
+                        }
                     }
                     
-                    const timeSinceLastHover = Date.now() - pathData.lastHoverTime;
-                    if (timeSinceLastHover < 5000) {
-                        // Don't cleanup if recently hovered
-                        requestAnimationFrame(animate);
-                        return;
-                    }
-
                     // Cleanup code
                     flightPathContainer.remove(fullPath);
                     flightPathContainer.remove(traveledPath);
