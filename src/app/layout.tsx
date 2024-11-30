@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Plus_Jakarta_Sans } from 'next/font/google';
+import TabBar from './components/TabBar';
+import PageTransition from './components/PageTransition';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,15 +29,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${plusJakarta.variable} antialiased`}
-      >
-        {children}
+      <body>
+        <PageTransition>
+          {children}
+        </PageTransition>
+        <TabBar />
       </body>
     </html>
   );
