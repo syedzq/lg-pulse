@@ -340,7 +340,7 @@ function createCityMarker(city: CityData): THREE.Group {
 
     const group = new THREE.Group();
     
-    // Create floating dot using a sprite instead of a mesh
+    // Create floating dot using a sprite
     const dotCanvas = document.createElement('canvas');
     const dotContext = dotCanvas.getContext('2d')!;
     dotCanvas.width = 64;
@@ -357,23 +357,25 @@ function createCityMarker(city: CityData): THREE.Group {
         map: dotTexture,
         transparent: true,
         opacity: 0.8,
-        depthTest: false, // Ensure dot is always visible
+        depthTest: false,
         depthWrite: false
     });
     const dot = new THREE.Sprite(dotMaterial);
     dot.scale.set(0.03, 0.03, 1);
-    dot.renderOrder = 2; // Higher render order
+    dot.renderOrder = 2;
 
     // Create label with higher z-index
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
-    canvas.width = 256;
-    canvas.height = 64;
+    canvas.width = 512; // Increased for better text quality
+    canvas.height = 128;
 
-    // Draw text with viewport-adjusted font size
+    // Significantly larger text size for mobile
+    const isMobile = window.innerWidth < 768;
+    const baseSize = isMobile ? 72 : 24; // 3x larger on mobile
     const viewportHeight = window.innerHeight;
     const scaleFactor = viewportHeight / 1080;
-    const fontSize = Math.round(24 * scaleFactor);
+    const fontSize = Math.round(baseSize * scaleFactor);
 
     context.font = `${fontSize}px "Plus Jakarta Sans", Arial`;
     context.fillStyle = '#ffffff';
@@ -386,17 +388,20 @@ function createCityMarker(city: CityData): THREE.Group {
         map: texture,
         transparent: true,
         opacity: 0.8,
-        depthTest: false, // Ensure text is always visible
+        depthTest: false,
         depthWrite: false
     });
     const label = new THREE.Sprite(labelMaterial);
     
-    // Scale sprite based on viewport
-    const spriteScale = 0.3 * (viewportHeight / 1080);
+    // Adjust scale based on mobile/desktop
+    const baseSpriteScale = isMobile ? 0.9 : 0.3; // 3x larger on mobile
+    const spriteScale = baseSpriteScale * (viewportHeight / 1080);
     label.scale.set(spriteScale, spriteScale * 0.25, 1);
-    label.position.x = 0.03;
-    label.position.y = 0.02;
-    label.renderOrder = 3; // Highest render order
+    
+    // Adjust position for mobile
+    label.position.x = isMobile ? 0.09 : 0.03; // Move label further from dot on mobile
+    label.position.y = isMobile ? 0.06 : 0.02;
+    label.renderOrder = 3;
 
     group.add(dot);
     group.add(label);
@@ -799,6 +804,15 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
                     amountSprite.position.y += 0.2;
                     flightPathContainer.add(amountSprite);
 
+                    // Add cleanup for the amount sprite after animation
+                    setTimeout(() => {
+                        if (amountSprite.parent) {
+                            flightPathContainer.remove(amountSprite);
+                            amountSprite.material.dispose();
+                            (amountSprite.material.map as THREE.Texture)?.dispose();
+                        }
+                    }, 2000); // Remove after 2 seconds
+
                     // Emit donation event only after donation is received
                     eventEmitter.emit('newDonation', {
                         id: Math.random().toString(36).substr(2, 9),
@@ -1085,7 +1099,7 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
     return <div id="globe-container" />;
 }
 function createFloatingText(text: string): THREE.Sprite {
-    if (!isClient) return new THREE.Sprite(); // Return empty sprite if not client
+    if (!isClient) return new THREE.Sprite();
 
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
@@ -1094,7 +1108,7 @@ function createFloatingText(text: string): THREE.Sprite {
 
     const fontSize = Math.round(24 * (window.innerHeight / 1080));
     context.font = `${fontSize}px "Plus Jakarta Sans", Arial`;
-    context.fillStyle = '#34D399'; // text-green-500 equivalent
+    context.fillStyle = '#22c55e'; // text-brand-500 color
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(text, canvas.width / 2, canvas.height / 2);
@@ -1109,6 +1123,26 @@ function createFloatingText(text: string): THREE.Sprite {
     const sprite = new THREE.Sprite(material);
     const ratio = canvas.width / canvas.height;
     sprite.scale.set(0.5, 0.5 / ratio, 1);
+
+    // Add animation properties
+    let progress = 0;
+    const animate = () => {
+        progress += 0.02;
+        
+        // Move upward and fade out
+        sprite.position.y += 0.01;
+        material.opacity = 1 - progress;
+        
+        // Scale up slightly
+        const scale = 0.5 * (1 + progress * 0.3);
+        sprite.scale.set(scale, scale / ratio, 1);
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    };
+    
+    animate();
     
     return sprite;
 }
