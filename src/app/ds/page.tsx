@@ -5,6 +5,7 @@ import Modal from '../components/Modal';
 import { useState } from 'react';
 import { Button } from '../components/Button';
 import { CampaignCard } from '../components/CampaignCard';
+import { ProgressBar } from '../components/ProgressBar';
 
 export default function DS() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -107,6 +108,8 @@ export default function DS() {
                 </Modal>
                 <h2 className="text-2xl font-bold">Campaign Card</h2>
                 <CampaignCard title='Splash of Hope: Provide clean drinking water for orphans in Bangladesh' url='https://www.google.com' imageUrl='https://via.placeholder.com/300' />
+                <h2 className="text-2xl font-bold">Progress Bar</h2>
+                <ProgressBar progress={50} />
             </section>
         </>
     );

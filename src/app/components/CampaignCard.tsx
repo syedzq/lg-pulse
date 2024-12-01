@@ -15,7 +15,7 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
     const router = useRouter();
 
     return (
-        <div className='min-w-[300px] flex flex-col'>
+        <div className='min-w-[300px] max-w-[400px] flex flex-col'>
             <div className="flex flex-col h-fit bg-white rounded-xl overflow-hidden shadow-md transition-colors">
                 <div className="h-[224px] bg-neutral-100 animate-pulse">
                     {imageUrl && (
