@@ -54,7 +54,7 @@ export default function HomePage() {
     ];
 
     return (
-        <div className="min-w-screen bg-white text-black">
+        <div className="min-w-screen bg-white dark:bg-neutral-900 text-black dark:text-white">
             {/* Hero Section */}
             <div className="relative h-[60vh] w-full">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white z-10" />
@@ -67,7 +67,7 @@ export default function HomePage() {
                     priority
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-8 z-20 max-w-screen-xl mx-auto">
-                    <h1 className="font-serif text-4xl font-bold mb-6 text-black">
+                    <h1 className="font-serif text-4xl font-bold mb-6 text-neutral-900">
                         Grow your Garden of Giving
                     </h1>
                     <form 
@@ -96,7 +96,7 @@ export default function HomePage() {
                 {campaignSections.map((section, sectionIndex) => (
                     <div key={sectionIndex}>
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-2xl font-bold text-black">{section.title}</h2>
+                            <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">{section.title}</h2>
                             <div className="invisible sm:visible flex gap-2">
                                 <Button 
                                     onClick={() => scroll('left')}

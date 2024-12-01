@@ -16,8 +16,8 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
 
     return (
         <div className='min-w-[300px] max-w-[400px] flex flex-col'>
-            <div className="flex flex-col h-fit bg-white rounded-xl overflow-hidden shadow-md transition-colors">
-                <div className="h-[224px] bg-neutral-100 animate-pulse">
+            <div className="flex flex-col h-fit bg-white dark:bg-neutral-800 rounded-xl overflow-hidden shadow-md transition-colors">
+                <div className="h-[224px] bg-neutral-100 dark:bg-neutral-700 animate-pulse">
                     {imageUrl && (
                         <img
                             src={imageUrl}
@@ -33,18 +33,18 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
                 <div className='flex-none h-fit flex-col space-y-4 p-4'>
                     <div className='flex flex-row items-center gap-2'>
                         <div className='rounded-full bg-neutral-200 w-6 h-6'></div>
-                        <div className='text-xs text-neutral-600'>The Good Charity</div>
+                        <div className='text-xs text-neutral-600 dark:text-neutral-300'>The Good Charity</div>
                     </div>
                     <div>
-                        <h3 className="font-semibold text-lg mb-2 line-clamp-2 min-h-[48px] text-black">
+                        <h3 className="font-semibold text-lg mb-2 line-clamp-2 min-h-12 leading-6 text-neutral-900 dark:text-white">
                             {title}
                         </h3>
                     </div>
                     <ProgressBar progress={0.5} />
                     <div className='flex flex-row justify-between items-center'>
                         <div className='flex flex-col'>
-                            <div className='text-2xl font-semibold text-neutral-900'>$50,000</div>
-                            <div className='text-sm text-neutral-600'>funded of $100k</div>
+                            <div className='text-2xl font-semibold text-neutral-900 dark:text-white'>$50,000</div>
+                            <div className='text-sm text-neutral-600 dark:text-neutral-400'>funded of $100k</div>
                         </div>
                         <Button
                             variant="brand"
@@ -62,9 +62,9 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
             </div>
             <div className="flex flex-row  px-4 py-3">
                 <div className="flex flex-row gap-2">
-                    <HeartIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900" />
-                    <ShoppingCartIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900" />
-                    <PaperAirplaneIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900" />
+                    <HeartIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
+                    <ShoppingCartIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
+                    <PaperAirplaneIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
                 </div>
                 <div className='grow justify-end items-center flex flex-row gap-2'>
                     <div className="text-right text-sm text-brand-500">Zakat-verified</div>
