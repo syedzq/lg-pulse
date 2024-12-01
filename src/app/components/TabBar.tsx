@@ -9,19 +9,44 @@ export default function TabBar() {
     const isGlobePage = pathname === '/globe';
     const isCampaignPage = pathname.includes('/campaign');
     
+    // Generate 64 blur layers
+    const blurLayers = Array.from({ length: 64 }, (_, i) => {
+        const progress = i / 64; // 0 to 1
+        const blurAmount = progress * 48; // 0px to 48px blur
+        const opacity = progress * 1; // 0 to 1 opacity
+        
+        return (
+            <div
+                key={i}
+                className={`h-px backdrop-blur-[${blurAmount}px] ${
+                    isGlobePage 
+                        ? `bg-black/[${opacity}]` 
+                        : `bg-white/[${opacity}]`
+                }`}
+                style={{
+                    backdropFilter: `blur(${blurAmount}px)`,
+                    backgroundColor: isGlobePage 
+                        ? `rgba(0, 0, 0, ${opacity})` 
+                        : `rgba(255, 255, 255, ${opacity})`
+                }}
+            />
+        );
+    });
+    
     return (
         <div className="fixed bottom-0 left-0 right-0 z-[2000] pointer-events-none">
             {/* Mobile-only background effects container */}
             <div className="block sm:hidden">
                 {/* Progressive gradient */}
-                <div className={`absolute bottom-0 left-0 right-0 h-32 ${isGlobePage ? 'bg-gradient-to-t from-black via-black/50 to-transparent' : 'bg-gradient-to-t from-white via-white/80 to-transparent'}`} />
+                <div className={`absolute bottom-0 left-0 right-0 h-32 ${
+                    isGlobePage 
+                        ? 'bg-gradient-to-t from-black via-black/50 to-transparent' 
+                        : 'bg-gradient-to-t from-white via-white/80 to-transparent'
+                }`} />
                 
-                {/* Progressive blur - using multiple layers for smoother effect */}
+                {/* Progressive blur - using 64 layers */}
                 <div className="absolute bottom-0 left-0 right-0">
-                    <div className="h-8 backdrop-blur-none" />
-                    <div className="h-8 backdrop-blur-[2px]" />
-                    <div className="h-8 backdrop-blur-[4px]" />
-                    <div className="h-8 backdrop-blur-[6px]" />
+                    {blurLayers}
                 </div>
             </div>
             
