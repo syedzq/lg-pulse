@@ -1,10 +1,10 @@
 "use client";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Image from 'next/image';
 
-export default function CampaignPage() {
+function CampaignContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const url = searchParams.get('url');
@@ -41,7 +41,6 @@ export default function CampaignPage() {
                 willChange: 'transform'
             }}
         >
-            {/* Campaign Content */}
             <div className="h-full w-full overflow-auto">
                 {imageUrl && (
                     <Image 
@@ -55,5 +54,13 @@ export default function CampaignPage() {
                 )}
             </div>
         </motion.div>
+    );
+}
+
+export default function CampaignPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <CampaignContent />
+        </Suspense>
     );
 } 
