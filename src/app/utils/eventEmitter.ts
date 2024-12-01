@@ -1,30 +1,45 @@
-type EventData = {
-    [key: string]: unknown;
-};
+// Define event types
+interface DonationCard {
+    id: string;
+    amount: number;
+    currency: string;
+    fromCity: string;
+    toCity: string;
+    campaignTitle: string;
+    campaignUrl: string;
+    timestamp: number;
+}
 
-type Listener = (data: EventData) => void;
+interface EventMap {
+    newDonation: DonationCard;
+    // Add other event types here as needed
+}
+
+type EventKey = keyof EventMap;
+type Listener<K extends EventKey> = (data: EventMap[K]) => void;
 
 class EventEmitter {
-    private listeners: { [key: string]: Listener[] } = {};
+    private listeners: { [K in EventKey]?: Listener<K>[] } = {};
 
-    on(event: string, callback: Listener) {
+    on<K extends EventKey>(event: K, callback: Listener<K>) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
-        this.listeners[event].push(callback);
+        this.listeners[event]?.push(callback);
     }
 
-    emit(event: string, data: EventData) {
-        if (this.listeners[event]) {
-            this.listeners[event].forEach(callback => callback(data));
-        }
+    emit<K extends EventKey>(event: K, data: EventMap[K]) {
+        this.listeners[event]?.forEach(callback => callback(data));
     }
 
-    off(event: string, callback: Listener) {
+    off<K extends EventKey>(event: K, callback: Listener<K>) {
         if (this.listeners[event]) {
-            this.listeners[event] = this.listeners[event].filter(cb => cb !== callback);
+            this.listeners[event] = this.listeners[event]?.filter(
+                cb => cb !== callback
+            ) as Listener<K>[];
         }
     }
 }
 
-export const eventEmitter = new EventEmitter(); 
+export const eventEmitter = new EventEmitter();
+export type { DonationCard }; 

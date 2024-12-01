@@ -1,18 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { eventEmitter } from '../utils/eventEmitter';
-
-interface DonationCard {
-    id: string;
-    amount: number;
-    currency: string;
-    fromCity: string;
-    toCity: string;
-    campaignTitle: string;
-    campaignUrl: string;
-    timestamp: number;
-}
+import { eventEmitter, type DonationCard } from '../utils/eventEmitter';
 
 export default function LiveDonationFeed() {
     const [donations, setDonations] = useState<DonationCard[]>([]);
