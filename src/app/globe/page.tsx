@@ -467,7 +467,7 @@ export default function Home() {
     );
 }
 
-function Globe({ setTotal }: { setTotal: (value: number) => void }) {
+function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: number) => number)) => void }) {
     const [donationsStarted, setDonationsStarted] = useState(false);
 
     useEffect(() => {
@@ -790,7 +790,7 @@ function Globe({ setTotal }: { setTotal: (value: number) => void }) {
                 if (progress > 0.95 && progress < 0.96) {
                     // Convert amount to USD and update total
                     const usdAmount = amount * (CURRENCY_TO_USD[fromCity.currency || 'USD'] || 1);
-                    setTotal(prevTotal => Math.round(usdAmount + prevTotal));
+                    setTotal((prevTotal: number) => Math.round(usdAmount + prevTotal));
 
                     // Create floating amount text
                     const formattedAmount = `+$${amount.toFixed(2)}`;
