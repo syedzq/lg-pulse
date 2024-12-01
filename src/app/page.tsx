@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import { CAMPAIGNS } from './data/campaigns';
 import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import FloatingSearch from './components/FloatingSearch';
 import { Button } from './components/Button';
 import { CampaignCard } from './components/CampaignCard';
 
@@ -131,9 +130,6 @@ export default function HomePage() {
                     </div>
                 ))}
             </div>
-
-            {/* Add FloatingSearch */}
-            <FloatingSearch />
         </div>
     );
 }
