@@ -2,7 +2,6 @@
 import { useRef, useState } from 'react';
 import { CAMPAIGNS } from './data/campaigns';
 import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import FloatingSearch from './components/FloatingSearch';
 import { Button } from './components/Button';
@@ -10,7 +9,6 @@ import { CampaignCard } from './components/CampaignCard';
 
 export default function HomePage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearch = (e: React.FormEvent) => {
