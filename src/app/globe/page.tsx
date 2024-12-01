@@ -2,7 +2,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { useEffect, useState } from 'react';
+import LiveDonationFeed from '../components/LiveDonationFeed';
 import NumberFlow from '@number-flow/react';
+import { eventEmitter } from '../utils/eventEmitter';
 
 // Add this at the top of the file
 const isClient = typeof window !== 'undefined';
@@ -437,15 +439,36 @@ const activeCities = new Set<string>();
 const cityLastDonationTime = new Map<string, number>();
 
 export default function Home() {
+    const [total, setTotal] = useState(679474372);
+    
     return (
         <div className="overflow-hidden bg-black">
-            <Globe />
+            <div className="md:hidden pt-4 px-4 mx-auto justify-center z-[1000]">
+                <NumberFlow 
+                    value={total}
+                    prefix="$"
+                    format={{ 
+                        notation: 'standard',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }}
+                    className="text-white text-5xl font-bold font-['Plus_Jakarta_Sans']"
+                    style={{
+                        textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                        fontFeatureSettings: '"tnum"',
+                        fontVariantNumeric: 'tabular-nums'
+                    }}
+                    transformTiming={{ duration: 800, easing: 'ease-out' }}
+                />
+            </div>
+            <LiveDonationFeed />
+            <Globe setTotal={setTotal} />
         </div>
     );
 }
 
-function Globe() {
-    const [total, setTotal] = useState(679474372);
+function Globe({ setTotal }: { setTotal: (value: number) => void }) {
+    const [total, setLocalTotal] = useState(679474372);
     const [donationsStarted, setDonationsStarted] = useState(false);
 
     useEffect(() => {
@@ -768,7 +791,7 @@ function Globe() {
                 if (progress > 0.95 && progress < 0.96) {
                     // Convert amount to USD and update total
                     const usdAmount = amount * (CURRENCY_TO_USD[fromCity.currency || 'USD'] || 1);
-                    setTotal(prevTotal => prevTotal + usdAmount);
+                    setTotal(prevTotal => Math.round(usdAmount + prevTotal));
 
                     // Create floating amount text
                     const formattedAmount = `+$${amount.toFixed(2)}`;
@@ -777,34 +800,17 @@ function Globe() {
                     amountSprite.position.y += 0.2;
                     flightPathContainer.add(amountSprite);
 
-                    // Animate floating amount
-                    let textProgress = 0;
-                    const animateText = () => {
-                        textProgress += 0.02;
-                        amountSprite.position.y += 0.01;
-
-                        // Check visibility based on camera angle
-                        const spritePos = amountSprite.position.clone();
-                        const cameraPos = camera.position.clone();
-                        const spriteToCam = cameraPos.clone().sub(spritePos).normalize();
-                        const spriteNormal = spritePos.clone().normalize();
-                        const dotProduct = spriteToCam.dot(spriteNormal);
-
-                        // Calculate opacity based on both animation progress and visibility
-                        const visibilityOpacity = dotProduct > 0.2 ? 1 : 0;
-                        const fadeOpacity = 1 - textProgress;
-                        (amountSprite.material as THREE.SpriteMaterial).opacity = 
-                            Math.min(visibilityOpacity, fadeOpacity);
-
-                        if (textProgress < 1 && amountSprite.material.opacity > 0.01) {
-                            requestAnimationFrame(animateText);
-                        } else {
-                            flightPathContainer.remove(amountSprite);
-                            amountSprite.material.dispose();
-                            (amountSprite.material.map as THREE.Texture).dispose();
-                        }
-                    };
-                    animateText();
+                    // Emit donation event only after donation is received
+                    eventEmitter.emit('newDonation', {
+                        id: Math.random().toString(36).substr(2, 9),
+                        amount,
+                        currency: fromCity.currency || 'USD',
+                        fromCity: fromCity.name,
+                        toCity: toCity.name,
+                        campaignTitle: pathData.campaign.title,
+                        campaignUrl: pathData.campaign.url,
+                        timestamp: Date.now()
+                    });
 
                     // Determine number of hearts based on donation amount
                     let numHearts;
@@ -1076,34 +1082,7 @@ function Globe() {
             document.body.removeChild(tooltip);
         };
     }, [donationsStarted]); // Add donationsStarted to dependency array
-
-    return (
-        <div className="fixed top-10 left-1/2 -translate-x-1/2 z-[1000]">
-            <NumberFlow 
-                value={total}
-                prefix="$"
-                format={{ 
-                    notation: 'standard',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                }}
-                className="text-white text-5xl font-bold font-['Plus_Jakarta_Sans']"
-                style={{
-                    textShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                    fontFeatureSettings: '"tnum"',
-                    fontVariantNumeric: 'tabular-nums',
-                    position: 'fixed',
-                    top: '40px',
-                    left: '50%',
-                    transform: 'translateX(-50%)'
-                }}
-                transformTiming={{ duration: 800, easing: 'ease-out' }}
-            />
-        </div>
-    );
-}
-
-// Add this helper function for creating floating text
+}// Add this helper function for creating floating text
 function createFloatingText(text: string): THREE.Sprite {
     if (!isClient) return new THREE.Sprite(); // Return empty sprite if not client
 
@@ -1132,3 +1111,4 @@ function createFloatingText(text: string): THREE.Sprite {
     
     return sprite;
 }
+

@@ -11,7 +11,17 @@ export default {
       fontFamily: {
         sans: ['var(--font-plus-jakarta)', 'system-ui', 'sans-serif'],
       },
+      colors: {
+        primary: {
+          DEFAULT: '#22c55e',
+          hover: '#16a34a',
+        }
+      },
     },
   },
+  safelist: [
+    'bg-[#22c55e]',
+    'hover:bg-[#16a34a]',
+  ],
   plugins: [],
 } satisfies Config;

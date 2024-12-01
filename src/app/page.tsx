@@ -2,9 +2,11 @@
 import { useRef } from 'react';
 import { CAMPAIGNS } from './data/campaigns';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -19,27 +21,24 @@ export default function HomePage() {
     };
 
     return (
-        <div className="min-h-screen bg-white text-black">
+        <div className="min-w-screen bg-white text-black">
             {/* Hero Section */}
             <div className="relative h-[60vh] w-full">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white z-10" />
                 <img 
-                    src="https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=2400&q=80" 
+                    src="https://cdn.builder.io/api/v1/image/assets%2Fc05b786f1645447ab878b73ca4dd6870%2F2107b2375d444a9eb25e0492c9c851d0?format=webp&width=2000" 
                     alt="Hero" 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
-                    <h1 className="text-4xl font-bold mb-4 text-black">
-                        Support Humanitarian Aid
+                <div className="absolute bottom-0 left-0 right-0 p-8 z-20 max-w-screen-xl mx-auto">
+                    <h1 className="font-serif text-4xl font-bold mb-4 text-black">
+                        Grow your Garden of Giving
                     </h1>
-                    <p className="text-lg text-black/80 max-w-xl">
-                        Join the global community in providing essential support to those in need.
-                    </p>
                 </div>
             </div>
 
             {/* Campaigns Section */}
-            <div className="px-4 py-8">
+            <div className="px-6 py-8 max-w-screen-xl mx-auto">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-bold text-black">Active Campaigns</h2>
                     <div className="flex gap-2">
@@ -74,7 +73,10 @@ export default function HomePage() {
                                     {campaign.title}
                                 </h3>
                                 <button 
-                                    onClick={() => window.open(campaign.url, '_blank')}
+                                    onClick={() => {
+                                        console.log('Opening campaign:', campaign.url);
+                                        router.push(`/campaign?url=${encodeURIComponent(campaign.url)}`);
+                                    }}
                                     className="mt-2 px-4 py-2 bg-black/5 hover:bg-black/10 rounded-full text-sm transition-colors w-full text-black"
                                 >
                                     View Campaign
