@@ -1,8 +1,8 @@
 "use client";
 import { useSearchParams, useRouter } from 'next/navigation';
-import { ChevronLeftIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function CampaignPage() {
     const searchParams = useSearchParams();
@@ -44,11 +44,13 @@ export default function CampaignPage() {
             {/* Campaign Content */}
             <div className="h-full w-full overflow-auto">
                 {imageUrl && (
-                    <img 
+                    <Image 
                         src={imageUrl}
                         alt="Campaign Preview"
+                        width={1440}
+                        height={2000}
                         className="w-full h-auto"
-                        loading="eager"
+                        priority
                     />
                 )}
             </div>

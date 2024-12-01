@@ -468,7 +468,6 @@ export default function Home() {
 }
 
 function Globe({ setTotal }: { setTotal: (value: number) => void }) {
-    const [total, setLocalTotal] = useState(679474372);
     const [donationsStarted, setDonationsStarted] = useState(false);
 
     useEffect(() => {
@@ -1081,8 +1080,10 @@ function Globe({ setTotal }: { setTotal: (value: number) => void }) {
             window.removeEventListener('mousemove', onMouseMove);
             document.body.removeChild(tooltip);
         };
-    }, [donationsStarted]); // Add donationsStarted to dependency array
-}// Add this helper function for creating floating text
+    }, [donationsStarted, setTotal]); // Add setTotal to dependency array
+
+    return <div id="globe-container" />;
+}
 function createFloatingText(text: string): THREE.Sprite {
     if (!isClient) return new THREE.Sprite(); // Return empty sprite if not client
 

@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { CAMPAIGNS } from './data/campaigns';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function HomePage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -25,10 +26,13 @@ export default function HomePage() {
             {/* Hero Section */}
             <div className="relative h-[60vh] w-full">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white z-10" />
-                <img 
-                    src="https://cdn.builder.io/api/v1/image/assets%2Fc05b786f1645447ab878b73ca4dd6870%2F2107b2375d444a9eb25e0492c9c851d0?format=webp&width=2000" 
-                    alt="Hero" 
-                    className="w-full h-full object-contain"
+                <Image 
+                    src="https://cdn.builder.io/api/v1/image/assets%2Fc05b786f1645447ab878b73ca4dd6870%2F2107b2375d444a9eb25e0492c9c851d0"
+                    alt="Hero"
+                    width={2000}
+                    height={1000}
+                    className="w-full h-full object-cover"
+                    priority
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-8 z-20 max-w-screen-xl mx-auto">
                     <h1 className="font-serif text-4xl font-bold mb-4 text-black">

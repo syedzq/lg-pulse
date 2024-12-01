@@ -1,4 +1,8 @@
-type Listener = (data: any) => void;
+type EventData = {
+    [key: string]: unknown;
+};
+
+type Listener = (data: EventData) => void;
 
 class EventEmitter {
     private listeners: { [key: string]: Listener[] } = {};
@@ -10,7 +14,7 @@ class EventEmitter {
         this.listeners[event].push(callback);
     }
 
-    emit(event: string, data: any) {
+    emit(event: string, data: EventData) {
         if (this.listeners[event]) {
             this.listeners[event].forEach(callback => callback(data));
         }
