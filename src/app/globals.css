@@ -5,6 +5,8 @@
 body {
   background-color: black;
   font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+  font-smooth: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 @layer utilities {

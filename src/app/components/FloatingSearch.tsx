@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Button } from './Button';
 
 export default function FloatingSearch() {
     const [isVisible, setIsVisible] = useState(false);
@@ -55,12 +56,13 @@ export default function FloatingSearch() {
                             left: 'calc(50% + 143px)'
                         }}
                     >
-                        <button
-                            onClick={() => setIsSearchOpen(true)}
+                        <Button
+                            variant="tertiary"
+                            size="extraSmall"
                             className="h-16 w-16 bg-neutral-100 rounded-full flex items-center justify-center border border-black/5"
                         >
                             <MagnifyingGlassIcon className="w-6 h-6" />
-                        </button>
+                        </Button>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -94,19 +96,21 @@ export default function FloatingSearch() {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="flex-1 px-4 py-2 bg-transparent outline-none"
                                 />
-                                <button 
-                                    type="button"
-                                    onClick={() => setIsSearchOpen(false)}
-                                    className="p-2 rounded-full hover:bg-black/5 transition-colors"
+                                <Button 
+                                    variant="tertiary" 
+                                    size="extraSmall" 
+                                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                                    onClick={() => setSearchQuery('')}
                                 >
-                                    <XMarkIcon className="w-5 h-5" />
-                                </button>
-                                <button 
-                                    type="submit"
+                                    <XMarkIcon className="h-4 w-4" />
+                                </Button>
+                                <Button 
+                                    variant="tertiary" 
+                                    size="extraSmall" 
                                     className="p-2 rounded-full hover:bg-black/5 transition-colors"
                                 >
                                     <MagnifyingGlassIcon className="w-5 h-5" />
-                                </button>
+                                </Button>
                             </form>
                         </motion.div>
                     </>

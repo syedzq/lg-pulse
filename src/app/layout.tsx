@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={plusJakarta.variable}>
-      <body className="font-sans bg-white">
+      <body className="bg-white dark:bg-neutral-900 font-sans text-neutral-900 dark:text-neutral-50">
         <PageTransition>
           {children}
         </PageTransition>

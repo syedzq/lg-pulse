@@ -1,13 +1,25 @@
 "use client";
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { CAMPAIGNS } from './data/campaigns';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import FloatingSearch from './components/FloatingSearch';
+import { Button } from './components/Button';
+import { CampaignCard } from './components/CampaignCard';
 
 export default function HomePage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            const encodedQuery = encodeURIComponent(searchQuery);
+            window.open(`https://www.launchgood.com/discover#!?search=${encodedQuery}`, '_blank');
+        }
+    };
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -20,6 +32,29 @@ export default function HomePage() {
             });
         }
     };
+
+    const campaignSections = [
+        {
+            title: "Fundraising now",
+            campaigns: CAMPAIGNS.slice(0, 5)  // First 5 campaigns
+        },
+        {
+            title: "Most funded",
+            campaigns: CAMPAIGNS.slice(5, 10)  // Next 5 campaigns
+        },
+        {
+            title: "Trending now",
+            campaigns: [...CAMPAIGNS].sort(() => Math.random() - 0.5).slice(0, 5)  // Random 5
+        },
+        {
+            title: "Ending soon",
+            campaigns: [...CAMPAIGNS].sort(() => Math.random() - 0.5).slice(0, 5)  // Random 5
+        },
+        {
+            title: "Recently added",
+            campaigns: [...CAMPAIGNS].reverse().slice(0, 5)  // Last 5 campaigns
+        }
+    ];
 
     return (
         <div className="min-w-screen bg-white text-black">
@@ -35,61 +70,72 @@ export default function HomePage() {
                     priority
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-8 z-20 max-w-screen-xl mx-auto">
-                    <h1 className="font-serif text-4xl font-bold mb-4 text-black">
+                    <h1 className="font-serif text-4xl font-bold mb-6 text-black">
                         Grow your Garden of Giving
                     </h1>
+                    <form 
+                        onSubmit={handleSearch}
+                        className="w-full max-w-xl flex items-center gap-2 bg-white rounded-full border border-black/10 p-2 shadow-lg"
+                    >
+                        <input
+                            type="text"
+                            placeholder="Search campaigns..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="flex-1 px-4 py-2 bg-transparent outline-none"
+                        />
+                        <Button 
+                            type="submit"
+                            className="p-2 rounded-full hover:bg-black/5 transition-colors"
+                        >
+                            <MagnifyingGlassIcon className="w-5 h-5" />
+                        </Button>
+                    </form>
                 </div>
             </div>
 
-            {/* Campaigns Section */}
-            <div className="px-6 py-8 max-w-screen-xl mx-auto">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-black">Active Campaigns</h2>
-                    <div className="flex gap-2">
-                        <button 
-                            onClick={() => scroll('left')}
-                            className="p-2 rounded-full bg-black/5 hover:bg-black/10 transition-colors"
-                        >
-                            <ChevronLeftIcon className="w-5 h-5" />
-                        </button>
-                        <button 
-                            onClick={() => scroll('right')}
-                            className="p-2 rounded-full bg-black/5 hover:bg-black/10 transition-colors"
-                        >
-                            <ChevronRightIcon className="w-5 h-5" />
-                        </button>
-                    </div>
-                </div>
-
-                <div 
-                    ref={scrollContainerRef}
-                    className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4"
-                    style={{ scrollBehavior: 'smooth' }}
-                >
-                    {CAMPAIGNS.map((campaign, index) => (
-                        <div 
-                            key={index}
-                            className="flex-none w-[300px] bg-neutral-50 rounded-xl overflow-hidden border border-black/5 hover:border-black/10 transition-colors"
-                        >
-                            <div className="h-[160px] bg-neutral-100 animate-pulse" />
-                            <div className="p-4">
-                                <h3 className="font-semibold mb-2 line-clamp-2 min-h-[48px] text-black">
-                                    {campaign.title}
-                                </h3>
-                                <button 
-                                    onClick={() => {
-                                        console.log('Opening campaign:', campaign.url);
-                                        router.push(`/campaign?url=${encodeURIComponent(campaign.url)}`);
-                                    }}
-                                    className="mt-2 px-4 py-2 bg-black/5 hover:bg-black/10 rounded-full text-sm transition-colors w-full text-black"
+            {/* Multiple Campaign Sections */}
+            <div className="px-6 py-8 max-w-screen-xl mx-auto space-y-12">
+                {campaignSections.map((section, sectionIndex) => (
+                    <div key={sectionIndex}>
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-2xl font-bold text-black">{section.title}</h2>
+                            <div className="invisible sm:visible flex gap-2">
+                                <Button 
+                                    onClick={() => scroll('left')}
+                                    
                                 >
-                                    View Campaign
-                                </button>
+                                    <ChevronLeftIcon className="w-5 h-5" />
+                                </Button>
+                                <Button 
+                                    onClick={() => scroll('right')}
+                                    
+                                >
+                                    <ChevronRightIcon className="w-5 h-5" />
+                                </Button>
                             </div>
                         </div>
-                    ))}
-                </div>
+
+                        <div 
+                            ref={scrollContainerRef}
+                            className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4"
+                            style={{ scrollBehavior: 'smooth' }}
+                        >
+                            {section.campaigns.map((campaign, index) => (
+                                <CampaignCard 
+                                    key={index}
+                                    title={campaign.title}
+                                    url={campaign.url}
+                                    imageUrl={campaign.imageUrl}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                ))}
             </div>
+
+            {/* Add FloatingSearch */}
+            <FloatingSearch />
         </div>
     );
 }

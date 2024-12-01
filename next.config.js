@@ -1,9 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    webpack: (config) => {
-        config.resolve.fallback = { fs: false };
-        return config;
-    }
-}
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.builder.io',
+                pathname: '/api/v1/image/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'api.microlink.io',
+                pathname: '/**',
+            }
+        ],
+    },
+};
 
-module.exports = nextConfig 
+module.exports = nextConfig; 
