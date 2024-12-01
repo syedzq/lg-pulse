@@ -16,12 +16,11 @@ interface EventMap {
 }
 
 type EventKey = keyof EventMap;
-type Listener<K extends EventKey> = (data: EventMap[K]) => void;
 
 class EventEmitter {
-    private listeners: { [K in EventKey]?: Listener<K>[] } = {};
+    private listeners: { [K in EventKey]?: Array<(data: EventMap[K]) => void> } = {};
 
-    on<K extends EventKey>(event: K, callback: Listener<K>) {
+    on<K extends EventKey>(event: K, callback: (data: EventMap[K]) => void) {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
@@ -32,11 +31,11 @@ class EventEmitter {
         this.listeners[event]?.forEach(callback => callback(data));
     }
 
-    off<K extends EventKey>(event: K, callback: Listener<K>) {
+    off<K extends EventKey>(event: K, callback: (data: EventMap[K]) => void) {
         if (this.listeners[event]) {
             this.listeners[event] = this.listeners[event]?.filter(
                 cb => cb !== callback
-            ) as Listener<K>[];
+            );
         }
     }
 }
