@@ -89,7 +89,7 @@ export default function HomePage() {
                                 <MagnifyingGlassIcon className="w-5 h-5" />
                             </Button>
                         </form>
-                        <div className="text-xs text-neutral-900/75 dark:text-white/75 font-light">
+                        <div className="text-xs sm:text-sm text-neutral-900/75 dark:text-white/75 font-light">
                             Today is the 29th of Jumada al-Awwal, 1446
                         </div>
                     </div>
@@ -133,6 +133,8 @@ export default function HomePage() {
                                     fundsRaised={campaign.raised}
                                     goal={campaign.goal}
                                     isSponsored={campaign.isSponsored}
+                                    donorCount={campaign.donorCount}
+                                    daysLeft={campaign.daysLeft}
                                 />
                             ))}
                         </div>

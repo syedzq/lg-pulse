@@ -7,6 +7,8 @@ export interface Campaign {
     imageUrl: string;
     isSponsored?: boolean;
     isZakatVerified?: boolean;
+    donorCount?: number;
+    daysLeft?: number;
 }
 
 export const CAMPAIGNS: Campaign[] = [
@@ -18,7 +20,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 98750,
         imageUrl: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80",
         isZakatVerified: true,
-        isSponsored: false
+        isSponsored: false,
+        donorCount: 1247,
+        daysLeft: 12
     },
     {
         title: "Morocco Earthquake Emergency Response",
@@ -28,7 +32,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 42365,
         imageUrl: "https://images.unsplash.com/photo-1590677880658-33600e64d128?auto=format&fit=crop&q=80",
         isZakatVerified: true,
-        isSponsored: true
+        isSponsored: true,
+        donorCount: 892,
+        daysLeft: 8
     },
     {
         title: "Syria-Türkiye Earthquake Recovery",
@@ -38,7 +44,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 67890,
         imageUrl: "https://images.unsplash.com/photo-1587653263995-422546a7a569?auto=format&fit=crop&q=80",
         isZakatVerified: false,
-        isSponsored: false
+        isSponsored: false,
+        donorCount: 743,
+        daysLeft: 15
     },
     {
         title: "Yemen Emergency Relief Fund",
@@ -48,7 +56,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 28450,
         imageUrl: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80",
         isZakatVerified: true,
-        isSponsored: false
+        isSponsored: false,
+        donorCount: 456,
+        daysLeft: 23
     },
     {
         title: "Palestine Children's Relief Fund",
@@ -58,7 +68,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 89275,
         imageUrl: "https://images.unsplash.com/photo-1597113366853-fea190b6cd82?auto=format&fit=crop&q=80",
         isZakatVerified: false,
-        isSponsored: true
+        isSponsored: true,
+        donorCount: 1893,
+        daysLeft: 5
     },
     {
         title: "Global Food Security Initiative",
@@ -68,7 +80,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 15680,
         imageUrl: "https://images.unsplash.com/photo-1593113598332-cd59c5bc3f90?auto=format&fit=crop&q=80",
         isZakatVerified: true,
-        isSponsored: false
+        isSponsored: false,
+        donorCount: 234,
+        daysLeft: 45
     },
     {
         title: "Support for Orphans Worldwide",
@@ -78,7 +92,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 12450,
         imageUrl: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80",
         isZakatVerified: false,
-        isSponsored: true
+        isSponsored: true,
+        donorCount: 178,
+        daysLeft: 32
     },
     {
         title: "Clean Water Projects in Africa",
@@ -88,7 +104,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 8925,
         imageUrl: "https://images.unsplash.com/photo-1441205188609-b875e92a9807?auto=format&fit=crop&q=80",
         isZakatVerified: true,
-        isSponsored: false
+        isSponsored: false,
+        donorCount: 156,
+        daysLeft: 18
     },
     {
         title: "Education for Refugee Children",
@@ -98,7 +116,9 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 32150,
         imageUrl: "https://images.unsplash.com/photo-1511949860663-92c5c57d48a7?auto=format&fit=crop&q=80",
         isZakatVerified: false,
-        isSponsored: true
+        isSponsored: true,
+        donorCount: 567,
+        daysLeft: 27
     },
     {
         title: "Emergency Medical Aid Fund",
@@ -108,6 +128,8 @@ export const CAMPAIGNS: Campaign[] = [
         raised: 54325,
         imageUrl: "https://images.unsplash.com/photo-1584744982491-665216d95f8b?auto=format&fit=crop&q=80",
         isZakatVerified: true,
-        isSponsored: false
+        isSponsored: false,
+        donorCount: 789,
+        daysLeft: 9
     }
 ]; 

@@ -18,6 +18,8 @@ interface CampaignCardProps {
     isSponsored?: boolean;
     fundsRaised?: number;
     goal?: number;
+    donorCount?: number;
+    daysLeft?: number;
 }
 
 function formatCurrency(amount: number, useShorthand: boolean = false): string {
@@ -37,7 +39,7 @@ function formatCurrency(amount: number, useShorthand: boolean = false): string {
     })}`;
 }
 
-export function CampaignCard({ title, url, imageUrl, isZakatVerified = false, fundsRaised = 0, goal = 0, isSponsored = false }: CampaignCardProps) {
+export function CampaignCard({ title, url, imageUrl, isZakatVerified = false, fundsRaised = 0, goal = 0, donorCount = 0, daysLeft = 0, isSponsored = false }: CampaignCardProps) {
     const router = useRouter();
     const [isLiked, setIsLiked] = useState(false);
     const [showFloatingHeart, setShowFloatingHeart] = useState(false);
@@ -89,16 +91,25 @@ export function CampaignCard({ title, url, imageUrl, isZakatVerified = false, fu
                     )}
                 </div>
                 <div className='flex-none h-fit flex-col space-y-4 p-4'>
-                    <div className='flex flex-row items-center gap-2'>
-                        <div className='rounded-full bg-neutral-200 w-6 h-6'></div>
-                        <div className='text-xs text-neutral-600 dark:text-neutral-300'>The Good Charity</div>
+                    <div className='flex flex-col gap-2'>
+                        <div className='flex flex-row items-center gap-2'>
+                            <div className='rounded-full bg-neutral-200 w-6 h-6'></div>
+                            <div className='text-xs text-neutral-600 dark:text-neutral-300'>The Good Charity</div>
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-lg mb-2 line-clamp-2 min-h-12 leading-6 text-neutral-900 dark:text-white">
+                                {title}
+                            </h3>
+                        </div>
                     </div>
-                    <div>
-                        <h3 className="font-semibold text-lg mb-2 line-clamp-2 min-h-12 leading-6 text-neutral-900 dark:text-white">
-                            {title}
-                        </h3>
+                    <div className='flex flex-col gap-2'>
+                        <div className='flex flex-row gap-2 text-sm text-neutral-600 dark:text-neutral-400'>
+                            <div>{donorCount} donors</div>
+                            <div>•</div>
+                            <div>{daysLeft} days left</div>
+                        </div>
+                        <ProgressBar progress={fundsRaised / goal} />
                     </div>
-                    <ProgressBar progress={fundsRaised / goal} />
                     <div className='flex flex-row justify-between items-center'>
                         <div className='flex flex-col'>
                             <div className='text-2xl font-semibold text-neutral-900 dark:text-white'>
