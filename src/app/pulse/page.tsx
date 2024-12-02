@@ -713,6 +713,18 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
             const toCity = getRandomCity(RECIPIENT_CITIES);
             const amount = generateDonationAmount();
             
+            // Emit donation event immediately when path is created
+            eventEmitter.emit('newDonation', {
+                id: Math.random().toString(36).substr(2, 9),
+                amount,
+                currency: fromCity.currency || 'USD',
+                fromCity: fromCity.name,
+                toCity: toCity.name,
+                campaignTitle: CAMPAIGNS[Math.floor(Math.random() * CAMPAIGNS.length)].title,
+                campaignUrl: CAMPAIGNS[Math.floor(Math.random() * CAMPAIGNS.length)].url,
+                timestamp: Date.now()
+            });
+
             // Update timestamps for both cities
             const currentTime = Date.now();
             cityLastDonationTime.set(fromCity.name, currentTime);
@@ -835,18 +847,6 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
                             (amountSprite.material.map as THREE.Texture)?.dispose();
                         }
                     }, 2000); // Remove after 2 seconds
-
-                    // Emit donation event only after donation is received
-                    eventEmitter.emit('newDonation', {
-                        id: Math.random().toString(36).substr(2, 9),
-                        amount,
-                        currency: fromCity.currency || 'USD',
-                        fromCity: fromCity.name,
-                        toCity: toCity.name,
-                        campaignTitle: pathData.campaign.title,
-                        campaignUrl: pathData.campaign.url,
-                        timestamp: Date.now()
-                    });
 
                     // Determine number of hearts based on donation amount
                     let numHearts;
