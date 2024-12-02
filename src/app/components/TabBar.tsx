@@ -58,7 +58,7 @@ export default function TabBar() {
             </div>
             
             {/* Tab bar container - centered with pointer events */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-[350px] px-4 pointer-events-auto">
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-[350px] px-4 pointer-events-auto">
                 <AnimatePresence mode="wait">
                     {isCampaignPage ? (
                         <motion.div
