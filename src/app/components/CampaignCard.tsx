@@ -1,8 +1,13 @@
 'use client';
 import { Button } from './Button';
 import { useRouter } from 'next/navigation';
-import { HeartIcon, ShoppingCartIcon, PaperAirplaneIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, ShoppingBagIcon, PaperAirplaneIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 import { ProgressBar } from './ProgressBar';
+import { useState, useRef } from 'react';
+import { toast } from 'sonner';
+import { motion } from 'motion/react';
+import { createPortal } from 'react-dom';
 
 interface CampaignCardProps {
     title: string;
@@ -13,6 +18,33 @@ interface CampaignCardProps {
 
 export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
     const router = useRouter();
+    const [isLiked, setIsLiked] = useState(false);
+    const [showFloatingHeart, setShowFloatingHeart] = useState(false);
+    const heartRef = useRef<HTMLDivElement>(null);
+    const [deltaPosition, setDeltaPosition] = useState({ x: 0, y: 0 });
+
+    const handleHeartClick = async () => {
+        if (!heartRef.current || isLiked) return;
+        
+        const heartRect = heartRef.current.getBoundingClientRect();
+        const tabBarHeart = document.querySelector('[data-heart-target]');
+        if (!tabBarHeart) return;
+        
+        const targetRect = tabBarHeart.getBoundingClientRect();
+        
+        setDeltaPosition({
+            x: targetRect.left - heartRect.left,
+            y: targetRect.top - heartRect.top
+        });
+
+        setShowFloatingHeart(true);
+        setIsLiked(true);
+    };
+
+    const handleUnlike = () => {
+        setIsLiked(false);
+        setShowFloatingHeart(false);
+    };
 
     return (
         <div className='min-w-[300px] max-w-[400px] flex flex-col'>
@@ -62,8 +94,72 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
             </div>
             <div className="flex flex-row  px-4 py-3">
                 <div className="flex flex-row gap-2">
-                    <HeartIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
-                    <ShoppingCartIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
+                    <div ref={heartRef} className="relative">
+                        {isLiked ? (
+                            <HeartIconSolid 
+                                className="w-6 h-6 fill-red-600 cursor-pointer" 
+                                onClick={handleUnlike}
+                            />
+                        ) : (
+                            <HeartIcon 
+                                className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white cursor-pointer" 
+                                onClick={handleHeartClick}
+                            />
+                        )}
+                        {showFloatingHeart && typeof window !== 'undefined' && createPortal(
+                            <motion.div
+                                initial={{ 
+                                    x: 0,
+                                    y: 0,
+                                    scale: 1,
+                                    opacity: 1 
+                                }}
+                                animate={{ 
+                                    x: deltaPosition.x,
+                                    y: deltaPosition.y,
+                                    scale: 0.8,
+                                    opacity: 0
+                                }}
+                                transition={{
+                                    x: { 
+                                        type: "spring",
+                                        stiffness: 80,
+                                        damping: 15,
+                                        mass: 0.2,
+                                        restSpeed: 2
+                                    },
+                                    y: {
+                                        type: "spring",
+                                        velocity: -4400,
+                                        stiffness: 50,
+                                        damping: 13,
+                                        mass: 0.8,
+                                        restSpeed: 2
+                                    },
+                                    opacity: {
+                                        duration: 1,
+                                        delay: 1,
+                                        ease: "easeOut"
+                                    }
+                                }}
+                                onAnimationComplete={() => {
+                                    setShowFloatingHeart(false);
+                                    toast('Added to your Giving List!', {icon: <HeartIconSolid className="w-6 h-6 fill-red-600" />});
+                                }}
+                                style={{
+                                    position: 'fixed',
+                                    top: heartRef.current?.getBoundingClientRect().top,
+                                    left: heartRef.current?.getBoundingClientRect().left,
+                                    pointerEvents: 'none',
+                                    zIndex: 9999,
+                                }}
+                            >
+                                <HeartIconSolid className="w-6 h-6 fill-red-600" />
+                            </motion.div>,
+                            document.body
+                        )}
+                    </div>
+                    <ShoppingBagIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
                     <PaperAirplaneIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
                 </div>
                 <div className='grow justify-end items-center flex flex-row gap-2'>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import TabBar from './components/TabBar';
-import PageTransition from './components/PageTransition';
+import { ToasterWithBreakpoint } from './components/ToasterWithBreakpoint';
 
 const plusJakarta = Plus_Jakarta_Sans({ 
   subsets: ['latin'],
@@ -23,10 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={plusJakarta.variable}>
       <body className="bg-white dark:bg-neutral-900 font-sans text-neutral-900 dark:text-neutral-50">
-        <PageTransition>
           {children}
-        </PageTransition>
         <TabBar />
+        <ToasterWithBreakpoint />
       </body>
     </html>
   );

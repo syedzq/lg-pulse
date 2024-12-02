@@ -133,12 +133,12 @@ export default function TabBar() {
                             >
                                 <PlusCircleIcon className="w-6 h-6" />
                             </button>
-                            <button 
+                            <Link
+                                href="/list"
                                 className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
-                                onClick={() => {}}
                             >
-                                <HeartIcon className="w-6 h-6" />
-                            </button>
+                                <HeartIcon className="w-6 h-6" data-heart-target />
+                            </Link>
                             <button 
                                 className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
                                 onClick={() => {}}
