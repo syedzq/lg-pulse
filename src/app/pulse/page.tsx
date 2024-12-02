@@ -457,7 +457,7 @@ export default function Home() {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
                     }}
-                    className="w-full text-center text-white text-3xl md:text-5xl font-bold font-['Plus_Jakarta_Sans']"
+                    className="w-full text-center text-white text-4xl md:text-5xl font-bold font-['Plus_Jakarta_Sans']"
                     style={{
                         textShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         fontFeatureSettings: '"tnum"',
