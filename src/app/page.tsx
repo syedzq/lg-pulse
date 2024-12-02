@@ -66,28 +66,30 @@ export default function HomePage() {
                     className="w-full h-full object-cover"
                     priority
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-8 z-20 max-w-screen-xl mx-auto">
-                    <h1 className="font-serif text-4xl font-bold mb-6 text-neutral-900 dark:text-white">
-                        Grow your Garden of Giving
-                    </h1>
-                    <form 
-                        onSubmit={handleSearch}
-                        className="w-full max-w-xl flex items-center gap-2 bg-white rounded-full border border-black/10 p-2 shadow-lg"
-                    >
-                        <input
-                            type="text"
-                            placeholder="Search campaigns..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="flex-1 px-4 py-2 bg-transparent outline-none"
-                        />
-                        <Button 
-                            type="submit"
-                            className="p-2 rounded-full hover:bg-black/5 transition-colors"
+                <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
+                    <div className="max-w-xl mx-auto flex flex-col items-center">
+                        <h1 className="font-serif text-center tracking-tight font-light text-4xl mb-4 text-neutral-900 dark:text-white">
+                            Grow your <br/> Garden <em>of</em> Giving
+                        </h1>
+                        <form 
+                            onSubmit={handleSearch}
+                            className="w-full flex self-center items-center gap-2 bg-white rounded-full border border-black/10 p-2 shadow-lg"
                         >
-                            <MagnifyingGlassIcon className="w-5 h-5" />
-                        </Button>
-                    </form>
+                            <input
+                                type="text"
+                                placeholder="Discover inspiring causes"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-transparent outline-none"
+                            />
+                            <Button 
+                                type="submit"
+                                className="p-2 rounded-full hover:bg-black/5 transition-colors"
+                            >
+                                <MagnifyingGlassIcon className="w-5 h-5" />
+                            </Button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
