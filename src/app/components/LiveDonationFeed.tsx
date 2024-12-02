@@ -50,9 +50,9 @@ export default function LiveDonationFeed() {
                         donations.map((donation) => (
                             <motion.div
                                 key={donation.id}
-                                initial={{ opacity: 0, x: -100, scale: 0.8 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                exit={{ opacity: 0, x: 0, scale: 1 }}
+                                initial={{ opacity: 0, x: -100}}
+                                animate={{ opacity: 1, x: 0}}
+                                exit={{ opacity: 0, x: 0 }}
                                 className="flex-none w-[300px] bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden"
                             >
                                 <div className="p-4">
