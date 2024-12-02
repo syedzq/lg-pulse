@@ -97,7 +97,7 @@ export function CampaignCard({ title, url, imageUrl, isZakatVerified = false, fu
                             <div className='text-xs text-neutral-600 dark:text-neutral-300'>The Good Charity</div>
                         </div>
                         <div>
-                            <h3 className="font-semibold text-lg mb-2 line-clamp-2 min-h-12 leading-6 text-neutral-900 dark:text-white">
+                            <h3 className="font-semibold text-lg line-clamp-2 min-h-12 leading-6 text-neutral-900 dark:text-white">
                                 {title}
                             </h3>
                         </div>
