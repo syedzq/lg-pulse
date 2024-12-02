@@ -24,7 +24,7 @@ export function ToasterWithBreakpoint() {
         unstyled: true,
         closeButton: true,
         classNames: {
-          toast: 'flex flex-row-reverse items-center justify-between w-96 font-sans p-4 rounded-md shadow-lg bg-neutral-900 dark:bg-neutral-50 text-white dark:text-neutral-900',
+          toast: 'flex flex-row-reverse justify-start gap-2 items-center w-96 font-sans p-4 rounded-md shadow-lg bg-neutral-900 dark:bg-neutral-50 text-white dark:text-neutral-900',
           title: 'font-bold',
           description: '',
           actionButton: 'bg-zinc-400',

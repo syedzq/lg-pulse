@@ -1,5 +1,5 @@
 'use client';
-import { Toaster, toast } from 'sonner';
+import { ToasterWithBreakpoint } from '../components/ToasterWithBreakpoint';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import Modal from '../components/Modal';
 import { useState } from 'react';
@@ -78,26 +78,7 @@ export default function DS() {
                     </div>
                 </div>
                 <h2 className="text-2xl font-bold">Toasts</h2>
-                <Toaster
-                    icons={{
-                        success: <CheckCircleIcon className="w-4 h-4" />,
-                        error: <XCircleIcon className="w-4 h-4" />,
-                    }}
-                    position='top-right'
-                    offset={64}
-                    toastOptions={{
-                        unstyled: true,
-                        closeButton: true,
-                        classNames: {
-                            toast: 'flex flex-row-reverse items-center justify-between w-96 font-sans p-4 rounded-md shadow-lg bg-neutral-900 dark:bg-neutral-50 text-white dark:text-neutral-900',
-                            title: 'font-bold',
-                            description: '',
-                            actionButton: 'bg-zinc-400',
-                            cancelButton: 'bg-orange-400',
-                            closeButton: 'w-5 h-5 relative mt-4 flex items-center justify-center border-none',
-                        },
-                    }}
-                />
+                <ToasterWithBreakpoint />
                 <Button variant="secondary" onClick={() => toast.message('My first toast', { description: 'This is a description' })}>
                     Give me a toast
                 </Button>

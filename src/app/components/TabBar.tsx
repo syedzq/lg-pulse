@@ -3,11 +3,24 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { HomeIcon, GlobeAltIcon, PlusCircleIcon, HeartIcon, UserCircleIcon, ChevronLeftIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 export default function TabBar() {
     const pathname = usePathname();
     const isGlobePage = pathname === '/globe';
     const isCampaignPage = pathname.includes('/campaign');
+    const [isAnimating, setIsAnimating] = useState(false);
+    
+    // Listen for a custom event that will trigger the animation
+    useEffect(() => {
+        const handleHeartArrival = () => {
+            setIsAnimating(true);
+            setTimeout(() => setIsAnimating(false), 500); // Reset after 0.5s
+        };
+
+        window.addEventListener('heartArrival', handleHeartArrival);
+        return () => window.removeEventListener('heartArrival', handleHeartArrival);
+    }, []);
     
     // Generate 64 blur layers
     const blurLayers = Array.from({ length: 64 }, (_, i) => {
@@ -135,16 +148,24 @@ export default function TabBar() {
                             </button>
                             <Link
                                 href="/list"
-                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
+                                className={`p-3 rounded-full ${pathname === '/list' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
-                                <HeartIcon className="w-6 h-6" data-heart-target />
+                                <motion.div
+                                    animate={isAnimating ? {
+                                        scale: [1, 0.8, 1],
+                                        transition: { duration: 0.25, ease: "easeOut" }
+                                    } : {}}
+                                    data-heart-target
+                                >
+                                    <HeartIcon className="w-6 h-6" />
+                                </motion.div>
                             </Link>
-                            <button 
-                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
-                                onClick={() => {}}
+                            <Link
+                                href="/profile"
+                                className={`p-3 rounded-full ${pathname === '/profile' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
                                 <UserCircleIcon className="w-6 h-6" />
-                            </button>
+                            </Link>
                         </motion.div>
                     )}
                 </AnimatePresence>

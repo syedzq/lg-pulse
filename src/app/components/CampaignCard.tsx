@@ -134,7 +134,10 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
                                         stiffness: 50,
                                         damping: 13,
                                         mass: 0.8,
-                                        restSpeed: 2
+                                        restSpeed: 2,
+                                        onComplete: () => {
+                                            window.dispatchEvent(new Event('heartArrival'));
+                                        }
                                     },
                                     opacity: {
                                         duration: 1,
@@ -144,7 +147,13 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
                                 }}
                                 onAnimationComplete={() => {
                                     setShowFloatingHeart(false);
-                                    toast('Added to your Giving List!', {icon: <HeartIconSolid className="w-6 h-6 fill-red-600" />});
+                                    toast('Added to your Giving List!', {
+                                        icon: <HeartIconSolid className="w-6 h-6 fill-red-600" />,
+                                        classNames: {
+                                            toast: 'flex flex-row items-center justify-between w-96 font-sans p-4 rounded-md shadow-lg bg-neutral-900 dark:bg-neutral-50 text-white dark:text-neutral-900',
+                                            title: 'font-bold ml-3',
+                                        }
+                                    });
                                 }}
                                 style={{
                                     position: 'fixed',
