@@ -20,15 +20,9 @@ export default function TabBar() {
                 key={i}
                 className={`h-px backdrop-blur-[${blurAmount}px] ${
                     isGlobePage 
-                        ? `bg-black/[${opacity}]` 
-                        : `bg-white/[${opacity}]`
+                        ? `bg-black/[${opacity}] backdrop-blur-[${blurAmount}px]` 
+                        : `bg-white/[${opacity}] backdrop-blur-[${blurAmount}px] dark:bg-neutral-800/[${opacity}]`
                 }`}
-                style={{
-                    backdropFilter: `blur(${blurAmount}px)`,
-                    backgroundColor: isGlobePage 
-                        ? `rgba(0, 0, 0, ${opacity})` 
-                        : `rgba(255, 255, 255, ${opacity})`
-                }}
             />
         );
     });
@@ -41,7 +35,7 @@ export default function TabBar() {
                 <div className={`absolute bottom-0 left-0 right-0 h-32 ${
                     isGlobePage 
                         ? 'bg-gradient-to-t from-black via-black/50 to-transparent' 
-                        : 'bg-gradient-to-t from-white via-white/80 to-transparent'
+                        : 'bg-gradient-to-t from-white dark:from-neutral-800 via-white/80 dark:via-neutral-800/80 to-transparent'
                 }`} />
                 
                 {/* Progressive blur - using 64 layers */}
@@ -60,7 +54,7 @@ export default function TabBar() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.15 }}
-                            className="bg-white backdrop-blur-xl rounded-full h-16 flex items-center justify-between px-4 border border-black/5"
+                            className="bg-white dark:bg-neutral-800 backdrop-blur-xl rounded-full h-16 flex items-center justify-between px-4 border border-black/5 dark:border-white/5"
                         >
                             <button 
                                 onClick={() => window.history.back()}
@@ -119,34 +113,34 @@ export default function TabBar() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.15 }}
-                            className={`${isGlobePage ? 'bg-neutral-900/50' : 'bg-white'} backdrop-blur-xl rounded-full h-16 flex items-center justify-around border ${isGlobePage ? 'border-white/5' : 'border-black/5'}`}
+                            className={`${isGlobePage ? 'bg-neutral-900/50' : 'bg-white dark:bg-neutral-800'} backdrop-blur-xl rounded-full h-16 flex items-center justify-around border ${isGlobePage ? 'border-white/5' : 'border-black/5 dark:border-white/5'}`}
                         >
                             <Link 
                                 href="/" 
-                                className={`p-3 rounded-full ${pathname === '/' ? (isGlobePage ? 'text-white' : 'text-black') : (isGlobePage ? 'text-white/50' : 'text-black/50')}`}
+                                className={`p-3 rounded-full ${pathname === '/' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
                                 <HomeIcon className="w-6 h-6" />
                             </Link>
                             <Link 
                                 href="/globe" 
-                                className={`p-3 rounded-full ${pathname === '/globe' ? (isGlobePage ? 'text-white' : 'text-black') : (isGlobePage ? 'text-white/50' : 'text-black/50')}`}
+                                className={`p-3 rounded-full ${pathname === '/globe' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
                                 <GlobeAltIcon className="w-6 h-6" />
                             </Link>
                             <button 
-                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50'}`}
+                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
                                 onClick={() => {}}
                             >
                                 <PlusCircleIcon className="w-6 h-6" />
                             </button>
                             <button 
-                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50'}`}
+                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
                                 onClick={() => {}}
                             >
                                 <HeartIcon className="w-6 h-6" />
                             </button>
                             <button 
-                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50'}`}
+                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
                                 onClick={() => {}}
                             >
                                 <UserCircleIcon className="w-6 h-6" />
