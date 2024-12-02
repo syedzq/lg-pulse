@@ -965,7 +965,7 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         }
 
         // Update the flight creation management
-        const maxFlights = 19;
+        const maxFlights = 5;
         let activeFlights = 0;
 
         // Create new flight paths with better timing
@@ -975,8 +975,11 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
             }
         };
 
-        // Create new flights with consistent interval
-        const flightInterval = setInterval(createFlights, 400);
+        // Create first flight immediately
+        createFlights();
+
+        // Then create new flights with consistent interval
+        const flightInterval = setInterval(createFlights, 10000);
 
         // Update the animation loop
         const animate = function () {
