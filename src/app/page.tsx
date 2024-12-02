@@ -57,7 +57,7 @@ export default function HomePage() {
         <div className="min-w-screen bg-white dark:bg-neutral-900 text-black dark:text-white">
             {/* Hero Section */}
             <div className="relative h-[60vh] w-full">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white z-10" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white dark:to-neutral-900 z-10" />
                 <Image 
                     src="https://cdn.builder.io/api/v1/image/assets%2Fc05b786f1645447ab878b73ca4dd6870%2F2107b2375d444a9eb25e0492c9c851d0"
                     alt="Hero"
