@@ -124,6 +124,10 @@ export default function HomePage() {
                                     title={campaign.title}
                                     url={campaign.url}
                                     imageUrl={campaign.imageUrl}
+                                    isZakatVerified={campaign.isZakatVerified}
+                                    fundsRaised={campaign.raised}
+                                    goal={campaign.goal}
+                                    isSponsored={campaign.isSponsored}
                                 />
                             ))}
                         </div>

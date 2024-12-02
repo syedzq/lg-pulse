@@ -14,9 +14,30 @@ interface CampaignCardProps {
     url: string;
     imageUrl?: string;
     fundraiser?: string;
+    isZakatVerified?: boolean;
+    isSponsored?: boolean;
+    fundsRaised?: number;
+    goal?: number;
 }
 
-export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
+function formatCurrency(amount: number, useShorthand: boolean = false): string {
+    if (useShorthand) {
+        // Format with k/M for goal amounts
+        if (amount >= 1000000) {
+            return `$${(amount / 1000000).toFixed(1)}M`;
+        } else if (amount >= 10000) {
+            return `$${Math.round(amount / 1000)}k`;
+        }
+    }
+    
+    // Format with commas for fundsRaised
+    return `$${amount.toLocaleString('en-US', { 
+        maximumFractionDigits: 0,
+        useGrouping: true
+    })}`;
+}
+
+export function CampaignCard({ title, url, imageUrl, isZakatVerified = false, fundsRaised = 0, goal = 0, isSponsored = false }: CampaignCardProps) {
     const router = useRouter();
     const [isLiked, setIsLiked] = useState(false);
     const [showFloatingHeart, setShowFloatingHeart] = useState(false);
@@ -50,6 +71,11 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
         <div className='min-w-[300px] max-w-[400px] flex flex-col'>
             <div className="flex flex-col h-fit bg-white dark:bg-neutral-800 rounded-xl overflow-hidden shadow-md transition-colors">
                 <div className="h-[224px] bg-neutral-100 dark:bg-neutral-700 animate-pulse">
+                    <div className='relative'>
+                         {isSponsored && (
+                            <div className='absolute left-3 top-3 drop-shadow-lg text-sm text-white/90'>Sponsored</div>
+                        )}
+                    </div>
                     {imageUrl && (
                         <img
                             src={imageUrl}
@@ -72,11 +98,15 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
                             {title}
                         </h3>
                     </div>
-                    <ProgressBar progress={0.5} />
+                    <ProgressBar progress={fundsRaised / goal} />
                     <div className='flex flex-row justify-between items-center'>
                         <div className='flex flex-col'>
-                            <div className='text-2xl font-semibold text-neutral-900 dark:text-white'>$50,000</div>
-                            <div className='text-sm text-neutral-600 dark:text-neutral-400'>funded of $100k</div>
+                            <div className='text-2xl font-semibold text-neutral-900 dark:text-white'>
+                                {formatCurrency(fundsRaised)}
+                            </div>
+                            <div className='text-sm text-neutral-600 dark:text-neutral-400'>
+                                funded of {formatCurrency(goal, true)}
+                            </div>
                         </div>
                         <Button
                             variant="brand"
@@ -93,16 +123,16 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
                 </div>
             </div>
             <div className="flex flex-row  px-2 py-3">
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-3">
                     <div ref={heartRef} className="relative">
                         {isLiked ? (
                             <HeartIconSolid 
-                                className="w-6 h-6 fill-red-600 cursor-pointer" 
+                                className="w-5 h-5 fill-red-600 cursor-pointer" 
                                 onClick={handleUnlike}
                             />
                         ) : (
                             <HeartIcon 
-                                className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white cursor-pointer" 
+                                className="w-5 h-5 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white cursor-pointer" 
                                 onClick={handleHeartClick}
                             />
                         )}
@@ -148,7 +178,7 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
                                 onAnimationComplete={() => {
                                     setShowFloatingHeart(false);
                                     toast('Added to your Giving List!', {
-                                        icon: <HeartIconSolid className="w-6 h-6 fill-red-600" />,
+                                        icon: <HeartIconSolid className="w-5 h-5 fill-red-600" />,
                                         classNames: {
                                             toast: 'flex flex-row items-center justify-between w-96 font-sans p-4 rounded-md shadow-lg bg-neutral-900 dark:bg-neutral-50 text-white dark:text-neutral-900',
                                             title: 'font-bold ml-3',
@@ -168,12 +198,16 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
                             document.body
                         )}
                     </div>
-                    <ShoppingBagIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
-                    <PaperAirplaneIcon className="w-6 h-6 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
+                    <ShoppingBagIcon className="w-5 h-5 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
+                    <PaperAirplaneIcon className="w-5 h-5 stroke-neutral-500 hover:stroke-neutral-900 dark:hover:stroke-white" />
                 </div>
                 <div className='grow justify-end items-center flex flex-row gap-2'>
-                    <div className="text-right text-sm text-brand-500">Zakat-verified</div>
-                    <InformationCircleIcon className="w-6 h-6 stroke-brand-500" />
+                    {isZakatVerified && (
+                        <>
+                            <div className="text-right text-sm text-brand-500">Zakat-verified</div>
+                            <InformationCircleIcon className="w-5 h-5 stroke-brand-500" />
+                        </>
+                    )}
                 </div>
             </div>
         </div>
