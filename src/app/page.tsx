@@ -67,7 +67,7 @@ export default function HomePage() {
                     priority
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-8 z-20 max-w-screen-xl mx-auto">
-                    <h1 className="font-serif text-4xl font-bold mb-6 text-neutral-900">
+                    <h1 className="font-serif text-4xl font-bold mb-6 text-neutral-900 dark:text-white">
                         Grow your Garden of Giving
                     </h1>
                     <form 
