@@ -1,5 +1,6 @@
 'use client';
 import { ToasterWithBreakpoint } from '../components/ToasterWithBreakpoint';
+import { toast } from 'sonner';
 import Modal from '../components/Modal';
 import { useState } from 'react';
 import { Button } from '../components/Button';
