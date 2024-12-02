@@ -447,7 +447,7 @@ export default function Home() {
     const [total, setTotal] = useState(679474372);
     
     return (
-        <div className="overflow-hidden bg-black">
+        <div className="overflow-hidden bg-[#177899]">
             <div className="pt-4 px-4 mx-auto justify-center z-[1000]">
                 <NumberFlow 
                     value={total}
@@ -481,7 +481,7 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
 
         // Set up scene
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x000000);
+        scene.background = new THREE.Color(0x177899);
         
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ 
@@ -491,35 +491,50 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         renderer.setPixelRatio(window.devicePixelRatio);
         document.body.appendChild(renderer.domElement);
 
-        // Create textured globe
+        // Create textured globe with improved materials and lighting
         const sphereGeometry = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
-        const texture = new THREE.TextureLoader().load('/earth-day.jpg');
+        const texture = new THREE.TextureLoader().load('/watercolor.jpg');
+
+        // Enhance texture settings
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
         const material = new THREE.MeshPhongMaterial({
             map: texture,
-            shininess: 5
+            shininess: 0,  // Reduce specular highlights
+            bumpScale: 0.02,
+            specular: new THREE.Color(0x222222),  // Subtle specular highlights
+            reflectivity: 0,  // Remove reflections
         });
         
         const globe = new THREE.Mesh(sphereGeometry, material);
         scene.add(globe);
 
-        // Add city markers container right after creating the globe
-        const cityMarkersContainer = new THREE.Group();
-        globe.add(cityMarkersContainer);
+        // Improve lighting setup
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);  // Increased ambient light
+        scene.add(ambientLight);
 
-        // Add markers for all cities
-        [...DONOR_CITIES, ...RECIPIENT_CITIES].forEach(city => {
-            const position = latLongToVector3(city.lat, city.lng, GLOBE_RADIUS + 0.03); // Raised higher
-            const marker = createCityMarker(city);
-            marker.position.copy(position);
-            
-            // No need for lookAt or rotation since we're using sprites
-            cityMarkersContainer.add(marker);
-        });
+        // Add hemisphere light for better color balance
+        const hemisphereLight = new THREE.HemisphereLight(
+            0xffffff,  // Sky color
+            0x444444,  // Ground color
+            0.8        // Intensity
+        );
+        scene.add(hemisphereLight);
 
-        // Set initial rotation based on timezone
-        const timeZoneOffset = new Date().getTimezoneOffset();
-        const rotationOffset = (timeZoneOffset / 60) * (Math.PI / 12); // Convert hours to radians
-        globe.rotation.y = -rotationOffset;
+        // Adjust main directional light
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);  // Increased intensity
+        directionalLight.position.set(5, 3, 5);
+        scene.add(directionalLight);
+
+        // Optional: Add subtle point lights for more dimension
+        const pointLight1 = new THREE.PointLight(0xffffff, 0.5);
+        pointLight1.position.set(-10, 5, -10);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0xffffff, 0.5);
+        pointLight2.position.set(10, -5, 10);
+        scene.add(pointLight2);
 
         // Add halo effect with blue-green glow
         const haloGeometry = new THREE.SphereGeometry(GLOBE_RADIUS * 1.2, 32, 32);
@@ -554,16 +569,24 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         const halo = new THREE.Mesh(haloGeometry, haloMaterial);
         scene.add(halo);
 
-        // Add lights
-        const ambientLight = new THREE.AmbientLight(0x404040, 1);
-        scene.add(ambientLight);
+        // Add city markers container right after creating the globe
+        const cityMarkersContainer = new THREE.Group();
+        globe.add(cityMarkersContainer);
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(5, 3, 5);
-        scene.add(directionalLight);
+        // Add markers for all cities
+        [...DONOR_CITIES, ...RECIPIENT_CITIES].forEach(city => {
+            const position = latLongToVector3(city.lat, city.lng, GLOBE_RADIUS + 0.03); // Raised higher
+            const marker = createCityMarker(city);
+            marker.position.copy(position);
+            
+            // No need for lookAt or rotation since we're using sprites
+            cityMarkersContainer.add(marker);
+        });
 
-        // Set camera position
-        camera.position.z = GLOBE_RADIUS * 4;
+        // Set initial rotation based on timezone
+        const timeZoneOffset = new Date().getTimezoneOffset();
+        const rotationOffset = (timeZoneOffset / 60) * (Math.PI / 12); // Convert hours to radians
+        globe.rotation.y = -rotationOffset;
 
         // Add OrbitControls
         const controls = new OrbitControls(camera, renderer.domElement);

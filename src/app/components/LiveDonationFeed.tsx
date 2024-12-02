@@ -25,18 +25,18 @@ export default function LiveDonationFeed() {
             initial={{ opacity: 1.0 }}
             animate={{ opacity: [0.8, 1.0, 0.8] }}
             transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex-none w-[300px] bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden"
+            className="flex-none w-[300px] bg-white/25 backdrop-blur-lg rounded-xl overflow-hidden"
         >
             <div className="p-4 space-y-4">
-                <div className="h-7 bg-neutral-700/50 rounded-md w-1/2" /> {/* Amount */}
-                <div className="h-5 bg-neutral-700/50 rounded-md w-3/4" /> {/* Cities */}
-                <div className="h-5 bg-neutral-700/50 rounded-md w-full" /> {/* Campaign title */}
+                <div className="h-7 bg-white/50 rounded-md w-1/2" /> {/* Amount */}
+                <div className="h-5 bg-white/50 rounded-md w-3/4" /> {/* Cities */}
+                <div className="h-5 bg-white/50 rounded-md w-full" /> {/* Campaign title */}
             </div>
         </motion.div>
     ));
 
     return (
-        <div className="md:hidden min-h-[200px] w-full overflow-hidden bg-gradient-to-b from-black/0 to-black/20">
+        <div className="md:hidden min-h-[200px] w-full overflow-hidden bg-gradient-to-b from-[#177899]/0 to-[#177899]/20">
             <div 
                 ref={containerRef}
                 className="flex gap-4 overflow-x-auto scrollbar-hide py-4 px-4"
