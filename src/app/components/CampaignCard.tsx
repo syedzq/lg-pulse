@@ -92,7 +92,7 @@ export function CampaignCard({ title, url, imageUrl }: CampaignCardProps) {
                     
                 </div>
             </div>
-            <div className="flex flex-row  px-4 py-3">
+            <div className="flex flex-row  px-2 py-3">
                 <div className="flex flex-row gap-2">
                     <div ref={heartRef} className="relative">
                         {isLiked ? (
