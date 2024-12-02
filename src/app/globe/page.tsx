@@ -443,72 +443,6 @@ function createDonationCircle(amount: number): THREE.Mesh {
 const activeCities = new Set<string>();
 const cityLastDonationTime = new Map<string, number>();
 
-// Add this function near the top with other utility functions
-function createStarfield(numStars: number): THREE.Points {
-    const vertices = [];
-    const sizes = [];
-    const colors = [];
-    
-    // Create stars in a spherical distribution
-    const radius = 50; // Much larger sphere for stars
-    
-    for (let i = 0; i < numStars; i++) {
-        // Use spherical coordinates for better distribution
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos((Math.random() * 2) - 1);
-        const r = radius * (0.6 + Math.random() * 0.4); // Vary distance slightly
-        
-        // Convert to Cartesian coordinates
-        const x = r * Math.sin(phi) * Math.cos(theta);
-        const y = r * Math.sin(phi) * Math.sin(theta);
-        const z = r * Math.cos(phi);
-        
-        vertices.push(x, y, z);
-        
-        // Vary sizes more dramatically
-        sizes.push(0.5 + Math.random() * 2.5);
-        
-        // Pure white with varying opacity
-        colors.push(1, 1, 1);
-    }
-    
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    
-    const material = new THREE.ShaderMaterial({
-        uniforms: {
-            pointTexture: { value: null }
-        },
-        vertexShader: `
-            attribute float size;
-            varying vec3 vColor;
-            void main() {
-                vColor = vec3(1.0);
-                vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                gl_PointSize = size * (400.0 / -mvPosition.z);
-                gl_Position = projectionMatrix * mvPosition;
-            }
-        `,
-        fragmentShader: `
-            varying vec3 vColor;
-            void main() {
-                vec2 xy = gl_PointCoord.xy - vec2(0.5);
-                float r = length(xy);
-                if (r > 0.5) discard;
-                float opacity = smoothstep(0.5, 0.1, r);
-                gl_FragColor = vec4(vColor, opacity * 0.5);
-            }
-        `,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        transparent: true,
-    });
-    
-    return new THREE.Points(geometry, material);
-}
-
 export default function Home() {
     const [total, setTotal] = useState(679474372);
     
@@ -547,76 +481,8 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
 
         // Set up scene
         const scene = new THREE.Scene();
-        scene.background = null;
-
-        // Create a more complex gradient background
-        const gradientTexture = new THREE.CanvasTexture((() => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d')!;
-            canvas.width = 2;
-            canvas.height = 512; // Increased resolution for smoother gradient
-            
-            // Create gradient
-            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0, '#000000'); // Pure black at top
-            gradient.addColorStop(0.3, '#000000'); // Stay black for a while
-            gradient.addColorStop(0.5, '#001233'); // Deep blue in the middle (near globe)
-            gradient.addColorStop(0.7, '#000B1E'); // Darker blue
-            gradient.addColorStop(1, '#000000'); // Back to black at bottom
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            return canvas;
-        })());
-
-        // Create two background planes for better effect
-        // Far background (black to blue)
-        const farBgGeometry = new THREE.PlaneGeometry(100, 100);
-        const farBgMaterial = new THREE.MeshBasicMaterial({
-            map: gradientTexture,
-            depthWrite: false,
-            side: THREE.BackSide,
-            transparent: true,
-            opacity: 1
-        });
-        const farBgPlane = new THREE.Mesh(farBgGeometry, farBgMaterial);
-        farBgPlane.position.z = -50;
-        scene.add(farBgPlane);
-
-        // Near background (additional gradient for better blend)
-        const nearBgGeometry = new THREE.PlaneGeometry(100, 100);
-        const nearGradientTexture = new THREE.CanvasTexture((() => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d')!;
-            canvas.width = 2;
-            canvas.height = 512;
-            
-            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0, 'rgba(0,0,0,1)'); // Solid black at top
-            gradient.addColorStop(0.7, 'rgba(0,0,0,0)'); // Fade to transparent
-            gradient.addColorStop(1, 'rgba(0,0,0,0)'); // Transparent at bottom
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            return canvas;
-        })());
-
-        const nearBgMaterial = new THREE.MeshBasicMaterial({
-            map: nearGradientTexture,
-            depthWrite: false,
-            transparent: true,
-            opacity: 1
-        });
-        const nearBgPlane = new THREE.Mesh(nearBgGeometry, nearBgMaterial);
-        nearBgPlane.position.z = -20;
-        scene.add(nearBgPlane);
-
-        // Add starfield after the backgrounds
-        const starfield = createStarfield(2000);
-        scene.add(starfield);
-
+        scene.background = new THREE.Color(0x000000);
+        
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ 
             antialias: true
@@ -655,21 +521,19 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         const rotationOffset = (timeZoneOffset / 60) * (Math.PI / 12); // Convert hours to radians
         globe.rotation.y = -rotationOffset;
 
-        // Add halo effect with soft blue glow
-        const haloGeometry = new THREE.SphereGeometry(GLOBE_RADIUS * 1.35, 64, 64); // Slightly closer to globe
+        // Add halo effect with blue-green glow
+        const haloGeometry = new THREE.SphereGeometry(GLOBE_RADIUS * 1.2, 32, 32);
         const haloMaterial = new THREE.ShaderMaterial({
             transparent: true,
             uniforms: {
-                c: { value: 0.01 }, // Increased for softer edge
-                p: { value: 0.99 }, // Reduced for wider glow
-                glowColor: { value: new THREE.Color(0x140830) }, // Royal blue color
+                c: { value: 0.2 }, // Reduced intensity
+                p: { value: 3.0 }, // Increased power for sharper falloff
+                glowColor: { value: new THREE.Color(0xffffff) }, // Changed to white
             },
             vertexShader: `
                 varying vec3 vNormal;
-                varying vec3 vPositionNormal;
                 void main() {
                     vNormal = normalize(normalMatrix * normal);
-                    vPositionNormal = normalize(position);
                     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
                 }
             `,
@@ -678,44 +542,17 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
                 uniform float c;
                 uniform float p;
                 varying vec3 vNormal;
-                varying vec3 vPositionNormal;
                 void main() {
                     float intensity = pow(c - dot(vNormal, vec3(0.0, 0.0, 1.0)), p);
-                    float atmosphere = pow(0.7 - dot(vNormal, vec3(0, 0, 1.0)), 4.0); // Atmospheric effect
-                    vec3 finalColor = mix(glowColor, vec3(0.4, 0.7, 1.0), atmosphere * 0.3); // Blend with lighter blue
-                    gl_FragColor = vec4(finalColor, intensity * 0.5); // Reduced opacity
+                    gl_FragColor = vec4(glowColor, intensity * 0.8);
                 }
             `,
             side: THREE.BackSide,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
+            blending: THREE.AdditiveBlending, // Add additive blending for better glow
         });
-
+        
         const halo = new THREE.Mesh(haloGeometry, haloMaterial);
         scene.add(halo);
-
-        // Add a second, outer halo for additional depth
-        const outerHaloGeometry = new THREE.SphereGeometry(GLOBE_RADIUS * 1.25, 64, 64);
-        const outerHaloMaterial = new THREE.ShaderMaterial({
-            transparent: true,
-            uniforms: {
-                c: { value: 0.5 },
-                p: { value: 1.8 },
-                glowColor: { value: new THREE.Color(0x1E90FF) }, // Dodger blue color
-            },
-            vertexShader: haloMaterial.vertexShader,
-            fragmentShader: haloMaterial.fragmentShader,
-            side: THREE.BackSide,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-        });
-
-        const outerHalo = new THREE.Mesh(outerHaloGeometry, outerHaloMaterial);
-        scene.add(outerHalo);
-
-        // Make halos rotate with globe
-        globe.add(halo);
-        globe.add(outerHalo);
 
         // Add lights
         const ambientLight = new THREE.AmbientLight(0x404040, 1);
@@ -1107,41 +944,96 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         // Update the flight creation management
         const maxFlights = 19;
         let activeFlights = 0;
-        let lastDonationTime = Date.now();
-        const minDonationInterval = 7000; // 7 seconds minimum between donations
 
         // Create new flight paths with better timing
         const createFlights = () => {
-            const now = Date.now();
-            const timeSinceLastDonation = now - lastDonationTime;
-
-            if (activeFlights < maxFlights && timeSinceLastDonation >= minDonationInterval) {
+            if (activeFlights < maxFlights) {
                 createFlightPath();
-                lastDonationTime = now;
             }
         };
 
         // Create new flights with consistent interval
-        // Check more frequently than the minimum interval to ensure smooth creation
-        const flightInterval = setInterval(createFlights, 1000);
+        const flightInterval = setInterval(createFlights, 400);
 
         // Update the animation loop
         const animate = function () {
             requestAnimationFrame(animate);
             controls.update();
             
-            // Only rotate globe and starfield if not being controlled
-            if (!controls.enableDamping || !controls.enableZoom) {
+            // Only rotate if not hovered and no paths are being hovered
+            if (!isGlobeHovered && !hoveredPath) {
                 globe.rotation.y += 0.0005;
-                starfield.rotation.y += 0.0002;
+                halo.rotation.y += 0.0005;
             }
-            
-            // Make starfield follow camera rotation slightly
-            const cameraRotation = new THREE.Euler().copy(camera.rotation);
-            starfield.rotation.x = cameraRotation.x * 0.5;
-            starfield.rotation.y += 0.0002;
-            starfield.rotation.z = cameraRotation.z * 0.5;
-            
+
+            // Update marker visibility with improved visibility check
+            cityMarkersContainer.children.forEach((marker, index) => {
+                const markerWorldPos = new THREE.Vector3();
+                marker.getWorldPosition(markerWorldPos);
+                
+                const cameraPos = camera.position.clone();
+                const markerToCam = cameraPos.clone().sub(markerWorldPos).normalize();
+                const markerNormal = markerWorldPos.clone().normalize();
+                const dotProduct = markerToCam.dot(markerNormal);
+                
+                const allCities = [...DONOR_CITIES, ...RECIPIENT_CITIES];
+                const cityName = allCities[index].name;
+                const lastDonationTime = cityLastDonationTime.get(cityName) || 0;
+                const timeSinceLastDonation = Date.now() - lastDonationTime;
+                
+                // Get dot and label materials from marker children
+                const dot = marker.children[0] as THREE.Sprite;
+                const label = marker.children[1] as THREE.Sprite;
+                
+                const isRecent = timeSinceLastDonation < 5000;
+                const targetOpacity = (activeCities.has(cityName) && isRecent && dotProduct > 0.2) ? 0.8 : 0;
+                (dot.material as THREE.SpriteMaterial).opacity += (targetOpacity - (dot.material as THREE.SpriteMaterial).opacity) * 0.1;
+                (label.material as THREE.SpriteMaterial).opacity += (targetOpacity - (label.material as THREE.SpriteMaterial).opacity) * 0.1;
+
+                marker.visible = (dot.material as THREE.SpriteMaterial).opacity > 0.01;
+            });
+
+            // Update path visibility with smooth transitions
+            activePaths.forEach((pathData) => {
+                const fullPath = pathData.path;
+                const traveledPath = pathData.traveledPath;
+                const circle = pathData.circle;
+                const fullMaterial = fullPath.material as THREE.MeshBasicMaterial;
+                const traveledMaterial = traveledPath.material as THREE.MeshBasicMaterial;
+
+                // Calculate target opacity based on hover state
+                const isHovered = pathData === hoveredPath;
+                
+                if (isHovered) {
+                    // When hovered, keep fully visible
+                    pathData.isHovered = true;
+                    pathData.lastHoverTime = Date.now();
+                } else if (pathData.isHovered) {
+                    // Just stopped hovering
+                    pathData.isHovered = false;
+                    pathData.lastHoverTime = Date.now();
+                }
+
+                const timeSinceLastHover = Date.now() - pathData.lastHoverTime;
+                const shouldBeVisible = isHovered || timeSinceLastHover < 5000;
+
+                // Set target opacities
+                const targetOpacity = isHovered ? 1 : (shouldBeVisible ? 0.2 : 0);
+                const targetTraveledOpacity = isHovered ? 1 : (shouldBeVisible ? 0.8 : 0);
+
+                // Smooth transition
+                fullMaterial.opacity += (targetOpacity - fullMaterial.opacity) * 0.1;
+                traveledMaterial.opacity += (targetTraveledOpacity - traveledMaterial.opacity) * 0.1;
+
+                // Update visibility based on opacity
+                const isVisible = fullMaterial.opacity > 0.01;
+                fullPath.visible = isVisible;
+                traveledPath.visible = isVisible;
+                if (circle) {
+                    circle.visible = isVisible;
+                }
+            });
+
             renderer.render(scene, camera);
         };
 

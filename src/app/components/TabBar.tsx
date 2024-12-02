@@ -21,7 +21,7 @@ export default function TabBar() {
                 className={`h-px backdrop-blur-[${blurAmount}px] ${
                     isGlobePage 
                         ? `bg-black/[${opacity}] backdrop-blur-[${blurAmount}px]` 
-                        : `bg-white/[${opacity}] backdrop-blur-[${blurAmount}px] dark:bg-neutral-800/[${opacity}]`
+                        : `bg-white/[${opacity}] backdrop-blur-[${blurAmount}px] dark:bg-neutral-900/[${opacity}]`
                 }`}
             />
         );
@@ -35,7 +35,7 @@ export default function TabBar() {
                 <div className={`absolute bottom-0 left-0 right-0 h-32 ${
                     isGlobePage 
                         ? 'bg-gradient-to-t from-black via-black/50 to-transparent' 
-                        : 'bg-gradient-to-t from-white dark:from-neutral-800 via-white/80 dark:via-neutral-800/80 to-transparent'
+                        : 'bg-gradient-to-t from-white dark:from-neutral-900 via-white/80 dark:via-neutral-900/80 to-transparent'
                 }`} />
                 
                 {/* Progressive blur - using 64 layers */}
