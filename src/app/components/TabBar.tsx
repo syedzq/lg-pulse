@@ -41,11 +41,11 @@ export default function TabBar() {
     });
     
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-[2000] pointer-events-none">
+        <div className="fixed bottom-0 md:top-0 md:bottom-auto left-0 right-0 z-[2000] pointer-events-none">
             {/* Mobile-only background effects container */}
             <div className="block sm:hidden">
                 {/* Progressive gradient */}
-                <div className={`absolute bottom-0 left-0 right-0 h-32 ${
+                <div className={`absolute bottom-0 md:top-0 left-0 right-0 h-32 ${
                     isGlobePage 
                         ? 'bg-gradient-to-t from-black via-black/50 to-transparent' 
                         : 'bg-gradient-to-t from-white dark:from-neutral-900 via-white/80 dark:via-neutral-900/80 to-transparent'
@@ -58,7 +58,7 @@ export default function TabBar() {
             </div>
             
             {/* Tab bar container - centered with pointer events */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full max-w-[350px] px-4 pointer-events-auto">
+            <div className="absolute bottom-8 md:top-10 left-1/2 -translate-x-1/2 w-full max-w-[350px] md:max-w-2xl px-4 pointer-events-auto">
                 <AnimatePresence mode="wait">
                     {isCampaignPage ? (
                         <motion.div
@@ -130,25 +130,27 @@ export default function TabBar() {
                         >
                             <Link 
                                 href="/" 
-                                className={`p-3 rounded-full ${pathname === '/' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
                                 <HomeIcon className="w-6 h-6" />
+                                <div className='hidden md:block'>Home</div>
                             </Link>
                             <Link 
                                 href="/globe" 
-                                className={`p-3 rounded-full ${pathname === '/globe' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/globe' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
                                 <GlobeAltIcon className="w-6 h-6" />
+                                <div className='hidden md:block'>Globe</div>
                             </Link>
                             <button 
-                                className={`p-3 rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
                                 onClick={() => {}}
                             >
                                 <PlusCircleIcon className="w-6 h-6" />
                             </button>
                             <Link
                                 href="/list"
-                                className={`p-3 rounded-full ${pathname === '/list' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/list' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
                                 <motion.div
                                     animate={isAnimating ? {
@@ -159,12 +161,14 @@ export default function TabBar() {
                                 >
                                     <HeartIcon className="w-6 h-6" />
                                 </motion.div>
+                                <div className='hidden md:block'>Giving List</div>
                             </Link>
                             <Link
                                 href="/profile"
-                                className={`p-3 rounded-full ${pathname === '/profile' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/profile' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
                                 <UserCircleIcon className="w-6 h-6" />
+                                <div className='hidden md:block'>Profile</div>
                             </Link>
                         </motion.div>
                     )}
