@@ -5,6 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassIcon } from '@heroico
 import Image from 'next/image';
 import { Button } from './components/Button';
 import { CampaignCard } from './components/CampaignCard';
+import HijriDate from 'hijri-date';
 
 export default function HomePage() {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -53,6 +54,27 @@ export default function HomePage() {
         }
     ];
 
+    // Function to get formatted Hijri date
+    const getHijriDate = () => {
+        const hijri = new HijriDate();
+        
+        // Get month name
+        const months = [
+            'Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani',
+            'Jumada al-Ula', 'Jumada al-Thani', 'Rajab', 'Shaban',
+            'Ramadan', 'Shawwal', 'Dhu al-Qadah', 'Dhu al-Hijjah'
+        ];
+        
+        // Get ordinal suffix for day
+        const getOrdinal = (n: number) => {
+            const s = ['th', 'st', 'nd', 'rd'];
+            const v = n % 100;
+            return n + (s[(v - 20) % 10] || s[v] || s[0]);
+        };
+
+        return `${getOrdinal(hijri.getDate())} of ${months[hijri.getMonth()]}, ${hijri.getFullYear()}`;
+    };
+
     return (
         <div className="min-w-screen bg-white dark:bg-neutral-900 text-black dark:text-white">
             {/* Hero Section */}
@@ -73,7 +95,7 @@ export default function HomePage() {
                         </h1>
                         <form 
                             onSubmit={handleSearch}
-                            className="w-full flex self-center items-center gap-2 bg-white rounded-full border border-black/10 p-2 shadow-lg"
+                            className="w-full flex self-center items-center gap-2 bg-white rounded-full border border-black/10 p-2 shadow-lg mb-12"
                         >
                             <input
                                 type="text"
@@ -89,6 +111,9 @@ export default function HomePage() {
                                 <MagnifyingGlassIcon className="w-5 h-5" />
                             </Button>
                         </form>
+                        <div className="text-xs text-neutral-900/75 dark:text-white/75 font-light">
+                            Today is the {getHijriDate()}
+                        </div>
                     </div>
                 </div>
             </div>
