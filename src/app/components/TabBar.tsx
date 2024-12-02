@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 export default function TabBar() {
     const pathname = usePathname();
-    const isGlobePage = pathname === '/globe';
+    const isGlobePage = pathname === '/pulse';
     const isCampaignPage = pathname.includes('/campaign');
     const [isAnimating, setIsAnimating] = useState(false);
     
@@ -137,10 +137,10 @@ export default function TabBar() {
                             </Link>
                             <Link 
                                 href="/globe" 
-                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/globe' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/pulse' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
                             >
                                 <GlobeAltIcon className="w-6 h-6" />
-                                <div className='hidden md:block'>Globe</div>
+                                <div className='hidden md:block'>Pulse</div>
                             </Link>
                             <button 
                                 className={`p-3 flex flex-row gap-2 items-center rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}

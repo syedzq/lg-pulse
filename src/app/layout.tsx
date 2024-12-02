@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en" className={`${plusJakarta.variable} ${fraunces.variable}`}>
       <body className="bg-white dark:bg-neutral-900 font-sans text-neutral-900 dark:text-neutral-50">
           {children}
-        <TabBar />
+        {/* <TabBar /> */}
         <ToasterWithBreakpoint />
       </body>
     </html>

@@ -448,7 +448,7 @@ export default function Home() {
     
     return (
         <div className="overflow-hidden bg-black">
-            <div className="md:hidden pt-4 px-4 mx-auto justify-center z-[1000]">
+            <div className="pt-4 px-4 mx-auto justify-center z-[1000]">
                 <NumberFlow 
                     value={total}
                     prefix="$"
@@ -457,7 +457,7 @@ export default function Home() {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
                     }}
-                    className="text-white text-5xl font-bold font-['Plus_Jakarta_Sans']"
+                    className="w-full text-center text-white text-3xl md:text-5xl font-bold font-['Plus_Jakarta_Sans']"
                     style={{
                         textShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         fontFeatureSettings: '"tnum"',
