@@ -67,7 +67,7 @@ export default function TabBar() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.15 }}
-                            className="bg-white dark:bg-neutral-800 backdrop-blur-xl rounded-full h-16 flex items-center justify-between px-4 border border-black/5 dark:border-white/5"
+                            className="bg-white dark:bg-neutral-800 backdrop-blur-xl rounded-full h-16 flex items-center justify-between px-4 border border-black/5 dark:border-white/5 shadow-md"
                         >
                             <button 
                                 onClick={() => window.history.back()}
@@ -126,7 +126,7 @@ export default function TabBar() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.15 }}
-                            className={`${isGlobePage ? 'bg-neutral-900/50' : 'bg-white dark:bg-neutral-800'} backdrop-blur-xl rounded-full h-16 flex items-center justify-around border ${isGlobePage ? 'border-white/5' : 'border-black/5 dark:border-white/5'}`}
+                            className={`${isGlobePage ? 'bg-neutral-900/50' : 'bg-white dark:bg-neutral-800'} backdrop-blur-xl rounded-full h-16 flex items-center justify-around  shadow-sm border ${isGlobePage ? 'border-white/5' : 'border-black/5 dark:border-white/5'}`}
                         >
                             <Link 
                                 href="/" 
