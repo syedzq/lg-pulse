@@ -1,6 +1,5 @@
 'use client';
 import { ToasterWithBreakpoint } from '../components/ToasterWithBreakpoint';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import Modal from '../components/Modal';
 import { useState } from 'react';
 import { Button } from '../components/Button';
