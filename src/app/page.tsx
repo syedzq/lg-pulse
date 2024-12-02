@@ -68,7 +68,7 @@ export default function HomePage() {
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-8 z-20">
                     <div className="max-w-xl mx-auto flex flex-col items-center">
-                        <h1 className="font-serif text-center tracking-tight font-light text-4xl mb-4 text-neutral-900 dark:text-white">
+                        <h1 className="font-serif text-center tracking-tight font-light text-4xl md:text-6xl mb-4 md:mb-8 text-neutral-900 dark:text-white">
                             Grow your <br/> Garden <em>of</em> Giving
                         </h1>
                         <form 
