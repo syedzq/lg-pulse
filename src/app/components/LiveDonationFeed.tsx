@@ -36,7 +36,7 @@ export default function LiveDonationFeed() {
     ));
 
     return (
-        <div className="md:hidden min-h-[200px] w-full overflow-hidden bg-gradient-to-b from-[#177899]/0 to-[#177899]/20">
+        <div className="min-h-[200px] max-w-screen-2xl mx-auto w-full bg-gradient-to-b from-[#177899]/0 to-[#177899]/20">
             <div 
                 ref={containerRef}
                 className="flex gap-4 overflow-x-auto scrollbar-hide py-4 px-4"

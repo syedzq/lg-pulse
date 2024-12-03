@@ -447,8 +447,9 @@ export default function Home() {
     const [total, setTotal] = useState(679474372);
     
     return (
-        <div className="overflow-hidden bg-[#177899]">
-            <div className="pt-4 px-4 mx-auto justify-center z-[1000]">
+        <div className="overflow-hidden pt-12 bg-[#177899]">
+            <div className='text-white text-lg mx-auto text-center'>Funds raised</div>
+            <div className="px-4 mx-auto justify-center z-[1000]">
                 <NumberFlow 
                     value={total}
                     prefix="$"
@@ -597,7 +598,7 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         controls.maxDistance = GLOBE_RADIUS * 5;
 
         // Add these lines to restrict vertical movement
-        controls.minPolarAngle = Math.PI / 2.5; // Restrict upward tilt
+        controls.minPolarAngle = Math.PI / 2.4; // Restrict upward tilt
         controls.maxPolarAngle = Math.PI / 1.5; // Restrict downward tilt
         controls.enablePan = false; // Disable panning completely
 
@@ -1011,10 +1012,14 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
                 const dot = marker.children[0] as THREE.Sprite;
                 const label = marker.children[1] as THREE.Sprite;
                 
-                const isRecent = timeSinceLastDonation < 5000;
+                // Increased visibility duration from 5000ms to 8000ms
+                const isRecent = timeSinceLastDonation < 8000; // Changed from 5000 to 8000
                 const targetOpacity = (activeCities.has(cityName) && isRecent && dotProduct > 0.2) ? 0.8 : 0;
-                (dot.material as THREE.SpriteMaterial).opacity += (targetOpacity - (dot.material as THREE.SpriteMaterial).opacity) * 0.1;
-                (label.material as THREE.SpriteMaterial).opacity += (targetOpacity - (label.material as THREE.SpriteMaterial).opacity) * 0.1;
+                
+                // Slower fade out
+                const fadeSpeed = 0.05; // Changed from 0.1 to 0.05 for slower transitions
+                (dot.material as THREE.SpriteMaterial).opacity += (targetOpacity - (dot.material as THREE.SpriteMaterial).opacity) * fadeSpeed;
+                (label.material as THREE.SpriteMaterial).opacity += (targetOpacity - (label.material as THREE.SpriteMaterial).opacity) * fadeSpeed;
 
                 marker.visible = (dot.material as THREE.SpriteMaterial).opacity > 0.01;
             });
