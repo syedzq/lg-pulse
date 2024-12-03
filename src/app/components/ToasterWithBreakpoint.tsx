@@ -1,5 +1,5 @@
 'use client';
-import { toast, Toaster } from 'sonner';
+import { Toaster } from 'sonner';
 import { useEffect, useState } from 'react';
 
 export function ToasterWithBreakpoint() {
