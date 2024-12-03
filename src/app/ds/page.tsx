@@ -1,12 +1,10 @@
 'use client';
-import { ToasterWithBreakpoint } from '../components/ToasterWithBreakpoint';
 import { toast } from 'sonner';
 import Modal from '../components/Modal';
 import { useState } from 'react';
 import { Button } from '../components/Button';
 import { CampaignCard } from '../components/CampaignCard';
 import { ProgressBar } from '../components/ProgressBar';
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
 
 export default function DS() {
     const [isModalOpen, setIsModalOpen] = useState(false);
