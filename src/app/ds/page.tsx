@@ -11,7 +11,7 @@ export default function DS() {
     
     return (
         <>
-            <section className='max-w-screen-lg mx-auto p-10 sm:pt-40 space-y-8'>
+            <section className='max-w-screen-lg mx-auto px-4 sm:p-10 sm:pt-40 space-y-8'>
                 <h1 className="text-4xl font-bold">Design System</h1>
                 <h2 className="text-2xl font-bold">Buttons</h2>
                 <div className="bg-neutral-100 dark:bg-neutral-800 p-4 rounded-lg items-center space-y-4">
