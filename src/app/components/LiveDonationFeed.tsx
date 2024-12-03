@@ -19,7 +19,7 @@ export default function LiveDonationFeed() {
     }, []);
 
     // Generate skeleton cards
-    const skeletonCards = Array(3).fill(null).map((_, index) => (
+    const skeletonCards = Array(1).fill(null).map((_, index) => (
         <motion.div
             key={`skeleton-${index}`}
             initial={{ opacity: 1.0 }}
@@ -39,7 +39,7 @@ export default function LiveDonationFeed() {
         <div className="min-h-[200px] max-w-screen-2xl mx-auto w-full bg-gradient-to-b from-[#177899]/0 to-[#177899]/20">
             <div 
                 ref={containerRef}
-                className="flex gap-4 overflow-x-auto scrollbar-hide py-4 px-4"
+                className="flex gap-4 justify-center overflow-x-auto scrollbar-hide py-4 px-4"
             >
                 <AnimatePresence>
                     {!hasReceivedFirstDonation ? (

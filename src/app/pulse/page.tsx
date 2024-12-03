@@ -447,7 +447,7 @@ export default function Home() {
     const [total, setTotal] = useState(679474372);
     
     return (
-        <div className="overflow-hidden pt-12 bg-[#177899]">
+        <div className="overflow-hidden pt-12 md:pt-32 bg-[#177899]">
             <div className='text-white text-lg mx-auto text-center'>Funds raised</div>
             <div className="px-4 mx-auto justify-center z-[1000]">
                 <NumberFlow 

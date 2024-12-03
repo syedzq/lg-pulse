@@ -21,7 +21,7 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/30 z-50"
+                        className="fixed inset-0 bg-black/30 z-[5000]"
                     />
                     
                     {/* Modal */}
@@ -29,9 +29,9 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
                         initial={{ opacity: 0, scale: 0.75, y: 50, filter: 'blur(10px)' }}
                         animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
                         exit={{ opacity: 0, scale: 0.75, y: 50, filter: 'blur(10px)' }}
-                        className="fixed grid place-items-center inset-0 z-50 pointer-events-none"
+                        className="fixed grid place-items-center inset-0 z-[5000] pointer-events-none"
                     >
-                        <div className="w-[500px] bg-white dark:bg-neutral-800 rounded-xl shadow-xl pointer-events-auto">
+                        <div className="w-[500px] bg-white dark:bg-neutral-800 rounded-xl shadow-xl pointer-events-auto z-[5000]">
                             {/* Close button */}
                             <div className="flex flex-row items-center justify-between px-6 pt-6 pb-4">
                                 {title && <div className="text-xl font-bold">{title}</div>}
@@ -39,9 +39,9 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
                                     variant="tertiary" 
                                     size="extraSmall" 
                                     onClick={onClose}
-                                    className="absolute right-4 top-4"
+                                    className=""
                                 >
-                                    <XMarkIcon className="h-4 w-4" />
+                                    <XMarkIcon className="h-6 w-6 border border-neutral-200 dark:border-neutral-700 rounded-full" />
                                 </Button>
                             </div>
                             

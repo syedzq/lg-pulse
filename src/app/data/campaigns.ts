@@ -9,47 +9,63 @@ export interface Campaign {
     isZakatVerified?: boolean;
     donorCount?: number;
     daysLeft?: number;
+    organizer: {
+        name: string;
+        avatarUrl?: string;
+    };
 }
 
 export const CAMPAIGNS: Campaign[] = [
     {
-        title: "Emergency Relief: Gaza Humanitarian Crisis",
+        title: "500 Winter Shelters for Gaza Families",
         description: "Urgent support needed for medical supplies, food, and shelter",
-        url: "https://www.launchgood.com/campaign/emergency_relief_gaza_humanitarian_crisis",
+        url: "https://www.launchgood.com/v4/campaign/500_winter_shelters_for_gaza_families?src=internal_comm_page",
         goal: 150000,
         raised: 98750,
-        imageUrl: "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80",
+        imageUrl: "https://pmedia.launchgood.com/251570/500_winter_shelters_for_gaza_families_%D8%AE%D9%8A%D9%85%201%20copy%20%281%29-min-493x370.jpg",
         isZakatVerified: true,
         isSponsored: false,
         donorCount: 1247,
-        daysLeft: 12
+        daysLeft: 12,
+        organizer: {
+            name: "AusRelief",
+            avatarUrl: "https://launchgood.s3.amazonaws.com/users/1030095/Untitled_design_%281%29_%281%29-80x80.png"
+        }
     },
     {
-        title: "Morocco Earthquake Emergency Response",
+        title: "Clean Water for One MILLION Refugees in Gaza & Syria",
         description: "Supporting communities affected by the devastating earthquake",
         url: "https://www.launchgood.com/campaign/morocco_earthquake_emergency_response",
         goal: 75000,
         raised: 42365,
-        imageUrl: "https://images.unsplash.com/photo-1590677880658-33600e64d128?auto=format&fit=crop&q=80",
+        imageUrl: "https://pmedia.launchgood.com/190380/clean_water_for_one_million_refugees_in_gaza__syria_C1680T01%202-493x370.jpg",
         isZakatVerified: true,
         isSponsored: true,
         donorCount: 892,
-        daysLeft: 8
+        daysLeft: 8,
+        organizer: {
+            name: "Bonyan Organization",
+            avatarUrl: "https://launchgood.s3.amazonaws.com/users/468647/لوغو_بنيان_PNG-80x80.png"
+        }
     },
     {
-        title: "Syria-Türkiye Earthquake Recovery",
+        title: "Be Their Lifeline: Deliver Life-Saving Ambulances to Gaza 🚑",
         description: "Long-term recovery support for affected regions",
         url: "https://www.launchgood.com/campaign/syria_turkiye_earthquake_recovery",
         goal: 100000,
         raised: 67890,
-        imageUrl: "https://images.unsplash.com/photo-1587653263995-422546a7a569?auto=format&fit=crop&q=80",
+        imageUrl: "https://pmedia.launchgood.com/199169/fund_lifesaving_ambulances_for_gaza__1446%20Cover%20Images%20%285%29-493x370.png",
         isZakatVerified: false,
         isSponsored: false,
         donorCount: 743,
-        daysLeft: 15
+        daysLeft: 15,
+        organizer: {
+            name: "Bonyan Organization",
+            avatarUrl: "https://launchgood.s3.amazonaws.com/users/468647/لوغو_بنيان_PNG-80x80.png"
+        }
     },
     {
-        title: "Yemen Emergency Relief Fund",
+        title: "Urgent Appeal: Safe Water for Gazans",
         description: "Critical aid for families affected by the crisis",
         url: "https://www.launchgood.com/campaign/yemen_emergency_relief_fund",
         goal: 50000,
@@ -58,7 +74,11 @@ export const CAMPAIGNS: Campaign[] = [
         isZakatVerified: true,
         isSponsored: false,
         donorCount: 456,
-        daysLeft: 23
+        daysLeft: 23,
+        organizer: {
+            name: "Bondh E Shams",
+            avatarUrl: "https://launchgood.s3.amazonaws.com/users/1030342/21687980_1920288338224338_2412223760053646112_n-80x80.png"
+        }
     },
     {
         title: "Palestine Children's Relief Fund",
@@ -70,7 +90,11 @@ export const CAMPAIGNS: Campaign[] = [
         isZakatVerified: false,
         isSponsored: true,
         donorCount: 1893,
-        daysLeft: 5
+        daysLeft: 5,
+        organizer: {
+            name: "Save the Children",
+            avatarUrl: "https://pmedia.launchgood.com/users/5/profile_pic.png"
+        }
     },
     {
         title: "Global Food Security Initiative",
@@ -82,7 +106,11 @@ export const CAMPAIGNS: Campaign[] = [
         isZakatVerified: true,
         isSponsored: false,
         donorCount: 234,
-        daysLeft: 45
+        daysLeft: 45,
+        organizer: {
+            name: "World Food Programme",
+            avatarUrl: "https://pmedia.launchgood.com/users/6/profile_pic.png"
+        }
     },
     {
         title: "Support for Orphans Worldwide",
@@ -94,7 +122,11 @@ export const CAMPAIGNS: Campaign[] = [
         isZakatVerified: false,
         isSponsored: true,
         donorCount: 178,
-        daysLeft: 32
+        daysLeft: 32,
+        organizer: {
+            name: "UNICEF",
+            avatarUrl: "https://pmedia.launchgood.com/users/7/profile_pic.png"
+        }
     },
     {
         title: "Clean Water Projects in Africa",
@@ -106,7 +138,11 @@ export const CAMPAIGNS: Campaign[] = [
         isZakatVerified: true,
         isSponsored: false,
         donorCount: 156,
-        daysLeft: 18
+        daysLeft: 18,
+        organizer: {
+            name: "WaterAid",
+            avatarUrl: "https://pmedia.launchgood.com/users/8/profile_pic.png"
+        }
     },
     {
         title: "Education for Refugee Children",
@@ -118,7 +154,11 @@ export const CAMPAIGNS: Campaign[] = [
         isZakatVerified: false,
         isSponsored: true,
         donorCount: 567,
-        daysLeft: 27
+        daysLeft: 27,
+        organizer: {
+            name: "UNICEF",
+            avatarUrl: "https://pmedia.launchgood.com/users/9/profile_pic.png"
+        }
     },
     {
         title: "Emergency Medical Aid Fund",
@@ -130,6 +170,10 @@ export const CAMPAIGNS: Campaign[] = [
         isZakatVerified: true,
         isSponsored: false,
         donorCount: 789,
-        daysLeft: 9
+        daysLeft: 9,
+        organizer: {
+            name: "Doctors Without Borders",
+            avatarUrl: "https://pmedia.launchgood.com/users/10/profile_pic.png"
+        }
     }
 ]; 

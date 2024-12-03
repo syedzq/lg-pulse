@@ -7,57 +7,44 @@ import { useState, useEffect } from 'react';
 
 export default function TabBar() {
     const pathname = usePathname();
-    const isGlobePage = pathname === '/pulse';
     const isCampaignPage = pathname.includes('/campaign');
     const [isAnimating, setIsAnimating] = useState(false);
     
-    // Listen for a custom event that will trigger the animation
     useEffect(() => {
         const handleHeartArrival = () => {
             setIsAnimating(true);
-            setTimeout(() => setIsAnimating(false), 500); // Reset after 0.5s
+            setTimeout(() => setIsAnimating(false), 500);
         };
 
         window.addEventListener('heartArrival', handleHeartArrival);
         return () => window.removeEventListener('heartArrival', handleHeartArrival);
     }, []);
     
-    // Generate 64 blur layers
-    const blurLayers = Array.from({ length: 64 }, (_, i) => {
-        const progress = i / 64; // 0 to 1
-        const blurAmount = progress * 48; // 0px to 48px blur
-        const opacity = progress * 1; // 0 to 1 opacity
-        
-        return (
-            <div
-                key={i}
-                className={`h-px backdrop-blur-[${blurAmount}px] ${
-                    isGlobePage 
-                        ? `bg-black/[${opacity}] backdrop-blur-[${blurAmount}px]` 
-                        : `bg-white/[${opacity}] backdrop-blur-[${blurAmount}px] dark:bg-neutral-900/[${opacity}]`
-                }`}
-            />
-        );
-    });
-    
     return (
         <div className="fixed bottom-0 md:top-0 md:bottom-auto left-0 right-0 z-[2000] pointer-events-none">
             {/* Mobile-only background effects container */}
             <div className="block sm:hidden">
                 {/* Progressive gradient */}
-                <div className={`absolute bottom-0 md:top-0 left-0 right-0 h-32 ${
-                    isGlobePage 
-                        ? 'bg-gradient-to-t from-black via-black/50 to-transparent' 
-                        : 'bg-gradient-to-t from-white dark:from-neutral-900 via-white/80 dark:via-neutral-900/80 to-transparent'
-                }`} />
+                <div className="absolute bottom-0 md:top-0 left-0 right-0 h-32 bg-gradient-to-t from-white dark:from-neutral-900 via-white/80 dark:via-neutral-900/80 to-transparent" />
                 
-                {/* Progressive blur - using 64 layers */}
+                {/* Progressive blur */}
                 <div className="absolute bottom-0 left-0 right-0">
-                    {blurLayers}
+                    {Array.from({ length: 64 }, (_, i) => {
+                        const progress = i / 64;
+                        const blurAmount = progress * 48;
+                        const opacity = progress;
+                        
+                        return (
+                            <div
+                                key={i}
+                                className={`h-px backdrop-blur-[${blurAmount}px] bg-white/[${opacity}] dark:bg-neutral-900/[${opacity}]`}
+                            />
+                        );
+                    })}
                 </div>
             </div>
             
-            {/* Tab bar container - centered with pointer events */}
+            {/* Tab bar container */}
             <div className="absolute bottom-8 md:top-10 left-1/2 -translate-x-1/2 w-full max-w-[350px] md:max-w-2xl px-4 pointer-events-auto">
                 <AnimatePresence mode="wait">
                     {isCampaignPage ? (
@@ -126,31 +113,31 @@ export default function TabBar() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.15 }}
-                            className={`${isGlobePage ? 'bg-neutral-900/50' : 'bg-white dark:bg-neutral-800'} backdrop-blur-xl rounded-full h-16 flex items-center justify-around  shadow-sm border ${isGlobePage ? 'border-white/5' : 'border-black/5 dark:border-white/5'}`}
+                            className='bg-white dark:bg-neutral-800 backdrop-blur-xl rounded-full h-16 flex items-center justify-around shadow-sm border border-black/5 dark:border-white/5'
                         >
                             <Link 
                                 href="/" 
-                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/' ? 'text-black dark:text-white' : 'text-black/50 dark:text-neutral-400'}`}
                             >
                                 <HomeIcon className="w-6 h-6" />
                                 <div className='hidden md:block'>Home</div>
                             </Link>
                             <Link 
-                                href="/globe" 
-                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/pulse' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                href="/pulse" 
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/pulse' ? 'text-black dark:text-white' : 'text-black/50 dark:text-neutral-400'}`}
                             >
                                 <GlobeAltIcon className="w-6 h-6" />
                                 <div className='hidden md:block'>Pulse</div>
                             </Link>
                             <button 
-                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400'}`}
+                                className="p-3 flex flex-row gap-2 items-center rounded-full text-black/50 dark:text-neutral-400"
                                 onClick={() => {}}
                             >
                                 <PlusCircleIcon className="w-6 h-6" />
                             </button>
                             <Link
                                 href="/list"
-                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/list' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/list' ? 'text-black dark:text-white' : 'text-black/50 dark:text-neutral-400'}`}
                             >
                                 <motion.div
                                     animate={isAnimating ? {
@@ -165,7 +152,7 @@ export default function TabBar() {
                             </Link>
                             <Link
                                 href="/profile"
-                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/profile' ? (isGlobePage ? 'text-white' : 'text-black dark:text-white') : (isGlobePage ? 'text-white/50' : 'text-black/50 dark:text-neutral-400')}`}
+                                className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/profile' ? 'text-black dark:text-white' : 'text-black/50 dark:text-neutral-400'}`}
                             >
                                 <UserCircleIcon className="w-6 h-6" />
                                 <div className='hidden md:block'>Profile</div>

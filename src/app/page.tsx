@@ -135,6 +135,7 @@ export default function HomePage() {
                                     isSponsored={campaign.isSponsored}
                                     donorCount={campaign.donorCount}
                                     daysLeft={campaign.daysLeft}
+                                    organizer={campaign.organizer}
                                 />
                             ))}
                         </div>
