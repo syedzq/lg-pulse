@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Plus_Jakarta_Sans, Fraunces } from 'next/font/google';
 import TabBar from './components/TabBar';
-import { ToasterWithBreakpoint } from './components/ToasterWithBreakpoint';
+// import { ToasterWithBreakpoint } from './components/ToasterWithBreakpoint';
 
 const plusJakarta = Plus_Jakarta_Sans({ 
   subsets: ['latin'],
@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className="bg-white dark:bg-neutral-900 font-sans text-neutral-900 dark:text-neutral-50">
           {children}
         <TabBar />
-        <ToasterWithBreakpoint />
+        {/* <ToasterWithBreakpoint /> */}
       </body>
     </html>
   );
