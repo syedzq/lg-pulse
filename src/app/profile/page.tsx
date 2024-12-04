@@ -47,7 +47,7 @@ export default function ProfilePage() {
                     className="h-5 dark:invert"
                 />
             </div>
-            <div className="flex flex-col items-center gap-6 py-12 bg-gradient-to-b from-[#F3E8B7] dark:from-[#90803b] to-white dark:to-neutral-900 sm:rounded-lg">
+            <div className="flex flex-col items-center gap-6 pt-12 pb-6 bg-gradient-to-b from-[#F3E8B7] dark:from-[#90803b] to-white dark:to-neutral-900 sm:rounded-lg">
                 <img
                     src="https://yt3.googleusercontent.com/0bIQ4Cv7b4AYt5dV8dl9JsLivwdS2Po-7kcjHVcx2ofbrHv24VFa2eEop6-iSE06xTfVMoobEQ=s900-c-k-c0x00ffffff-no-rj"
                     alt="Profile"
@@ -88,7 +88,7 @@ export default function ProfilePage() {
                 </div>
             </div>
 
-            <div className="max-w-screen-sm mx-auto p-4 space-y-8">
+            <div className="max-w-screen-sm mx-auto px-4 pt-6 pb-4 space-y-8">
                 {/* Current Fundraiser */}
                 <div className="space-y-4">
                     <h2 className="text-lg sm:text-xl font-bold">Fundraising now</h2>
