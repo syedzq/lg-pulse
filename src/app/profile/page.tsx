@@ -44,7 +44,7 @@ export default function ProfilePage() {
         <div className="max-w-screen-md mx-auto">
             <div className="flex items-center justify-center my-6">
                 <img src="https://launchgood.s3.amazonaws.com/static/logos/launchgood-black.svg"
-                    className="h-5 dark:invert"
+                    className="h-4 dark:invert"
                 />
             </div>
             <div className="flex flex-col items-center gap-6 pt-12 pb-6 bg-gradient-to-b from-[#F3E8B7] dark:from-[#90803b] to-white dark:to-neutral-900 sm:rounded-lg">
