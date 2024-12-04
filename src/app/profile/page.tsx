@@ -185,7 +185,7 @@ interface CampaignPreviewProps {
     onClick: () => void;
 }
 
-function CampaignPreview({ campaign, onClick }: CampaignPreviewProps) {
+function CampaignPreview({ campaign }: CampaignPreviewProps) {
     const handleCampaignClick = () => {
         window.open(campaign.url, '_blank', 'noopener,noreferrer');
     };
@@ -218,7 +218,7 @@ function CampaignPreview({ campaign, onClick }: CampaignPreviewProps) {
                         </div>
                     </div>
                 </div>
-                <div className="flex items-end gap-1">
+                <div className="flex items-baseline gap-1">
                     <span className="text-brand-500 font-bold">
                         ${campaign.raised?.toLocaleString()}
                     </span>
