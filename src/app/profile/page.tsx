@@ -42,7 +42,7 @@ export default function ProfilePage() {
 
     return (
         <div className="max-w-screen-md mx-auto">
-            <div className="flex items-center justify-center my-6">
+            <div className="flex items-center justify-center my-5">
                 <img src="https://launchgood.s3.amazonaws.com/static/logos/launchgood-black.svg"
                     className="h-4 dark:invert"
                 />
