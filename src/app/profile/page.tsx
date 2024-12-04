@@ -91,13 +91,13 @@ export default function ProfilePage() {
             <div className="max-w-screen-sm mx-auto p-4 space-y-8">
                 {/* Current Fundraiser */}
                 <div className="space-y-4">
-                    <h2 className="text-lg font-bold">Fundraising now</h2>
+                    <h2 className="text-lg sm:text-xl font-bold">Fundraising now</h2>
                     <CampaignPreview campaign={userCampaigns[0]} onClick={() => router.push(`/campaign?url=${encodeURIComponent(userCampaigns[0].url)}`)} />
                 </div>
 
                 {/* Previous Fundraisers */}
                 <div className="space-y-4">
-                    <h2 className="text-lg font-bold">Previous fundraisers</h2>
+                    <h2 className="text-lg sm:text-xl font-bold">Previous fundraisers</h2>
                     {userCampaigns.slice(1).map((campaign, index) => (
                         <CampaignPreview 
                             key={index} 
@@ -109,7 +109,7 @@ export default function ProfilePage() {
 
                 {/* Social Links Section */}
                 <div className="space-y-4">
-                    <h2 className="text-lg font-bold text-left">Find The Golden Balance elsewhere</h2>
+                    <h2 className="text-lg sm:text-xl font-bold text-left">Find The Golden Balance elsewhere</h2>
                     <div className="grid grid-cols-4 gap-4">
                         <a 
                             href="https://www.instagram.com/thegoldenbalance"
