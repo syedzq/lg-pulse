@@ -5,6 +5,7 @@ import { CAMPAIGNS } from "../data/campaigns";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 
 export default function ProfilePage() {
     const router = useRouter();
@@ -53,7 +54,7 @@ export default function ProfilePage() {
                     className="w-24 h-24 rounded-full object-cover border border-neutral-200"
                 />
                 <div className="flex flex-col items-center gap-2">
-                    <h1 className="text-2xl font-bold">The Golden Balance</h1>
+                    <span className="flex items-center gap-2"><h1 className="text-2xl font-bold">The Golden Balance</h1><CheckBadgeIcon className="w-6 h-6 fill-brand-500"/></span>
                     <p className="text-sm leading-3 text-neutral-600 dark:text-white/75">@thegoldenbalance</p>
                 </div>
                 <div className="flex gap-8">
