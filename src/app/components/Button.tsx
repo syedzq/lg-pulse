@@ -16,8 +16,8 @@ const buttonVariants = cva(
       },
       size: {
         extraSmall: 'text-xs px-4 py-1 min-h-7',
-        base: 'text-sm px-5 py-2.5 min-h-10',
-        extraLarge: 'text-base px-8 py-4 min-h-[60]',
+        base: 'text-base px-5 py-2.5 min-h-10',
+        extraLarge: 'text-base px-8 py-4 min-h-[60px]',
       },
     },
     defaultVariants: {

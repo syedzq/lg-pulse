@@ -25,7 +25,7 @@ export function ToasterWithBreakpoint() {
         closeButton: true,
         classNames: {
             toast: 'flex flex-row-reverse items-center justify-between w-96 font-sans p-4 rounded-md shadow-lg bg-neutral-900 dark:bg-neutral-50 text-white dark:text-neutral-900',
-            title: 'font-bold ml-3',
+            title: 'font-semibold ml-3',
             description: '',
             actionButton: 'bg-zinc-400',
             cancelButton: 'bg-orange-400',
