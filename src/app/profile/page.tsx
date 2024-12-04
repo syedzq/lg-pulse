@@ -77,7 +77,7 @@ export default function ProfilePage() {
                         variant={isFollowing ? "secondary" : "brand"}
                         onClick={handleFollowClick}
                     >
-                        {isFollowing ? "Unfollow" : "Follow"}
+                        {isFollowing ? "Following" : "Follow"}
                     </Button>
                     <Button 
                         variant="tertiary"
