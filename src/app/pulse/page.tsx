@@ -375,7 +375,7 @@ function createCityMarker(city: CityData): THREE.Group {
 
     // Make text size 50% larger than current size
     const isMobile = window.innerWidth < 768;
-    const baseSize = isMobile ? 162 : 54; // 1.5x larger than previous (was 108 and 36)
+    const baseSize = isMobile ? 81 : 54; // Halved the mobile size (was 162)
     const viewportHeight = window.innerHeight;
     const scaleFactor = viewportHeight / 1080;
     const fontSize = Math.round(baseSize * scaleFactor);
@@ -397,7 +397,7 @@ function createCityMarker(city: CityData): THREE.Group {
     const label = new THREE.Sprite(labelMaterial);
     
     // Adjust scale based on mobile/desktop (1.5x larger than before)
-    const baseSpriteScale = isMobile ? 2.025 : 0.675; // 1.5x larger than previous (was 1.35 and 0.45)
+    const baseSpriteScale = isMobile ? 1.0125 : 0.675; // Halved the mobile scale (was 2.025)
     const spriteScale = baseSpriteScale * (viewportHeight / 1080);
     label.scale.set(spriteScale, spriteScale * 0.25, 1);
     
@@ -466,7 +466,7 @@ function GlobeWithSettings() {
         showDonationFeed: searchParams.get('showDonationFeed') !== 'false',
         showHearts: searchParams.get('showHearts') !== 'false',
         showCurrency: searchParams.get('showCurrency') !== 'false',
-        texture: (searchParams.get('texture') as GlobeSettings['texture']) || 'earth_day',
+        texture: (searchParams.get('texture') as GlobeSettings['texture']) || 'watercolor',
         backgroundColor: searchParams.get('backgroundColor') || '#177899',
     });
 
