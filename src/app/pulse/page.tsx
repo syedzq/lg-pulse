@@ -676,6 +676,7 @@ function Globe({
 
         // Add this near the top of the Globe component
         let hoveredPath: PathData | null = null;
+        let isGlobeHovered = false;
 
         // Update the mouse move handler to include globe hover detection
         function onMouseMove(event: MouseEvent) {
@@ -683,6 +684,10 @@ function Globe({
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
+            
+            // Check for globe intersection first
+            const globeIntersects = raycaster.intersectObject(globe);
+            isGlobeHovered = globeIntersects.length > 0;
             
             // Then check for path intersections
             const pathIntersects = raycaster.intersectObjects(
