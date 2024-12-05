@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { eventEmitter, type DonationCard } from '../utils/eventEmitter';
-import { getRandomDonorName } from '../utils/donorNames';
 
 interface DonationFeedProps {
   backgroundColor: string;
