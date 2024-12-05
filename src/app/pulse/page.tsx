@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import LiveDonationFeed from '../components/LiveDonationFeed';
 import NumberFlow from '@number-flow/react';
 import { eventEmitter } from '../utils/eventEmitter';
+import { GlobeControls } from '../components/GlobeControls';
+import { useSearchParams } from 'next/navigation';
 
 // Add this at the top of the file
 const isClient = typeof window !== 'undefined';
@@ -334,9 +336,9 @@ function createEmojiSprite(size: number): THREE.Sprite {
     return sprite;
 }
 
-// Add this function to create city markers
+// Update the createCityMarker function
 function createCityMarker(city: CityData): THREE.Group {
-    if (!isClient) return new THREE.Group(); // Return empty group if not client
+    if (!isClient) return new THREE.Group();
 
     const group = new THREE.Group();
     
@@ -367,12 +369,12 @@ function createCityMarker(city: CityData): THREE.Group {
     // Create label with higher z-index
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
-    canvas.width = 512; // Increased for better text quality
+    canvas.width = 512;
     canvas.height = 128;
 
-    // Significantly larger text size for mobile
+    // Make text size 50% larger than current size
     const isMobile = window.innerWidth < 768;
-    const baseSize = isMobile ? 72 : 24; // 3x larger on mobile
+    const baseSize = isMobile ? 162 : 54; // 1.5x larger than previous (was 108 and 36)
     const viewportHeight = window.innerHeight;
     const scaleFactor = viewportHeight / 1080;
     const fontSize = Math.round(baseSize * scaleFactor);
@@ -393,14 +395,14 @@ function createCityMarker(city: CityData): THREE.Group {
     });
     const label = new THREE.Sprite(labelMaterial);
     
-    // Adjust scale based on mobile/desktop
-    const baseSpriteScale = isMobile ? 0.9 : 0.3; // 3x larger on mobile
+    // Adjust scale based on mobile/desktop (1.5x larger than before)
+    const baseSpriteScale = isMobile ? 2.025 : 0.675; // 1.5x larger than previous (was 1.35 and 0.45)
     const spriteScale = baseSpriteScale * (viewportHeight / 1080);
     label.scale.set(spriteScale, spriteScale * 0.25, 1);
     
-    // Adjust position for mobile
-    label.position.x = isMobile ? 0.09 : 0.03; // Move label further from dot on mobile
-    label.position.y = isMobile ? 0.06 : 0.02;
+    // Move label closer to dot (reduce the offset by ~40%)
+    label.position.x = isMobile ? 0.08 : 0.027; // Reduced from 0.135 and 0.045
+    label.position.y = isMobile ? 0.054 : 0.018; // Reduced from 0.09 and 0.03
     label.renderOrder = 3;
 
     group.add(dot);
@@ -443,11 +445,34 @@ function createDonationCircle(amount: number): THREE.Mesh {
 const activeCities = new Set<string>();
 const cityLastDonationTime = new Map<string, number>();
 
+// Add this near the top of the file with other interfaces
+interface GlobeSettings {
+  donationsPerMinute: number;
+  showDonationFeed: boolean;
+  showHearts: boolean;
+  showCurrency: boolean;
+  texture: 'watercolor' | 'earth_atmos_2048' | 'earth-day';
+  backgroundColor: string;
+}
+
 export default function Home() {
     const [total, setTotal] = useState(679474372);
+    const searchParams = useSearchParams();
     
+    const [settings, setSettings] = useState<GlobeSettings>({
+        donationsPerMinute: Number(searchParams.get('donationsPerMinute')) || 30,
+        showDonationFeed: searchParams.get('showDonationFeed') !== 'false',
+        showHearts: searchParams.get('showHearts') !== 'false',
+        showCurrency: searchParams.get('showCurrency') !== 'false',
+        texture: (searchParams.get('texture') as GlobeSettings['texture']) || 'earth_day',
+        backgroundColor: searchParams.get('backgroundColor') || '#177899',
+    });
+
     return (
-        <div className="overflow-hidden pt-12 md:pt-32 bg-[#177899]">
+        <div 
+            className="overflow-hidden pt-12 md:pt-32 transition-colors duration-300" 
+            style={{ backgroundColor: settings.backgroundColor }}
+        >
             <div className='text-white text-lg mx-auto text-center'>Funds raised</div>
             <div className="px-4 mx-auto justify-center z-[1000]">
                 <NumberFlow 
@@ -467,13 +492,22 @@ export default function Home() {
                     transformTiming={{ duration: 800, easing: 'ease-out' }}
                 />
             </div>
-            <LiveDonationFeed />
-            <Globe setTotal={setTotal} />
+            {settings.showDonationFeed && (
+                <LiveDonationFeed backgroundColor={settings.backgroundColor} />
+            )}
+            <Globe settings={settings} setTotal={setTotal} />
+            <GlobeControls settings={settings} onSettingsChange={setSettings} />
         </div>
     );
 }
 
-function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: number) => number)) => void }) {
+function Globe({ 
+    settings, 
+    setTotal 
+}: { 
+    settings: GlobeSettings;
+    setTotal: (prevTotal: number | ((prevTotal: number) => number)) => void;
+}) {
     const [donationsStarted, setDonationsStarted] = useState(false);
 
     useEffect(() => {
@@ -482,9 +516,11 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
 
         // Set up scene
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x177899);
+        scene.background = new THREE.Color(settings.backgroundColor);
         
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(6, 3, 6);
+        camera.lookAt(0, 0, 0);
         const renderer = new THREE.WebGLRenderer({ 
             antialias: true
         });
@@ -494,21 +530,37 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
 
         // Create textured globe with improved materials and lighting
         const sphereGeometry = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
-        const texture = new THREE.TextureLoader().load('/watercolor.jpg');
+        const texture = new THREE.TextureLoader().load(`/${settings.texture}.jpg`);
 
-        // Enhance texture settings
+        // Create function to update texture
+        const updateTexture = (textureName: string) => {
+            new THREE.TextureLoader().load(`/${textureName}.jpg`, (newTexture) => {
+                newTexture.colorSpace = THREE.SRGBColorSpace;
+                newTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                (globe.material as THREE.MeshPhongMaterial).map = newTexture;
+                (globe.material as THREE.MeshPhongMaterial).needsUpdate = true;
+            });
+        };
+
+        // Watch for texture changes
+        const textureObserver = new MutationObserver(() => {
+            updateTexture(settings.texture);
+        });
+
+        // Initial texture setup
         texture.colorSpace = THREE.SRGBColorSpace;
         texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
         const material = new THREE.MeshPhongMaterial({
             map: texture,
-            shininess: 0,  // Reduce specular highlights
+            shininess: 0,
             bumpScale: 0.02,
-            specular: new THREE.Color(0x222222),  // Subtle specular highlights
-            reflectivity: 0,  // Remove reflections
+            specular: new THREE.Color(0x222222),
+            reflectivity: 0,
         });
         
         const globe = new THREE.Mesh(sphereGeometry, material);
+        globe.rotation.y = Math.PI / 2; // Rotate 90 degrees
         scene.add(globe);
 
         // Improve lighting setup
@@ -568,6 +620,7 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         });
         
         const halo = new THREE.Mesh(haloGeometry, haloMaterial);
+        halo.rotation.y = Math.PI / 2;
         scene.add(halo);
 
         // Add city markers container right after creating the globe
@@ -587,15 +640,15 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         // Set initial rotation based on timezone
         const timeZoneOffset = new Date().getTimezoneOffset();
         const rotationOffset = (timeZoneOffset / 60) * (Math.PI / 12); // Convert hours to radians
-        globe.rotation.y = -rotationOffset;
+        globe.rotation.y = Math.PI / 2 - rotationOffset; // Add initial rotation
 
         // Add OrbitControls
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
-        controls.enableZoom = true;
-        controls.minDistance = GLOBE_RADIUS * 3;
-        controls.maxDistance = GLOBE_RADIUS * 5;
+        controls.enableZoom = false;
+        controls.minDistance = GLOBE_RADIUS * 1;
+        controls.maxDistance = GLOBE_RADIUS * 3;
 
         // Add these lines to restrict vertical movement
         controls.minPolarAngle = Math.PI / 2.4; // Restrict upward tilt
@@ -833,78 +886,81 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
                     const usdAmount = amount * (CURRENCY_TO_USD[fromCity.currency || 'USD'] || 1);
                     setTotal((prevTotal: number) => Math.round(usdAmount + prevTotal));
 
-                    // Create floating amount text
-                    const formattedAmount = `+$${amount.toFixed(2)}`;
-                    const amountSprite = createFloatingText(formattedAmount);
-                    amountSprite.position.copy(position);
-                    amountSprite.position.y += 0.2;
-                    flightPathContainer.add(amountSprite);
+                    // Only create floating amount text if showCurrency is enabled
+                    if (settings.showCurrency) {
+                        const formattedAmount = `+$${amount.toFixed(2)}`;
+                        const amountSprite = createFloatingText(formattedAmount);
+                        amountSprite.position.copy(position);
+                        amountSprite.position.y += 0.2;
+                        flightPathContainer.add(amountSprite);
 
-                    // Add cleanup for the amount sprite after animation
-                    setTimeout(() => {
-                        if (amountSprite.parent) {
-                            flightPathContainer.remove(amountSprite);
-                            amountSprite.material.dispose();
-                            (amountSprite.material.map as THREE.Texture)?.dispose();
-                        }
-                    }, 2000); // Remove after 2 seconds
-
-                    // Determine number of hearts based on donation amount
-                    let numHearts;
-                    if (amount >= 5000) {
-                        numHearts = Math.floor(Math.random() * 3) + 10; // 10-12 hearts
-                    } else if (amount >= 1000) {
-                        numHearts = Math.floor(Math.random() * 3) + 7; // 7-9 hearts
-                    } else if (amount >= 500) {
-                        numHearts = Math.floor(Math.random() * 2) + 5; // 5-6 hearts
-                    } else if (amount >= 100) {
-                        numHearts = Math.floor(Math.random() * 2) + 3; // 3-4 hearts
-                    } else if (amount >= 50) {
-                        numHearts = 2; // 2 hearts
-                    } else {
-                        numHearts = 1; // 1 heart
-                    }
-                    
-                    for (let i = 0; i < numHearts; i++) {
-                        const size = 0.05 + Math.random() * 0.05;
-                        const emoji = createEmojiSprite(size);
-                        emoji.position.copy(position);
-                        
-                        // Add random offset with larger spread for more hearts
-                        const spread = numHearts > 6 ? 0.3 : 0.2;
-                        emoji.position.x += (Math.random() - 0.5) * spread;
-                        emoji.position.y += (Math.random() - 0.5) * spread;
-                        emoji.position.z += (Math.random() - 0.5) * spread;
-                        
-                        flightPathContainer.add(emoji);
-
-                        // Animate each heart
-                        let emojiProgress = 0;
-                        const emojiSpeed = 0.02 + Math.random() * 0.02;
-                        const startY = emoji.position.y;
-                        const startScale = emoji.scale.x;
-
-                        const animateEmoji = () => {
-                            emojiProgress += emojiSpeed;
-                            
-                            emoji.position.y = startY + (emojiProgress * 0.3);
-                            emoji.material.opacity = 1 - emojiProgress;
-                            emoji.scale.set(
-                                startScale * (1 + emojiProgress * 0.5),
-                                startScale * (1 + emojiProgress * 0.5),
-                                1
-                            );
-
-                            if (emojiProgress < 1) {
-                                requestAnimationFrame(animateEmoji);
-                            } else {
-                                flightPathContainer.remove(emoji);
-                                emoji.material.dispose();
-                                (emoji.material.map as THREE.Texture).dispose();
+                        // Add cleanup for the amount sprite after animation
+                        setTimeout(() => {
+                            if (amountSprite.parent) {
+                                flightPathContainer.remove(amountSprite);
+                                amountSprite.material.dispose();
+                                (amountSprite.material.map as THREE.Texture)?.dispose();
                             }
-                        };
+                        }, 2000);
+                    }
 
-                        animateEmoji();
+                    // Only create hearts if enabled in settings
+                    if (settings.showHearts) {
+                        // Determine number of hearts based on donation amount
+                        let numHearts = 1;
+                        if (amount >= 5000) {
+                            numHearts = Math.floor(Math.random() * 3) + 10; // 10-12 hearts
+                        } else if (amount >= 1000) {
+                            numHearts = Math.floor(Math.random() * 3) + 7; // 7-9 hearts
+                        } else if (amount >= 500) {
+                            numHearts = Math.floor(Math.random() * 2) + 5; // 5-6 hearts
+                        } else if (amount >= 100) {
+                            numHearts = Math.floor(Math.random() * 2) + 3; // 3-4 hearts
+                        } else if (amount >= 50) {
+                            numHearts = 2; // 2 hearts
+                        }
+
+                        for (let i = 0; i < numHearts; i++) {
+                            const size = 0.05 + Math.random() * 0.05;
+                            const emoji = createEmojiSprite(size);
+                            emoji.position.copy(position);
+                            
+                            // Add random offset with larger spread for more hearts
+                            const spread = numHearts > 6 ? 0.3 : 0.2;
+                            emoji.position.x += (Math.random() - 0.5) * spread;
+                            emoji.position.y += (Math.random() - 0.5) * spread;
+                            emoji.position.z += (Math.random() - 0.5) * spread;
+                            
+                            flightPathContainer.add(emoji);
+
+                            // Animate each heart
+                            let emojiProgress = 0;
+                            const emojiSpeed = 0.02 + Math.random() * 0.02;
+                            const startY = emoji.position.y;
+                            const startScale = emoji.scale.x;
+
+                            const animateEmoji = () => {
+                                emojiProgress += emojiSpeed;
+                                
+                                emoji.position.y = startY + (emojiProgress * 0.3);
+                                emoji.material.opacity = 1 - emojiProgress;
+                                emoji.scale.set(
+                                    startScale * (1 + emojiProgress * 0.5),
+                                    startScale * (1 + emojiProgress * 0.5),
+                                    1
+                                );
+
+                                if (emojiProgress < 1) {
+                                    requestAnimationFrame(animateEmoji);
+                                } else {
+                                    flightPathContainer.remove(emoji);
+                                    emoji.material.dispose();
+                                    (emoji.material.map as THREE.Texture)?.dispose();
+                                }
+                            };
+
+                            animateEmoji();
+                        }
                     }
                 }
 
@@ -968,19 +1024,24 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
         // Update the flight creation management
         const maxFlights = 5;
         let activeFlights = 0;
+        let flightInterval: NodeJS.Timeout | null = null;
 
         // Create new flight paths with better timing
         const createFlights = () => {
-            if (activeFlights < maxFlights) {
+            if (activeFlights < maxFlights && settings.donationsPerMinute > 0) {
                 createFlightPath();
             }
         };
 
-        // Create first flight immediately
-        createFlights();
+        // Create first flight only if donations per minute > 0
+        if (settings.donationsPerMinute > 0) {
+            createFlights();
+        }
 
-        // Then create new flights with consistent interval
-        const flightInterval = setInterval(createFlights, 10000);
+        // Set up interval only if donations per minute > 0
+        if (settings.donationsPerMinute > 0) {
+            flightInterval = setInterval(createFlights, (60 / settings.donationsPerMinute) * 1000);
+        }
 
         // Update the animation loop
         const animate = function () {
@@ -988,7 +1049,7 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
             controls.update();
             
             // Only rotate if not hovered and no paths are being hovered
-            if (!isGlobeHovered && !hoveredPath) {
+            if (!hoveredPath) {
                 globe.rotation.y += 0.0005;
                 halo.rotation.y += 0.0005;
             }
@@ -1116,16 +1177,19 @@ function Globe({ setTotal }: { setTotal: (prevTotal: number | ((prevTotal: numbe
 
         // Cleanup
         return () => {
+            textureObserver.disconnect();
             if (isClient) {
                 window.removeEventListener('resize', handleResize);
             }
             renderer.dispose();
             document.body.removeChild(renderer.domElement);
-            clearInterval(flightInterval);
+            if (flightInterval) {
+                clearInterval(flightInterval);
+            }
             window.removeEventListener('mousemove', onMouseMove);
             document.body.removeChild(tooltip);
         };
-    }, [donationsStarted, setTotal]); // Add setTotal to dependency array
+    }, [settings.donationsPerMinute, settings.texture, settings.backgroundColor, settings.showHearts, settings.showCurrency]);
 
     return <div id="globe-container" />;
 }
@@ -1137,7 +1201,7 @@ function createFloatingText(text: string): THREE.Sprite {
     canvas.width = 256;
     canvas.height = 64;
 
-    const fontSize = Math.round(24 * (window.innerHeight / 1080));
+    const fontSize = 16;
     context.font = `${fontSize}px "Plus Jakarta Sans", Arial`;
     context.fillStyle = '#22c55e'; // text-brand-500 color
     context.textAlign = 'center';
