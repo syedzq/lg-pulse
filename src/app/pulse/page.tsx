@@ -1,7 +1,7 @@
 "use client";
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import LiveDonationFeed from '../components/LiveDonationFeed';
 import NumberFlow from '@number-flow/react';
 import { eventEmitter } from '../utils/eventEmitter';
@@ -456,7 +456,8 @@ interface GlobeSettings {
   backgroundColor: string;
 }
 
-export default function Home() {
+// Create a wrapper component for the settings-dependent parts
+function GlobeWithSettings() {
     const [total, setTotal] = useState(679474372);
     const searchParams = useSearchParams();
     
@@ -499,6 +500,19 @@ export default function Home() {
             <Globe settings={settings} setTotal={setTotal} />
             <GlobeControls settings={settings} onSettingsChange={setSettings} />
         </div>
+    );
+}
+
+// Update the main component to use Suspense
+export default function Home() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#177899] flex items-center justify-center">
+                <div className="text-white text-lg">Loading...</div>
+            </div>
+        }>
+            <GlobeWithSettings />
+        </Suspense>
     );
 }
 
