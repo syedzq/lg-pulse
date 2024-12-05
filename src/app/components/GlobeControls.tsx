@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { Drawer } from 'vaul';
-import { Cog8ToothIcon, EllipsisHorizontalIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { Cog8ToothIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 import { Button } from './Button';
+import Image from 'next/image';
 
 interface GlobeSettings {
   donationsPerMinute: number;
@@ -18,6 +19,9 @@ interface GlobeControlsProps {
   settings: GlobeSettings;
   onSettingsChange: (settings: GlobeSettings) => void;
 }
+
+type SettingsValue = number | boolean | string;
+type BackgroundColorType = typeof BACKGROUND_COLORS[number];
 
 const TEXTURE_OPTIONS = [
   { 
@@ -60,7 +64,7 @@ export function GlobeControls({ settings, onSettingsChange }: GlobeControlsProps
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const updateSettings = (key: keyof GlobeSettings, value: any) => {
+  const updateSettings = (key: keyof GlobeSettings, value: SettingsValue) => {
     const newSettings = { ...settings, [key]: value };
     onSettingsChange(newSettings);
     
@@ -209,21 +213,20 @@ export function GlobeControls({ settings, onSettingsChange }: GlobeControlsProps
               }`}
             >
               <div className="relative aspect-square">
-                {/* Thumbnail */}
-                <img
+                <Image
                   src={option.thumbnail}
                   alt={option.label}
+                  width={200}
+                  height={200}
                   className="w-full h-full object-cover"
                 />
                 
-                {/* Overlay */}
                 <div className={`absolute inset-0 transition-opacity ${
                   settings.texture === option.value
                     ? 'bg-white/20'
                     : 'bg-black/40 group-hover:bg-black/20'
                 }`} />
                 
-                {/* Selected indicator */}
                 {settings.texture === option.value && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="rounded-full bg-white p-1">
@@ -244,7 +247,6 @@ export function GlobeControls({ settings, onSettingsChange }: GlobeControlsProps
                 )}
               </div>
               
-              {/* Label */}
               <div className="absolute bottom-0 left-0 right-0 p-1 text-xs text-white text-center bg-black/50">
                 {option.label}
               </div>
@@ -278,7 +280,9 @@ export function GlobeControls({ settings, onSettingsChange }: GlobeControlsProps
             />
             <div 
               className={`w-10 h-10 rounded-full transition-transform ${
-                !BACKGROUND_COLORS.includes(settings.backgroundColor as any) ? 'ring-2 ring-white scale-90' : 'hover:scale-90'
+                !BACKGROUND_COLORS.includes(settings.backgroundColor as BackgroundColorType) 
+                    ? 'ring-2 ring-white scale-90' 
+                    : 'hover:scale-90'
               }`}
               style={{ backgroundColor: customColor }}
             >

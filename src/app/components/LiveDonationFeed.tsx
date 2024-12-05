@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { eventEmitter, type DonationCard } from '../utils/eventEmitter';
+import { getRandomDonorName } from '../utils/donorNames';
 
 interface DonationFeedProps {
   backgroundColor: string;
@@ -77,6 +78,7 @@ export default function LiveDonationFeed({ backgroundColor }: DonationFeedProps)
             <div className="p-4 space-y-4">
                 <div className="h-7 bg-white/50 rounded-md w-1/2" />
                 <div className="h-5 bg-white/50 rounded-md w-3/4" />
+                <div className="h-5 bg-white/50 rounded-md w-3/4" />
                 <div className="h-5 bg-white/50 rounded-md w-full" />
             </div>
         </motion.div>
@@ -106,11 +108,15 @@ export default function LiveDonationFeed({ backgroundColor }: DonationFeedProps)
                                 initial={{ opacity: 0, x: -100}}
                                 animate={{ opacity: 1, x: 0}}
                                 exit={{ opacity: 0, x: 0 }}
-                                className="flex-none w-[300px] bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden"
+                                onClick={() => window.open(donation.campaignUrl, '_blank', 'noopener,noreferrer')}
+                                className="flex-none w-[300px] bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden cursor-pointer hover:bg-white/20 transition-colors"
                             >
                                 <div className="p-4">
                                     <div className="text-lg font-semibold text-white mb-2">
                                         ${donation.amount.toFixed(2)} {donation.currency}
+                                    </div>
+                                    <div className="text-sm font-semibold text-white mb-1">
+                                        {donation.donorName}
                                     </div>
                                     <div className="text-sm text-white/80 mb-3">
                                         {donation.fromCity} to {donation.toCity}

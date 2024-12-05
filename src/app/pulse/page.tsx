@@ -7,6 +7,7 @@ import NumberFlow from '@number-flow/react';
 import { eventEmitter } from '../utils/eventEmitter';
 import { GlobeControls } from '../components/GlobeControls';
 import { useSearchParams } from 'next/navigation';
+import { getRandomDonorName } from '../utils/donorNames';
 
 // Add this at the top of the file
 const isClient = typeof window !== 'undefined';
@@ -674,8 +675,8 @@ function Globe({
         const mouse = new THREE.Vector2();
 
         // Add this near the top of the Globe component
-        let isGlobeHovered = false;
         let hoveredPath: PathData | null = null;
+        let isGlobeHovered = false;
 
         // Update the mouse move handler to include globe hover detection
         function onMouseMove(event: MouseEvent) {
@@ -776,7 +777,8 @@ function Globe({
                 toCity: toCity.name,
                 campaignTitle: CAMPAIGNS[Math.floor(Math.random() * CAMPAIGNS.length)].title,
                 campaignUrl: CAMPAIGNS[Math.floor(Math.random() * CAMPAIGNS.length)].url,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                donorName: getRandomDonorName()
             });
 
             // Update timestamps for both cities
@@ -1048,7 +1050,7 @@ function Globe({
             requestAnimationFrame(animate);
             controls.update();
             
-            // Only rotate if not hovered and no paths are being hovered
+            // Only rotate if no paths are being hovered
             if (!hoveredPath) {
                 globe.rotation.y += 0.0005;
                 halo.rotation.y += 0.0005;

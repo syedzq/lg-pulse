@@ -8,6 +8,7 @@ interface DonationCard {
     campaignTitle: string;
     campaignUrl: string;
     timestamp: number;
+    donorName: string;
 }
 
 interface EventMap {
