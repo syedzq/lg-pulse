@@ -14,7 +14,7 @@ interface ApiComment {
     createdAt: string;
 }
 
-export async function fetchDuas(_campaignId: string): Promise<DuaComment[]> {
+export async function fetchDuas(): Promise<DuaComment[]> {
     console.log('Service: Starting fetch');
     if (typeof window === 'undefined') {
         console.log('Service: Running on server, returning empty array');
@@ -38,7 +38,7 @@ export async function fetchDuas(_campaignId: string): Promise<DuaComment[]> {
             return [];
         }
 
-        console.log('Service: Comments:', data.donationComments.map((comment: any) => comment.comment));
+        console.log('Service: Comments:', data.donationComments.map((comment: ApiComment) => comment.comment));
 
         return data.donationComments.map((comment: ApiComment) => ({
             id: comment.id.toString(),

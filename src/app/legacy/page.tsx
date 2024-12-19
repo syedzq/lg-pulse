@@ -173,17 +173,17 @@ export default function LegacyPage() {
                             </p>
                             
                             <p>
-                                Hammad's sudden departure leaves a void in our hearts and communities. Muslim communities far and wide will feel the loss of this extraordinary advocate. But amidst our grief, we have the opportunity to make a lasting impact.
+                                Hammad&apos;s sudden departure leaves a void in our hearts and communities. Muslim communities far and wide will feel the loss of this extraordinary advocate. But amidst our grief, we have the opportunity to make a lasting impact.
                             </p>
                             
                             <p>
                                 <strong>How You Can Support:</strong><br />
                                 <strong>1. Donate:</strong> Your financial support will go directly to Haifa, helping her manage bills and expenses during this challenging time.<br />
-                                <strong>2. Contribute to Inara's Future:</strong> We aim to establish a college fund for Inara, ensuring that her father's dream of education lives on.
+                                <strong>2. Contribute to Inara&apos;s Future:</strong> We aim to establish a college fund for Inara, ensuring that her father&apos;s dream of education lives on.
                             </p>
                             
                             <p>
-                                Hammad's legacy of fighting for justice can continue through your support. Let's stand together and ensure that his family receives the help they need during this difficult journey. Donate today to make a meaningful difference in their lives.
+                                Hammad&apos;s legacy of fighting for justice can continue through your support. Let&apos;s stand together and ensure that his family receives the help they need during this difficult journey. Donate today to make a meaningful difference in their lives.
                             </p>
                         </div>
                     </div>

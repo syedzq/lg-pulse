@@ -1,3 +1,11 @@
+interface ApiComment {
+    id: number;
+    comment: string;
+    userDisplayName: string;
+    userDisplayLocation: string;
+    createdAt: string;
+}
+
 export async function GET() {
     console.log('API Route: Starting request');
     try {
@@ -21,7 +29,7 @@ export async function GET() {
 
         const data = await response.json();
         console.log('API Route: Raw data:', data);
-        console.log('API Route: Comments:', data?.donationComments?.map((comment: any) => comment.comment));
+        console.log('API Route: Comments:', data?.donationComments?.map((comment: ApiComment) => comment.comment));
         
         return new Response(JSON.stringify(data), {
             headers: {
