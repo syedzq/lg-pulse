@@ -5,6 +5,7 @@ import { fetchDuas, DuaComment } from "../services/launchgood";
 import { motion, AnimatePresence } from "motion/react";
 import Image from 'next/image';
 import { FloatingEmoji } from "../components/FloatingEmoji";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const SECTIONS = [
     { id: 'about', label: 'About' },
@@ -23,6 +24,11 @@ interface DuaClicks {
     [key: string]: boolean;
 }
 
+// Add this helper function before the component
+const getRandomRotation = () => {
+    return Math.random() * 2 - 1; // Random number between -1 and 1
+};
+
 export default function LegacyPage() {
     const [activeSection, setActiveSection] = useState<string>(SECTIONS[0].id);
     const [duas, setDuas] = useState<DuaComment[]>([]);
@@ -32,6 +38,8 @@ export default function LegacyPage() {
     const [duaClicks, setDuaClicks] = useState<DuaClicks>({});
     // Add state for floating emojis
     const [floatingEmojis, setFloatingEmojis] = useState<{ id: number; x: number; y: number; }[]>([]);
+    // Inside the component, add state for rotations
+    const [cardRotations, setCardRotations] = useState<Record<string, number>>({});
 
     // Add this useEffect to initialize random dua counts
     useEffect(() => {
@@ -40,6 +48,15 @@ export default function LegacyPage() {
             initialCounts[dua.id] = Math.floor(Math.random() * 50) + 1;
         });
         setDuaCounts(initialCounts);
+    }, [duas]);
+
+    // Add this useEffect to set initial rotations when duas change
+    useEffect(() => {
+        const rotations: Record<string, number> = {};
+        duas.forEach(dua => {
+            rotations[dua.id] = getRandomRotation();
+        });
+        setCardRotations(rotations);
     }, [duas]);
 
     // Update the click handler
@@ -98,6 +115,39 @@ export default function LegacyPage() {
 
     const scrollToSection = (sectionId: string) => {
         sectionRefs.current[sectionId]?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Update the navigation function to include animation
+    const navigateCards = (direction: 'left' | 'right') => {
+        if (duas.length === 0) return;
+        
+        // Get the first card's motion controls
+        const firstCard = document.querySelector('[data-card="0"]');
+        if (!firstCard) return;
+
+        // Animate the swipe
+        const targetX = direction === 'right' ? -400 : 400;
+        firstCard.animate([
+            { transform: 'translateX(0)' },
+            { transform: `translateX(${targetX}px)` }
+        ], {
+            duration: 300,
+            easing: 'ease-out'
+        });
+
+        // Update cards after animation
+        setTimeout(() => {
+            setDuas(prev => {
+                if (direction === 'right' && prev.length > 3) {
+                    const [first, ...rest] = prev;
+                    return [...rest, first];
+                } else if (direction === 'left') {
+                    const last = prev[prev.length - 1];
+                    return [last, ...prev.slice(0, prev.length - 1)];
+                }
+                return prev;
+            });
+        }, 200);
     };
 
     return (
@@ -172,7 +222,7 @@ export default function LegacyPage() {
             </div>
 
             {/* Content Sections */}
-            <div className="w-full max-w-screen-lg">
+            <div className="w-full max-w-screen-md">
                 <div
                     ref={el => void (sectionRefs.current['about'] = el)}
                     id="about"
@@ -227,14 +277,34 @@ export default function LegacyPage() {
                         </div>
                     ) : (
                         <div className="relative h-[300px] max-w-md mx-auto overflow-visible">
+                            {/* Add navigation buttons */}
+                            <div className="hidden md:flex absolute -left-16 top-1/2 -translate-y-1/2">
+                                <button
+                                    onClick={() => navigateCards('left')}
+                                    className="p-2 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
+                                >
+                                    <ChevronLeftIcon className="w-6 h-6 text-neutral-600 dark:text-neutral-400" />
+                                </button>
+                            </div>
+                            <div className="hidden md:flex absolute -right-16 top-1/2 -translate-y-1/2">
+                                <button
+                                    onClick={() => navigateCards('right')}
+                                    className="p-2 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
+                                >
+                                    <ChevronRightIcon className="w-6 h-6 text-neutral-600 dark:text-neutral-400" />
+                                </button>
+                            </div>
+
                             {duas.slice(0, 3).map((dua, index) => (
                                 <motion.div
                                     key={dua.id}
+                                    data-card={index}
                                     className="absolute w-full overflow-visible"
                                     style={{ 
                                         zIndex: 3 - index,
-                                        filter: `opacity(${index === 0 ? 1 : index === 1 ? 1 : 0.7})`, // Keep first and second card at full opacity
-                                        transform: `translateY(${index * 8}px)`
+                                        filter: `opacity(${index === 0 ? 1 : index === 1 ? 1 : 0.7})`,
+                                        transform: `translateY(${index * 8}px)`,
+                                        rotate: cardRotations[dua.id] || 0
                                     }}
                                     drag="x"
                                     dragConstraints={{ left: 0, right: 0 }}
@@ -244,7 +314,6 @@ export default function LegacyPage() {
                                         if (Math.abs(swipe) > 100) {
                                             setDuas(prev => {
                                                 const newDuas = prev.filter((_, i) => i !== 0);
-                                                // If we have more cards waiting, add the next one
                                                 if (prev.length > 3) {
                                                     return [...newDuas, prev[3]];
                                                 }
@@ -256,14 +325,15 @@ export default function LegacyPage() {
                                     initial={{ 
                                         scale: index === 2 ? 0.95 : 1, 
                                         opacity: 0,
-                                        y: index === 2 ? (3 * 8) : (index * 8)
+                                        y: index === 2 ? (3 * 8) : (index * 8),
+                                        rotate: cardRotations[dua.id] || 0
                                     }}
                                     animate={{ 
                                         scale: 1,
                                         opacity: 1,
                                         x: 0,
                                         y: index * 8,
-                                        rotate: 0
+                                        rotate: cardRotations[dua.id] || 0
                                     }}
                                     exit={{ 
                                         x: -400,
