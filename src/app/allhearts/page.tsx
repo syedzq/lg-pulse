@@ -11,7 +11,7 @@ export default function TestPage() {
 
     return (
         <div className="flex flex-col p-4 gap-8">
-            <div className="text-center text-xl font-bold">Here's a random campaign</div>
+            <div className="text-center text-xl font-bold">Here&apos;s a random campaign</div>
             <CampaignCard title="Splash of Hope: Provide clean drinking water for orphans in Bangladesh" url="https://www.google.com"></CampaignCard>
             <Button variant="secondary" className="!w-fit" onClick={() => setIsOpen(true)}>
                 <ArrowPathIcon className="w-5 h-5 mr-2" />      

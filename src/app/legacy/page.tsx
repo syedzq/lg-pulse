@@ -75,7 +75,7 @@ export default function LegacyPage() {
 
     useEffect(() => {
         async function loadDuas() {
-            const comments = await fetchDuas('236473');
+            const comments = await fetchDuas(); // Remove the argument
             setDuas(comments);
         }
         loadDuas();
@@ -160,7 +160,7 @@ export default function LegacyPage() {
                     
                     <div className="h-auto overflow-y-hidden relative">
                         <div className="[&>p]:mb-6 [&>p]:break-words [&_img]:mb-3 text-neutral-600 dark:text-neutral-300">
-                            <p><strong>Honoring Hammad's Legacy - Support Haifa and Inara</strong></p>
+                            <p><strong>Honoring Hammad&apos;s Legacy - Support Haifa and Inara</strong></p>
                             
                             <p>
                                 <strong>Call-to-Action:</strong><br />
