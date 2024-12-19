@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Plus_Jakarta_Sans, Fraunces } from 'next/font/google';
-import TabBar from './components/TabBar';
 import { ToasterWithBreakpoint } from './components/ToasterWithBreakpoint';
 
 const plusJakarta = Plus_Jakarta_Sans({ 

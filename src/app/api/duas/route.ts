@@ -1,4 +1,4 @@
-export async function GET(request: Request) {
+export async function GET() {
     console.log('API Route: Starting request');
     try {
         const url = 'https://api.launchgood.com/v4/campaigns/250114/comments?offset=1&limit=50';
