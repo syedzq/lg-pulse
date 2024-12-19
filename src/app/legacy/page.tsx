@@ -2,7 +2,7 @@
 import { Button } from "../components/Button";
 import { useEffect, useRef, useState } from "react";
 import { fetchDuas, DuaComment } from "../services/launchgood";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import Image from 'next/image';
 import { FloatingEmoji } from "../components/FloatingEmoji";
 
@@ -226,7 +226,7 @@ export default function LegacyPage() {
                             Loading duas...
                         </div>
                     ) : (
-                        <div className="relative h-[500px] max-w-md mx-auto overflow-visible">
+                        <div className="relative h-[300px] max-w-md mx-auto overflow-visible">
                             {duas.slice(0, 3).map((dua, index) => (
                                 <motion.div
                                     key={dua.id}
