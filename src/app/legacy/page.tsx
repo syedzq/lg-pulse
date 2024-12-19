@@ -121,12 +121,11 @@ export default function LegacyPage() {
     const navigateCards = (direction: 'left' | 'right') => {
         if (duas.length === 0) return;
         
-        // Get the first card's motion controls
         const firstCard = document.querySelector('[data-card="0"]');
         if (!firstCard) return;
 
-        // Animate the swipe
-        const targetX = direction === 'right' ? -400 : 400;
+        // Reverse the animation direction (swipe left when clicking right)
+        const targetX = direction === 'right' ? 400 : -400;
         firstCard.animate([
             { transform: 'translateX(0)' },
             { transform: `translateX(${targetX}px)` }
@@ -135,7 +134,6 @@ export default function LegacyPage() {
             easing: 'ease-out'
         });
 
-        // Update cards after animation
         setTimeout(() => {
             setDuas(prev => {
                 if (direction === 'right' && prev.length > 3) {
@@ -276,7 +274,7 @@ export default function LegacyPage() {
                             Loading duas...
                         </div>
                     ) : (
-                        <div className="relative h-[300px] max-w-md mx-auto overflow-visible">
+                        <div className="relative h-[300px] w-[calc(100vw-48px)] md:w-full max-w-md mx-auto overflow-visible">
                             {/* Add navigation buttons */}
                             <div className="hidden md:flex absolute -left-16 top-1/2 -translate-y-1/2">
                                 <button
