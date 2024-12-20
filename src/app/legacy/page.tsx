@@ -347,7 +347,7 @@ export default function LegacyPage() {
                                 >
                                     <div className="bg-white dark:bg-neutral-800 overflow-clip rounded-xl border border-neutral-200 dark:border-neutral-700 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] h-[300px] flex flex-col backdrop-blur-sm">
                                         <div className="p-6 flex-1 overflow-y-auto">
-                                            <p className="text-neutral-900 dark:text-white text-lg">
+                                            <p className="font-serif  font-light text-neutral-900 dark:text-white text-lg">
                                                 {dua.comment}
                                             </p>
                                         </div>
