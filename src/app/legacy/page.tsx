@@ -26,7 +26,7 @@ interface DuaClicks {
 
 // Add this helper function before the component
 const getRandomRotation = () => {
-    return Math.random() * 2 - 1; // Random number between -1 and 1
+    return Math.random() * 1.5 - 1; // Random number between -1 and 1
 };
 
 export default function LegacyPage() {
