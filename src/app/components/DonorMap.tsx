@@ -99,7 +99,7 @@ export function DonorMap({ data }: DonorMapProps) {
     };
 
     return (
-        <div className="relative h-[300px] sm:h-fit w-full">
+        <div className="relative h-fit w-full">
             <div 
                 className="absolute bg-white border border-neutral-200 rounded-md px-2 py-1 text-sm pointer-events-none z-10"
                 style={{
