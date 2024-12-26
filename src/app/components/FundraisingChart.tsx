@@ -7,16 +7,15 @@ import {
     YAxis,
     Tooltip,
     ResponsiveContainer,
-    Legend
+    Legend,
+    BarChart,
+    Bar
 } from 'recharts';
 
 const allTimeData = [
-    { date: 'Dec 2021', amount: 72000 },
-    { date: 'Jun 2022', amount: 80000 },
-    { date: 'Dec 2022', amount: 90000 },
-    { date: 'Jun 2023', amount: 105000 },
-    { date: 'Dec 2023', amount: 120000 },
-    { date: 'Jun 2024', amount: 128000 },
+    { year: '2022', amount: 85000 },
+    { year: '2023', amount: 112500 },
+    { year: '2024', amount: 128000 },
 ];
 
 const ramadanData = Array.from({ length: 30 }, (_, i) => ({
@@ -30,7 +29,7 @@ interface FundraisingChartProps {
 }
 
 export function FundraisingChart({ mode = 'all-time' }: FundraisingChartProps) {
-    const formatYAxis = (value: number) => `$${(value / 1000).toFixed(1)}K`;
+    const formatYAxis = (value: number) => `$${(value / 1000).toFixed(2)}K`;
 
     if (mode === 'all-time') {
         const minAmount = Math.min(...allTimeData.map(d => d.amount));
@@ -39,9 +38,9 @@ export function FundraisingChart({ mode = 'all-time' }: FundraisingChartProps) {
 
         return (
             <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={allTimeData}>
+                <BarChart data={allTimeData}>
                     <XAxis 
-                        dataKey="date" 
+                        dataKey="year" 
                         tick={{ fill: '#6B7280', fontSize: 14 }}
                         axisLine={{ stroke: '#E5E7EB' }}
                         tickLine={false}
@@ -62,15 +61,12 @@ export function FundraisingChart({ mode = 'all-time' }: FundraisingChartProps) {
                             padding: '8px'
                         }}
                     />
-                    <Line 
-                        type="monotone" 
+                    <Bar 
                         dataKey="amount" 
-                        stroke="#4AA567"
-                        strokeWidth={2}
-                        dot={false}
-                        activeDot={{ r: 6, fill: '#3C8653' }}
+                        fill="#4AA567"
+                        radius={[4, 4, 0, 0]}
                     />
-                </LineChart>
+                </BarChart>
             </ResponsiveContainer>
         );
     }
