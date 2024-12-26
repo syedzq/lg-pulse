@@ -12,6 +12,17 @@ interface DonorMapProps {
     }[];
 }
 
+interface GeographyType {
+    properties: {
+        name: string;
+        continent: string;
+        iso_a3?: string;
+        ISO_A3?: string;
+        id?: string;
+    };
+    rsmKey: string;
+}
+
 // Map of country names to ISO codes
 const countryToISO: { [key: string]: string } = {
     "United States": "USA",
@@ -64,7 +75,7 @@ export function DonorMap({ data }: DonorMapProps) {
         return colors[rank] || colors[colors.length - 1];
     };
 
-    const findCountryData = (geo: any) => {
+    const findCountryData = (geo: GeographyType) => {
         const countryName = geo.properties.name;
         const isoCode = countryToISO[countryName];
         
@@ -76,7 +87,7 @@ export function DonorMap({ data }: DonorMapProps) {
         const possibleCodes = [
             geo.properties.iso_a3,
             geo.properties.ISO_A3,
-            geo.id
+            geo.properties.id
         ].filter(Boolean);
 
         for (const code of possibleCodes) {
