@@ -23,7 +23,7 @@ export function Drawer({
       <Vaul.Portal>
         <Vaul.Overlay className="fixed inset-0 bg-black/40" />
         <Vaul.Content 
-          className={`bg-white rounded-xl dark:bg-neutral-800 fixed w-full max-h-[85vh] ${
+          className={`bg-white rounded-xl dark:bg-neutral-800 fixed w-full max-h-[85vh] flex flex-col ${
             direction === 'bottom' 
               ? 'inset-x-0 bottom-0 rounded-t-2xl'
               : direction === 'top'
@@ -33,7 +33,7 @@ export function Drawer({
               : 'right-0 top-0 bottom-0 max-w-md w-full'
           }`}
         >
-          <div className="px-6 py-4 flex items-center justify-between border-b border-neutral-200 dark:border-neutral-700">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 dark:border-neutral-700">
             <div className="text-xl font-bold text-neutral-900 dark:text-white">
               {title}
             </div>
@@ -44,7 +44,7 @@ export function Drawer({
               <XMarkIcon className="w-[28px] h-[28px] text-neutral-500 dark:text-neutral-400" />
             </button>
           </div>
-          <div className="overflow-y-auto">
+          <div className="flex-1 overflow-y-auto p-6">
             {children}
           </div>
         </Vaul.Content>
