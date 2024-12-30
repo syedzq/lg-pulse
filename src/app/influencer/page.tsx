@@ -55,35 +55,35 @@ const topDonations = [
 ];
 
 const topCountries = [
-    { country: "USA", flag: "🇺🇸", donors: 1410, name: "United States" },
-    { country: "GBR", flag: "🇬🇧", donors: 201, name: "United Kingdom" },
-    { country: "CAN", flag: "🇨🇦", donors: 167, name: "Canada" },
-    { country: "TUR", flag: "🇹🇷", donors: 143, name: "Turkey" },
-    { country: "SAU", flag: "🇸🇦", donors: 145, name: "Saudi Arabia" },
-    { country: "PAK", flag: "🇵🇰", donors: 156, name: "Pakistan" },
-    { country: "EGY", flag: "🇪🇬", donors: 112, name: "Egypt" },
-    { country: "IND", flag: "🇮🇳", donors: 89, name: "India" },
-    { country: "AUS", flag: "🇦🇺", donors: 89, name: "Australia" },
-    { country: "MYS", flag: "🇲🇾", donors: 89, name: "Malaysia" },
-    { country: "BGD", flag: "🇧🇩", donors: 78, name: "Bangladesh" },
-    { country: "ARE", flag: "🇦🇪", donors: 76, name: "UAE" },
-    { country: "QAT", flag: "🇶🇦", donors: 67, name: "Qatar" },
-    { country: "NGA", flag: "🇳🇬", donors: 67, name: "Nigeria" },
-    { country: "KWT", flag: "🇰🇼", donors: 58, name: "Kuwait" },
-    { country: "DEU", flag: "🇩🇪", donors: 56, name: "Germany" },
-    { country: "KEN", flag: "🇰🇪", donors: 45, name: "Kenya" },
-    { country: "MAR", flag: "🇲🇦", donors: 45, name: "Morocco" },
-    { country: "FRA", flag: "🇫🇷", donors: 45, name: "France" },
-    { country: "BHR", flag: "🇧🇭", donors: 42, name: "Bahrain" },
-    { country: "OMN", flag: "🇴🇲", donors: 35, name: "Oman" },
-    { country: "DZA", flag: "🇩🇿", donors: 34, name: "Algeria" },
-    { country: "IDN", flag: "🇮🇩", donors: 31, name: "Indonesia" },
-    { country: "TUN", flag: "🇹🇳", donors: 28, name: "Tunisia" },
-    { country: "NZL", flag: "🇳🇿", donors: 25, name: "New Zealand" },
-    { country: "SGP", flag: "🇸🇬", donors: 24, name: "Singapore" },
-    { country: "NLD", flag: "🇳🇱", donors: 23, name: "Netherlands" },
-    { country: "BRN", flag: "🇧🇳", donors: 18, name: "Brunei" },
-    { country: "ZAF", flag: "🇿🇦", donors: 98, name: "South Africa" }
+    { country: "USA", flag: "🇺🇸", donors: 1410, name: "United States of America", amountRaised: 450000.00 },
+    { country: "GBR", flag: "🇬🇧", donors: 201, name: "United Kingdom", amountRaised: 120000.00 },
+    { country: "CAN", flag: "🇨🇦", donors: 167, name: "Canada", amountRaised: 95000.00 },
+    { country: "TUR", flag: "🇹🇷", donors: 143, name: "Turkey", amountRaised: 45000.00 },
+    { country: "SAU", flag: "🇸🇦", donors: 145, name: "Saudi Arabia", amountRaised: 85000.00 },
+    { country: "PAK", flag: "🇵🇰", donors: 156, name: "Pakistan", amountRaised: 35000.00 },
+    { country: "EGY", flag: "🇪🇬", donors: 112, name: "Egypt", amountRaised: 28000.00 },
+    { country: "IND", flag: "🇮🇳", donors: 89, name: "India", amountRaised: 22000.00 },
+    { country: "AUS", flag: "🇦🇺", donors: 89, name: "Australia", amountRaised: 42000.00 },
+    { country: "MYS", flag: "🇲🇾", donors: 89, name: "Malaysia", amountRaised: 25000.00 },
+    { country: "BGD", flag: "🇧🇩", donors: 78, name: "Bangladesh", amountRaised: 15000.00 },
+    { country: "ARE", flag: "🇦🇪", donors: 76, name: "UAE", amountRaised: 65000.00 },
+    { country: "QAT", flag: "🇶🇦", donors: 67, name: "Qatar", amountRaised: 55000.00 },
+    { country: "NGA", flag: "🇳🇬", donors: 67, name: "Nigeria", amountRaised: 12000.00 },
+    { country: "KWT", flag: "🇰🇼", donors: 58, name: "Kuwait", amountRaised: 45000.00 },
+    { country: "DEU", flag: "🇩🇪", donors: 56, name: "Germany", amountRaised: 32000.00 },
+    { country: "KEN", flag: "🇰🇪", donors: 45, name: "Kenya", amountRaised: 8000.00 },
+    { country: "MAR", flag: "🇲🇦", donors: 45, name: "Morocco", amountRaised: 9500.00 },
+    { country: "FRA", flag: "🇫🇷", donors: 45, name: "France", amountRaised: 28000.00 },
+    { country: "BHR", flag: "🇧🇭", donors: 42, name: "Bahrain", amountRaised: 35000.00 },
+    { country: "OMN", flag: "🇴🇲", donors: 35, name: "Oman", amountRaised: 25000.00 },
+    { country: "DZA", flag: "🇩🇿", donors: 34, name: "Algeria", amountRaised: 7500.00 },
+    { country: "IDN", flag: "🇮🇩", donors: 31, name: "Indonesia", amountRaised: 6500.00 },
+    { country: "TUN", flag: "🇹🇳", donors: 28, name: "Tunisia", amountRaised: 5500.00 },
+    { country: "NZL", flag: "🇳🇿", donors: 25, name: "New Zealand", amountRaised: 15000.00 },
+    { country: "SGP", flag: "🇸🇬", donors: 24, name: "Singapore", amountRaised: 18000.00 },
+    { country: "NLD", flag: "🇳🇱", donors: 23, name: "Netherlands", amountRaised: 16500.00 },
+    { country: "BRN", flag: "🇧🇳", donors: 18, name: "Brunei", amountRaised: 12500.00 },
+    { country: "ZAF", flag: "🇿🇦", donors: 98, name: "South Africa", amountRaised: 22000.00 }
 ];
 
 const topSources = [
@@ -278,43 +278,11 @@ export default function InfluencerPage() {
                     </div>
 
                     <div className="block sm:hidden">
-                        <DataCard title="Top countries" expandable>
+                        <DataCard title="Top countries" expandable showHeaderBorder={false}>
                             {({ expanded }) => (
                                 <div className="relative">
-                                    <div className="sm:sticky top-0 bg-white z-10">
-                                        <DonorMap data={topCountries} />
-                                        <hr className="border-neutral-200 mb-6" />
-                                        <div className="h-12 absolute -bottom-6 left-0 w-full bg-gradient-to-b from-white via-white to-transparent"></div>
-                                    </div>
-                                    <div className="flex flex-col divide-y divide-neutral-200">
-                                        {topCountries
-                                            .slice(0, expanded ? topCountries.length : 5)
-                                            .map((country, index) => {
-                                                const colors = ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'];
-                                                const colorIndex = Math.min(
-                                                    colors.length - 1,
-                                                    Math.floor((index / (expanded ? topCountries.length : 5)) * colors.length)
-                                                );
-                                                return (
-                                                    <div key={index} className="flex items-center gap-4 py-3">
-                                                        <div 
-                                                            className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
-                                                            style={{ backgroundColor: colors[colorIndex] }}
-                                                        >
-                                                            {index + 1}
-                                                        </div>
-                                                        <div className="flex-1 flex justify-between items-center">
-                                                            <div className="flex items-center gap-2">
-                                                                <span className="text-xl">{country.flag}</span>
-                                                                <span className="font-bold">{country.name}</span>
-                                                            </div>
-                                                            <div className="text-neutral-600">
-                                                                {country.donors.toLocaleString()} donors
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
+                                    <div className="top-0 bg-white z-10">
+                                        <DonorMap data={topCountries} expanded={expanded} />
                                     </div>
                                 </div>
                             )}
@@ -390,43 +358,11 @@ export default function InfluencerPage() {
 
 
                     <div className="hidden sm:block">
-                        <DataCard title="Top countries" expandable>
+                        <DataCard title="Top countries" expandable showHeaderBorder={false}>
                             {({ expanded }) => (
                                 <div className="relative">
                                     <div className="sm:sticky top-0 bg-white z-10">
-                                        <DonorMap data={topCountries} />
-                                        <hr className="border-neutral-200 mb-6" />
-                                        <div className="h-12 absolute -bottom-6 left-0 w-full bg-gradient-to-b from-white via-white to-transparent"></div>
-                                    </div>
-                                    <div className="flex flex-col divide-y divide-neutral-200">
-                                        {topCountries
-                                            .slice(0, expanded ? topCountries.length : 5)
-                                            .map((country, index) => {
-                                                const colors = ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'];
-                                                const colorIndex = Math.min(
-                                                    colors.length - 1,
-                                                    Math.floor((index / (expanded ? topCountries.length : 5)) * colors.length)
-                                                );
-                                                return (
-                                                    <div key={index} className="flex items-center gap-4 py-3">
-                                                        <div 
-                                                            className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
-                                                            style={{ backgroundColor: colors[colorIndex] }}
-                                                        >
-                                                            {index + 1}
-                                                        </div>
-                                                        <div className="flex-1 flex justify-between items-center">
-                                                            <div className="flex items-center gap-2">
-                                                                <span className="text-xl">{country.flag}</span>
-                                                                <span className="font-bold">{country.name}</span>
-                                                            </div>
-                                                            <div className="text-neutral-600">
-                                                                {country.donors.toLocaleString()} donors
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
+                                        <DonorMap data={topCountries} expanded={expanded} />
                                     </div>
                                 </div>
                             )}
