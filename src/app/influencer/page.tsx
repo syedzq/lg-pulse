@@ -3,10 +3,12 @@
 import Link from "next/link"
 import { Button } from "../components/Button"
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
+import { ChevronDownIcon } from "@heroicons/react/24/outline"
 import { DataCard } from "../components/DataCard"
 import { FundraisingChart } from "../components/FundraisingChart"
 import { DonorMap } from "../components/DonorMap"
 import { SourcesPieChart } from "../components/SourcesPieChart"
+import { DonationHeatmap } from "../components/DonationHeatmap"
 import { useState } from "react";
 
 const topDays = [
@@ -37,12 +39,20 @@ const topDays = [
     { date: "Thursday, March 14, 2024", hijri: "Ramadan 5, 1445", amount: 6540.23 }
 ];
 
+const campaigns = [
+    { name: "Bring hope to those in need w/Maryam Malik", url: "https://www.launchgood.com/campaign/bring_hope#!/donors" },
+    { name: "Palestine Children's Relief Fund", url: "https://www.launchgood.com/campaign/palestine_childrens_relief_fund#!/donors" },
+    { name: "Global Food Security Initiative", url: "https://www.launchgood.com/campaign/global_food_security_initiative#!/donors" },
+    { name: "Support for Orphans Worldwide", url: "https://www.launchgood.com/campaign/support_for_orphans_worldwide#!/donors" },
+    { name: "Clean Water Projects in Africa", url: "https://www.launchgood.com/campaign/clean_water_projects_africa#!/donors" }
+];
+
 const topDonations = [
-    { amount: 75000.00, location: "Elizabeth, NJ, United States", timeAgo: "2 days ago" },
-    { amount: 50000.00, location: "Plano, TX, United States", timeAgo: "10 hours ago" },
-    { amount: 10403.38, location: "London, United Kingdom", timeAgo: "13 days ago" },
-    { amount: 10404.39, location: "London, United Kingdom", timeAgo: "4 hours ago" },
-    { amount: 9338.29, location: "Doha, Qatar", timeAgo: "1 hour ago" },
+    { amount: 75000.00, location: "Elizabeth, NJ, United States", timeAgo: "2 days ago", name: "Mohammad Khan", campaign: campaigns[0] },
+    { amount: 50000.00, location: "Plano, TX, United States", timeAgo: "10 hours ago", name: "Sarah Ahmed", campaign: campaigns[1] },
+    { amount: 10403.38, location: "London, United Kingdom", timeAgo: "13 days ago", name: "Yusuf Ali", campaign: campaigns[2] },
+    { amount: 10404.39, location: "London, United Kingdom", timeAgo: "4 hours ago", campaign: campaigns[3] },
+    { amount: 9338.29, location: "Doha, Qatar", timeAgo: "1 hour ago", campaign: campaigns[4] },
 ];
 
 const topCountries = [
@@ -144,6 +154,11 @@ export default function InfluencerPage() {
                             <h1 className="text-xl font-bold">Salam, Maryam!</h1>
                             <p className="text-neutral-600">Fundraising since 2021</p>
                         </div>
+                        <div className="flex flex-row grow justify-end">
+                        <select className="appearance-none text-neutral-600 bg-white border border-neutral-200 rounded-lg px-2 py-1 text-sm font-normal">
+                            <option value="usd">🇺🇸 USD</option>
+                        </select>
+                        </div>
                     </div>
                     <div className="flex flex-row gap-6">
                         <div className="flex flex-col">
@@ -167,7 +182,7 @@ export default function InfluencerPage() {
                                     className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
                                     src="/influencer/charity.png" 
                                 />
-                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap after:content-[''] after:absolute after:left-1/2 after:-bottom-[10px] after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-[11px] before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200">
+                                <div className="absolute bottom-full left-0 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 after:content-[''] after:absolute after:left-4 after:-bottom-[10px] after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-4 before:-bottom-[11px] before:border-[6px] before:border-transparent before:border-t-neutral-200">
                                     The Good Charity
                                 </div>
                             </div>
@@ -176,8 +191,8 @@ export default function InfluencerPage() {
                                     className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
                                     src="/influencer/hci.png" 
                                 />
-                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap after:content-[''] after:absolute after:left-1/2 after:-bottom-[10px] after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-[11px] before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200">
-                                Human Concern International
+                                <div className="absolute bottom-full left-0 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 after:content-[''] after:absolute after:left-4 after:-bottom-[10px] after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-4 before:-bottom-[11px] before:border-[6px] before:border-transparent before:border-t-neutral-200">
+                                    Human Concern International
                                 </div>
                             </div>
                             <div className="relative group">
@@ -185,8 +200,8 @@ export default function InfluencerPage() {
                                     className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
                                     src="/influencer/ha.jpeg" 
                                 />
-                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap after:content-[''] after:absolute after:left-1/2 after:-bottom-[10px] after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-[11px] before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200">
-                                Human Appeal
+                                <div className="absolute bottom-full left-0 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 after:content-[''] after:absolute after:left-4 after:-bottom-[10px] after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-4 before:-bottom-[11px] before:border-[6px] before:border-transparent before:border-t-neutral-200">
+                                    Human Appeal
                                 </div>
                             </div>
                         </div>
@@ -233,7 +248,7 @@ export default function InfluencerPage() {
                     </div>
                 </div>
 
-                <div className="columns-1 sm:columns-2 gap-4 space-y-4 [&>*]:break-inside-avoid-column [&>*]:mb-4">
+                <div className="columns-1 sm:columns-2 gap-4 [&>*]:break-inside-avoid-column [&>*]:mb-4 last:[&>*]:mb-0">
                     <div>
                         <DataCard title="Total funds raised" expandable showHeaderBorder={false}>
                             <div className="space-y-4">
@@ -322,16 +337,58 @@ export default function InfluencerPage() {
                                             {index + 1}
                                         </div>
                                         <div className="flex-1">
-                                            <div className="font-bold">${donation.amount.toLocaleString()}</div>
+                                            <div className="font-bold">
+                                                ${donation.amount.toLocaleString()}
+                                                {donation.name && <span className="font-normal text-neutral-600"> · {donation.name}</span>}
+                                            </div>
                                             <div className="text-sm text-neutral-600">
                                                 {donation.timeAgo} · {donation.location}
                                             </div>
                                         </div>
+                                        <a 
+                                            href={donation.campaign.url} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:border-neutral-300 transition-colors"
+                                        >
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H6.5M11.5 4.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                            </svg>
+                                        </a>
                                     </div>
                                 ))}
                             </div>
                         </DataCard>
                     </div>
+
+                    <div className="sm:!column-span-all">
+                        <DataCard title="Top sources" expandable>
+                            <div className="flex flex-col gap-6">
+                                <SourcesPieChart data={topSources} />
+                                <div className="flex flex-col divide-y divide-neutral-200">
+                                    {topSources.map((source, index) => (
+                                        <div key={index} className="flex items-center gap-4 py-3">
+                                            <div 
+                                                className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
+                                                style={{ 
+                                                    backgroundColor: ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'][index] 
+                                                }}
+                                            >
+                                                {index + 1}
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="font-bold">{source.name}</div>
+                                                <div className="text-sm text-neutral-600">
+                                                    ${source.amount.toLocaleString()}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </DataCard>
+                    </div>
+
 
                     <div className="hidden sm:block">
                         <DataCard title="Top countries" expandable>
@@ -378,30 +435,8 @@ export default function InfluencerPage() {
                     </div>
 
                     <div className="sm:!column-span-all">
-                        <DataCard title="Top sources" expandable>
-                            <div className="flex flex-col gap-6">
-                                <SourcesPieChart data={topSources} />
-                                <div className="flex flex-col divide-y divide-neutral-200">
-                                    {topSources.map((source, index) => (
-                                        <div key={index} className="flex items-center gap-4 py-3">
-                                            <div 
-                                                className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
-                                                style={{ 
-                                                    backgroundColor: ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'][index] 
-                                                }}
-                                            >
-                                                {index + 1}
-                                            </div>
-                                            <div className="flex-1">
-                                                <div className="font-bold">{source.name}</div>
-                                                <div className="text-sm text-neutral-600">
-                                                    ${source.amount.toLocaleString()}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+                        <DataCard title="Top donated times">
+                            <DonationHeatmap />
                         </DataCard>
                     </div>
 
