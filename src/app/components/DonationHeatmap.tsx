@@ -1,13 +1,5 @@
 import { useMemo } from 'react';
 
-interface DonationHeatmapProps {
-    data: {
-        day: number;
-        hour: number;
-        value: number;
-    }[];
-}
-
 export function DonationHeatmap() {
     const data = useMemo(() => {
         const hours = ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'];
@@ -100,7 +92,7 @@ export function DonationHeatmap() {
                 ))}
             </div>
             <div className="text-sm text-neutral-600">
-                Based on this fundraiser's activity and historical LaunchGood data.
+                Based on this fundraiser&apos;s activity and historical LaunchGood data.
             </div>
         </div>
     );

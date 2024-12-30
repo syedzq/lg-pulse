@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { Button } from "../components/Button"
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
-import { ChevronDownIcon } from "@heroicons/react/24/outline"
 import { DataCard } from "../components/DataCard"
 import { FundraisingChart } from "../components/FundraisingChart"
 import { DonorMap } from "../components/DonorMap"
