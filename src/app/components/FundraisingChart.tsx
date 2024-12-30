@@ -22,14 +22,85 @@ const ramadanData = Array.from({ length: 30 }, (_, i) => ({
     day: `${i + 1}`,
     amount2024: Math.round(5000 + Math.random() * 3000 + (i * 800)), // Increasing trend
     amount2023: Math.round(4000 + Math.random() * 2000 + (i * 600)), // Lower but similar pattern
+    amount2022: Math.round(3000 + Math.random() * 1500 + (i * 400)), // Even lower but similar pattern
 }));
 
 interface FundraisingChartProps {
-    mode?: 'all-time' | 'ramadan-comparison';
+    mode: 'all-time' | 'ramadan-comparison' | 'monthly';
 }
 
-export function FundraisingChart({ mode = 'all-time' }: FundraisingChartProps) {
-    const formatYAxis = (value: number) => `$${(value / 1000).toFixed(2)}K`;
+export function FundraisingChart({ mode }: FundraisingChartProps) {
+    const formatYAxis = (value: number) => `$${(value / 1000).toFixed(1)}K`;
+
+    const monthlyData = [
+        { month: 'Jan', '2024': 28450, '2023': 22180, '2022': 15780 },
+        { month: 'Feb', '2024': 25320, '2023': 18940, '2022': 14950 },
+        { month: 'Mar', '2024': 95800, '2023': 17650, '2022': 13875 },
+        { month: 'Apr', '2024': 35500, '2023': 82400, '2022': 12980 },
+        { month: 'May', '2024': 28750, '2023': 25780, '2022': 12450 },
+        { month: 'Jun', '2024': 27800, '2023': 24950, '2022': 11890 },
+        { month: 'Jul', '2024': 26900, '2023': 23875, '2022': 11340 },
+        { month: 'Aug', '2024': 26200, '2023': 22980, '2022': 10980 },
+        { month: 'Sep', '2024': 25800, '2023': 21450, '2022': 10450 },
+        { month: 'Oct', '2024': 25400, '2023': 20890, '2022': 9870 },
+        { month: 'Nov', '2024': 24900, '2023': 19340, '2022': 9340 },
+        { month: 'Dec', '2024': 24500, '2023': 18980, '2022': 8950 }
+    ];
+
+    if (mode === 'monthly') {
+        return (
+            <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={monthlyData}>
+                    <XAxis 
+                        dataKey="month"
+                        tick={{ fill: '#6B7280', fontSize: 14 }}
+                        axisLine={{ stroke: '#E5E7EB' }}
+                        tickLine={false}
+                    />
+                    <YAxis 
+                        tickFormatter={formatYAxis}
+                        tick={{ fill: '#6B7280', fontSize: 14 }}
+                        axisLine={{ stroke: '#E5E7EB' }}
+                        tickLine={false}
+                    />
+                    <Tooltip 
+                        formatter={(value: number) => [`$${value.toLocaleString()}`]}
+                        contentStyle={{ 
+                            backgroundColor: 'white',
+                            border: '1px solid #E5E7EB',
+                            borderRadius: '6px',
+                            padding: '8px'
+                        }}
+                    />
+                    <Legend />
+                    <Line 
+                        type="monotone" 
+                        dataKey="2024" 
+                        stroke="#2C633D"
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={{ r: 6 }}
+                    />
+                    <Line 
+                        type="monotone" 
+                        dataKey="2023" 
+                        stroke="#4AA567"
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={{ r: 6 }}
+                    />
+                    <Line 
+                        type="monotone" 
+                        dataKey="2022" 
+                        stroke="#8ECCA2"
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={{ r: 6 }}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        );
+    }
 
     if (mode === 'all-time') {
         const minAmount = Math.min(...allTimeData.map(d => d.amount));
@@ -60,6 +131,7 @@ export function FundraisingChart({ mode = 'all-time' }: FundraisingChartProps) {
                             borderRadius: '6px',
                             padding: '8px'
                         }}
+                        cursor={{ fill: 'transparent' }}
                     />
                     <Bar 
                         dataKey="amount" 
@@ -73,10 +145,10 @@ export function FundraisingChart({ mode = 'all-time' }: FundraisingChartProps) {
 
     // Ramadan comparison mode
     const minAmount = Math.min(
-        ...ramadanData.map(d => Math.min(d.amount2024, d.amount2023))
+        ...ramadanData.map(d => Math.min(d.amount2024, d.amount2023, d.amount2022))
     );
     const maxAmount = Math.max(
-        ...ramadanData.map(d => Math.max(d.amount2024, d.amount2023))
+        ...ramadanData.map(d => Math.max(d.amount2024, d.amount2023, d.amount2022))
     );
     const padding = (maxAmount - minAmount) * 0.1;
 
@@ -109,21 +181,30 @@ export function FundraisingChart({ mode = 'all-time' }: FundraisingChartProps) {
                 <Legend />
                 <Line 
                     type="monotone" 
-                    name="Ramadan 2024"
                     dataKey="amount2024" 
-                    stroke="#4AA567"
+                    name="Ramadan 2024"
+                    stroke="#2C633D"
                     strokeWidth={2}
                     dot={false}
-                    activeDot={{ r: 6, fill: '#3C8653' }}
+                    activeDot={{ r: 6 }}
                 />
                 <Line 
                     type="monotone" 
-                    name="Ramadan 2023"
                     dataKey="amount2023" 
-                    stroke="#9333EA"
+                    name="Ramadan 2023"
+                    stroke="#4AA567"
                     strokeWidth={2}
                     dot={false}
-                    activeDot={{ r: 6, fill: '#7E22CE' }}
+                    activeDot={{ r: 6 }}
+                />
+                <Line 
+                    type="monotone" 
+                    dataKey="amount2022" 
+                    name="Ramadan 2022"
+                    stroke="#8ECCA2"
+                    strokeWidth={2}
+                    dot={false}
+                    activeDot={{ r: 6 }}
                 />
             </LineChart>
         </ResponsiveContainer>

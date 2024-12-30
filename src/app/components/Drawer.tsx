@@ -39,9 +39,9 @@ export function Drawer({
             </div>
             <button
               onClick={onClose}
-              className="w-[38px] h-[38px] flex items-center justify-center rounded-md border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+              className="w-6 h-6 flex items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
             >
-              <XMarkIcon className="w-[28px] h-[28px] text-neutral-500 dark:text-neutral-400" />
+              <XMarkIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-6">

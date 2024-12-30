@@ -85,7 +85,7 @@ const topSources = [
 ];
 
 export default function InfluencerPage() {
-    const [chartMode, setChartMode] = useState<'all-time' | 'ramadan-comparison'>('all-time');
+    const [chartMode, setChartMode] = useState<'all-time' | 'ramadan-comparison' | 'monthly'>('all-time');
 
     const renderDaysList = (limit: number) => (
         <div className="flex flex-col divide-y divide-neutral-200">
@@ -112,7 +112,7 @@ export default function InfluencerPage() {
 
     return (
         <div className="max-w-screen-lg mx-auto">
-            <nav className="h-16 flex flex-row items-center px-4">
+            <nav className="h-16 sm:h-24 flex flex-row sm:justify-center items-center px-4">
                 <Link href="/">
                     <svg width="136" height="18" viewBox="0 0 136 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_9240_13904)">
@@ -138,25 +138,57 @@ export default function InfluencerPage() {
             </nav>
             <div className="flex flex-col sm:flex-row gap-6 px-4">
                 <section className="flex flex-col gap-6 sm:w-1/2">
-                    <div className="flex flex-row gap-3">
-                        <img className="w-12 h-12 rounded-full" src="/influencer/maryam.png" />
+                    <div className="flex flex-row gap-3 justify-start items-center">
+                        <img className="w-16 h-16 rounded-full" src="/influencer/maryam.png" />
                         <div className="flex flex-col">
-                            <h1 className="text-lg font-bold">Salam, Maryam!</h1>
-                            <p className="text-sm text-neutral-500">Fundraising since 2021</p>
+                            <h1 className="text-xl font-bold">Salam, Maryam!</h1>
+                            <p className="text-neutral-600">Fundraising since 2021</p>
                         </div>
                     </div>
                     <div className="flex flex-row gap-6">
                         <div className="flex flex-col">
-                            <p className="text-sm text-neutral-500">Total raised</p>
-                            <p className="font-bold">$937,849</p>
+                            <p className="text-neutral-600">Total raised</p>
+                            <p className="text-lg font-bold">$937,849</p>
                         </div>
                         <div className="flex flex-col">
-                            <p className="text-sm text-neutral-500">Supporters</p>
-                            <p className="font-bold">24,010</p>
+                            <p className="text-neutral-600">Supporters</p>
+                            <p className="text-lg font-bold">24,010</p>
                         </div>
                         <div className="flex flex-col">
-                            <p className="text-sm text-neutral-500">Fundraisers</p>
-                            <p className="font-bold">4</p>
+                            <p className="text-neutral-600">Fundraisers</p>
+                            <p className="text-lg font-bold">4</p>
+                        </div>
+                    </div>
+                    <div className="flex flex-col">
+                        <div className="text-neutral-600 mb-2">Your partners</div>
+                        <div className="flex -space-x-3">
+                            <div className="relative group">
+                                <img 
+                                    className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
+                                    src="/influencer/charity.png" 
+                                />
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap after:content-[''] after:absolute after:left-1/2 after:-bottom-[10px] after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-[11px] before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200">
+                                    The Good Charity
+                                </div>
+                            </div>
+                            <div className="relative group">
+                                <img 
+                                    className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
+                                    src="/influencer/hci.png" 
+                                />
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap after:content-[''] after:absolute after:left-1/2 after:-bottom-[10px] after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-[11px] before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200">
+                                Human Concern International
+                                </div>
+                            </div>
+                            <div className="relative group">
+                                <img 
+                                    className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
+                                    src="/influencer/ha.jpeg" 
+                                />
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap after:content-[''] after:absolute after:left-1/2 after:-bottom-[10px] after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-[11px] before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200">
+                                Human Appeal
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -172,7 +204,7 @@ export default function InfluencerPage() {
                         <img className="w-24 h-20 rounded-lg" src="influencer/campaign.png"/>
                         <div className="flex-col justify-center items-start gap-2">
                             <div className="flex-col justify-center items-start flex">
-                                <div className="self-stretch text-neutral-900 text-base font-bold leading-normal">Bring hope to those in need w/Maryam Malik</div>
+                                <div className="self-stretch text-neutral-900 text-base font-semibold leading-tight">Bring hope to those in need w/Maryam Malik</div>
                                 <div className="justify-start items-start gap-2 inline-flex">
                                     <div className="text-neutral-600 text-sm font-normal leading-tight">with </div>
                                     <div className="justify-start items-center gap-1 flex">
@@ -193,137 +225,160 @@ export default function InfluencerPage() {
             </div>
             <hr className="border-neutral-200 my-6" />
             
-            <div className="px-4 grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-4">
-                <div className="sm:col-span-2">
-                    <div className="flex justify-between items-center mb-4">
+            <div className="px-4">
+                <div className="flex justify-between items-center mb-4">
+                    <div className="flex flex-col">
                         <h2 className="text-2xl font-bold">Your insights</h2>
-                        <select 
-                            className="appearance-none min-w-[240px] px-4 py-2 rounded-xl border border-neutral-200 bg-white text-neutral-900 cursor-pointer hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-200 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNy40MSA4TDEyIDEyLjU5TDE2LjU5IDhMMTggOS40MUwxMiAxNS40MUw2IDkuNDFMNy40MSA4WiIgZmlsbD0iY3VycmVudENvbG9yIi8+PC9zdmc+')] bg-no-repeat bg-right-1 pr-10"
-                            value={chartMode}
-                            onChange={(e) => setChartMode(e.target.value as 'all-time' | 'ramadan-comparison')}
-                        >
-                            <option value="all-time">All time</option>
-                            <option value="ramadan-comparison">Ramadan 2024 vs Ramadan 2023</option>
-                        </select>
+                        <p className="text-neutral-600">Across all your fundraisers</p>
                     </div>
-                    <DataCard title="Total funds raised" expandable>
-                        <div className="h-[300px]">
-                            <FundraisingChart mode={chartMode} />
-                        </div>
-                    </DataCard>
                 </div>
 
-                <div className="sm:row-span-2">
-                    <DataCard title="Top fundraising days" expandable>
-                        {({ expanded }) => renderDaysList(expanded ? 25 : 5)}
-                    </DataCard>
-                </div>
-
-                <div>
-                    <DataCard title="Top donations">
-                        <div className="flex flex-col divide-y divide-neutral-200">
-                            {topDonations.map((donation, index) => (
-                                <div key={index} className="flex items-center gap-4 py-3">
-                                    <div className="w-8 h-8 rounded-full text-neutral-600 border border-neutral-200 flex items-center justify-center text-sm">
-                                        {index + 1}
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="font-bold">${donation.amount.toLocaleString()}</div>
-                                        <div className="text-sm text-neutral-600">
-                                            {donation.timeAgo} · {donation.location}
-                                        </div>
-                                    </div>
+                <div className="columns-1 sm:columns-2 gap-4 space-y-4 [&>*]:break-inside-avoid-column [&>*]:mb-4">
+                    <div>
+                        <DataCard title="Total funds raised" expandable showHeaderBorder={false}>
+                            <div className="space-y-4">
+                                <div className="flex justify-center -mt-4 -mx-4 border-b border-neutral-200">
+                                    {[
+                                        { label: 'By year', mode: 'all-time' as const },
+                                        { label: 'By month', mode: 'monthly' as const },
+                                        { label: 'Ramadan', mode: 'ramadan-comparison' as const }
+                                    ].map((tab) => (
+                                        <button
+                                            key={tab.label}
+                                            onClick={() => setChartMode(tab.mode)}
+                                            className={`py-2 px-4 text-sm font-medium transition-colors ${
+                                                chartMode === tab.mode
+                                                    ? 'text-neutral-900 dark:text-white border-b-2 border-neutral-900 dark:border-white -mb-px'
+                                                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white border-b-2 border-transparent'
+                                            }`}
+                                        >
+                                            {tab.label}
+                                        </button>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </DataCard>
-                </div>
-
-                <div className="sm:col-span-2">
-                    <DataCard title="Top countries" expandable>
-                        {({ expanded }) => (
-                            <div className="flex flex-col gap-6">
-                                <DonorMap data={topCountries} />
-                                <div className="flex flex-col divide-y divide-neutral-200">
-                                    {topCountries
-                                        .slice(0, expanded ? topCountries.length : 5)
-                                        .map((country, index) => {
-                                            const colors = ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'];
-                                            const colorIndex = Math.min(
-                                                colors.length - 1,
-                                                Math.floor((index / (expanded ? topCountries.length : 5)) * colors.length)
-                                            );
-                                            return (
-                                                <div key={index} className="flex items-center gap-4 py-3">
-                                                    <div 
-                                                        className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
-                                                        style={{ backgroundColor: colors[colorIndex] }}
-                                                    >
-                                                        {index + 1}
-                                                    </div>
-                                                    <div className="flex-1 flex justify-between items-center">
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-xl">{country.flag}</span>
-                                                            <span className="font-bold">{country.name}</span>
-                                                        </div>
-                                                        <div className="text-neutral-600">
-                                                            {country.donors.toLocaleString()} donors
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
+                                <div className="h-[300px]">
+                                    <FundraisingChart mode={chartMode} />
                                 </div>
                             </div>
-                        )}
-                    </DataCard>
-                </div>
+                        </DataCard>
+                    </div>
 
-                <div className="sm:row-span-2">
-                    <DataCard title="Top sources" expandable>
-                        <div className="flex flex-col gap-6">
-                            <SourcesPieChart data={topSources} />
+                    <div>
+                        <DataCard title="Top fundraising days" expandable>
+                            {({ expanded }) => renderDaysList(expanded ? 25 : 5)}
+                        </DataCard>
+                    </div>
+
+                    <div>
+                        <DataCard title="Top donations">
                             <div className="flex flex-col divide-y divide-neutral-200">
-                                {topSources.map((source, index) => (
+                                {topDonations.map((donation, index) => (
                                     <div key={index} className="flex items-center gap-4 py-3">
-                                        <div 
-                                            className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
-                                            style={{ 
-                                                backgroundColor: ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'][index] 
-                                            }}
-                                        >
+                                        <div className="w-8 h-8 rounded-full text-neutral-600 border border-neutral-200 flex items-center justify-center text-sm">
                                             {index + 1}
                                         </div>
                                         <div className="flex-1">
-                                            <div className="font-bold">{source.name}</div>
+                                            <div className="font-bold">${donation.amount.toLocaleString()}</div>
                                             <div className="text-sm text-neutral-600">
-                                                ${source.amount.toLocaleString()}
+                                                {donation.timeAgo} · {donation.location}
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                        </div>
-                    </DataCard>
-                </div>
+                        </DataCard>
+                    </div>
 
-                <div>
-                    <DataCard title="Donations summary">
-                        <div className="flex flex-col gap-4">
-                            <div className="flex justify-between items-center">
-                                <div className="text-neutral-600">Average donation amount</div>
-                                <div className="font-bold">$19.74</div>
+                    <div>
+                        <DataCard title="Top countries" expandable>
+                            {({ expanded }) => (
+                                <div className="relative">
+                                    <div className="sm:sticky top-0 bg-white z-10">
+                                        <DonorMap data={topCountries} />
+                                        <hr className="border-neutral-200 mb-6" />
+                                        <div className="h-12 absolute -bottom-6 left-0 w-full bg-gradient-to-b from-white via-white to-transparent"></div>
+                                    </div>
+                                    <div className="flex flex-col divide-y divide-neutral-200">
+                                        {topCountries
+                                            .slice(0, expanded ? topCountries.length : 5)
+                                            .map((country, index) => {
+                                                const colors = ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'];
+                                                const colorIndex = Math.min(
+                                                    colors.length - 1,
+                                                    Math.floor((index / (expanded ? topCountries.length : 5)) * colors.length)
+                                                );
+                                                return (
+                                                    <div key={index} className="flex items-center gap-4 py-3">
+                                                        <div 
+                                                            className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
+                                                            style={{ backgroundColor: colors[colorIndex] }}
+                                                        >
+                                                            {index + 1}
+                                                        </div>
+                                                        <div className="flex-1 flex justify-between items-center">
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-xl">{country.flag}</span>
+                                                                <span className="font-bold">{country.name}</span>
+                                                            </div>
+                                                            <div className="text-neutral-600">
+                                                                {country.donors.toLocaleString()} donors
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                </div>
+                            )}
+                        </DataCard>
+                    </div>
+
+                    <div className="sm:!column-span-all">
+                        <DataCard title="Top sources" expandable>
+                            <div className="flex flex-col gap-6">
+                                <SourcesPieChart data={topSources} />
+                                <div className="flex flex-col divide-y divide-neutral-200">
+                                    {topSources.map((source, index) => (
+                                        <div key={index} className="flex items-center gap-4 py-3">
+                                            <div 
+                                                className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
+                                                style={{ 
+                                                    backgroundColor: ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'][index] 
+                                                }}
+                                            >
+                                                {index + 1}
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="font-bold">{source.name}</div>
+                                                <div className="text-sm text-neutral-600">
+                                                    ${source.amount.toLocaleString()}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="flex justify-between items-center">
-                                <div className="text-neutral-600">Most common donation amount</div>
-                                <div className="font-bold">$1.00</div>
+                        </DataCard>
+                    </div>
+
+                    <div className="sm:!column-span-all">
+                        <DataCard title="Donations summary">
+                            <div className="flex flex-col gap-4">
+                                <div className="flex justify-between items-center">
+                                    <div className="text-neutral-600">Average donation amount</div>
+                                    <div className="font-bold">$19.74</div>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <div className="text-neutral-600">Most common donation amount</div>
+                                    <div className="font-bold">$1.00</div>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <div className="text-neutral-600">Repeat donors (2+ donations)</div>
+                                    <div className="font-bold">2,458</div>
+                                </div>
                             </div>
-                            <div className="flex justify-between items-center">
-                                <div className="text-neutral-600">Repeat donors (2+ donations)</div>
-                                <div className="font-bold">2,458</div>
-                            </div>
-                        </div>
-                    </DataCard>
+                        </DataCard>
+                    </div>
                 </div>
             </div>
         </div>

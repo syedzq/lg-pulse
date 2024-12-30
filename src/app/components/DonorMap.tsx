@@ -7,9 +7,11 @@ import worldData from "../data/countries.json";
 interface DonorMapProps {
     data: {
         country: string;
+        flag: string;
         donors: number;
         name: string;
     }[];
+    className?: string;
 }
 
 interface GeographyType {
@@ -56,7 +58,7 @@ const countryToISO: { [key: string]: string } = {
     "South Africa": "ZAF"
 };
 
-export function DonorMap({ data }: DonorMapProps) {
+export function DonorMap({ data, className }: DonorMapProps) {
     const [tooltipContent, setTooltipContent] = useState("");
 
     // Sort data by number of donors to create color ranks
@@ -101,10 +103,10 @@ export function DonorMap({ data }: DonorMapProps) {
     return (
         <div className="relative h-fit w-full">
             <div 
-                className="absolute bg-white border border-neutral-200 rounded-md px-2 py-1 text-sm pointer-events-none z-10"
+                className="absolute bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-sm pointer-events-none z-10 translate-x-[-50%] after:content-[''] after:absolute after:left-1/2 after:-bottom-2 after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-2.5 before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200"
                 style={{
                     opacity: tooltipContent ? 1 : 0,
-                    transform: `translate(${tooltipContent ? '0, -25px' : '0, 0'})`,
+                    transform: `translate(-50%, ${tooltipContent ? '-45px' : '-35px'})`,
                     transition: 'all 0.2s ease-in-out',
                     left: '50%',
                     top: '50%'
