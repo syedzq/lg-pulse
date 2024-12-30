@@ -263,6 +263,50 @@ export default function InfluencerPage() {
                         </DataCard>
                     </div>
 
+                    <div className="block sm:hidden">
+                        <DataCard title="Top countries" expandable>
+                            {({ expanded }) => (
+                                <div className="relative">
+                                    <div className="sm:sticky top-0 bg-white z-10">
+                                        <DonorMap data={topCountries} />
+                                        <hr className="border-neutral-200 mb-6" />
+                                        <div className="h-12 absolute -bottom-6 left-0 w-full bg-gradient-to-b from-white via-white to-transparent"></div>
+                                    </div>
+                                    <div className="flex flex-col divide-y divide-neutral-200">
+                                        {topCountries
+                                            .slice(0, expanded ? topCountries.length : 5)
+                                            .map((country, index) => {
+                                                const colors = ['#2C633D', '#3C8653', '#4AA567', '#6BBD85', '#8ECCA2'];
+                                                const colorIndex = Math.min(
+                                                    colors.length - 1,
+                                                    Math.floor((index / (expanded ? topCountries.length : 5)) * colors.length)
+                                                );
+                                                return (
+                                                    <div key={index} className="flex items-center gap-4 py-3">
+                                                        <div 
+                                                            className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white"
+                                                            style={{ backgroundColor: colors[colorIndex] }}
+                                                        >
+                                                            {index + 1}
+                                                        </div>
+                                                        <div className="flex-1 flex justify-between items-center">
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-xl">{country.flag}</span>
+                                                                <span className="font-bold">{country.name}</span>
+                                                            </div>
+                                                            <div className="text-neutral-600">
+                                                                {country.donors.toLocaleString()} donors
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                </div>
+                            )}
+                        </DataCard>
+                    </div>
+
                     <div>
                         <DataCard title="Top fundraising days" expandable>
                             {({ expanded }) => renderDaysList(expanded ? 25 : 5)}
@@ -289,7 +333,7 @@ export default function InfluencerPage() {
                         </DataCard>
                     </div>
 
-                    <div>
+                    <div className="hidden sm:block">
                         <DataCard title="Top countries" expandable>
                             {({ expanded }) => (
                                 <div className="relative">
