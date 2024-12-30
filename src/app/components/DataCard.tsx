@@ -87,7 +87,7 @@ export function DataCard({ title, children, onClick, expandable = false, showHea
                     onClose={() => setIsOpen(false)}
                     title={typeof title === 'string' ? title : 'Details'}
                 >
-                    <div className="p-4">
+                    <div>
                         {renderChildren(children, true)}
                     </div>
                 </Drawer>
