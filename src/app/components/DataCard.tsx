@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect, useRef } from "react";
 import Modal from "./Modal";
 import { Drawer } from "./Drawer";
@@ -57,9 +57,12 @@ export function DataCard({ title, children, onClick, expandable = false, showHea
                         title
                     )}
                     {expandable && (
-                        <div className="w-6 h-6 rounded-full border border-neutral-200 flex items-center justify-center">
-                            <PlusIcon className="w-4 h-4 text-neutral-600" />
-                        </div>
+                        <button
+                            onClick={() => setExpanded(!expanded)}
+                            className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:border-neutral-300 transition-colors"
+                        >
+                            <ArrowsPointingOutIcon className="w-4 h-4" />
+                        </button>
                     )}
                 </div>
                 <div className="p-4">

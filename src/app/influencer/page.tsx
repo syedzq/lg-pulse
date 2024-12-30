@@ -39,11 +39,11 @@ const topDays = [
 ];
 
 const campaigns = [
-    { name: "Bring hope to those in need w/Maryam Malik", url: "https://www.launchgood.com/campaign/bring_hope#!/donors" },
-    { name: "Palestine Children's Relief Fund", url: "https://www.launchgood.com/campaign/palestine_childrens_relief_fund#!/donors" },
-    { name: "Global Food Security Initiative", url: "https://www.launchgood.com/campaign/global_food_security_initiative#!/donors" },
-    { name: "Support for Orphans Worldwide", url: "https://www.launchgood.com/campaign/support_for_orphans_worldwide#!/donors" },
-    { name: "Clean Water Projects in Africa", url: "https://www.launchgood.com/campaign/clean_water_projects_africa#!/donors" }
+    { name: "Bring hope to those in need w/Maryam Malik", url: "https://www.launchgood.com/campaign/bring_hope#!/" },
+    { name: "Palestine Children's Relief Fund", url: "https://www.launchgood.com/campaign/palestine_childrens_relief_fund#!/" },
+    { name: "Global Food Security Initiative", url: "https://www.launchgood.com/campaign/global_food_security_initiative#!/" },
+    { name: "Support for Orphans Worldwide", url: "https://www.launchgood.com/campaign/support_for_orphans_worldwide#!/" },
+    { name: "Clean Water Projects in Africa", url: "https://www.launchgood.com/campaign/clean_water_projects_africa#!/" }
 ];
 
 const topDonations = [
@@ -146,7 +146,7 @@ export default function InfluencerPage() {
                 </Link>
             </nav>
             <div className="flex flex-col sm:flex-row gap-6 px-4">
-                <section className="flex flex-col gap-6 sm:w-1/2">
+                <section className="flex flex-col gap-3 sm:w-1/2">
                     <div className="flex flex-row gap-3 justify-start items-center">
                         <img className="w-16 h-16 rounded-full" src="/influencer/maryam.png" />
                         <div className="flex flex-col">
@@ -159,18 +159,21 @@ export default function InfluencerPage() {
                         </select>
                         </div>
                     </div>
-                    <div className="flex flex-row gap-6">
+                    <div className="flex flex-row gap-6 p-4 bg-neutral-100 rounded-lg border border-neutral-200">
                         <div className="flex flex-col">
                             <p className="text-neutral-600">Total raised</p>
-                            <p className="text-lg font-bold">$937,849</p>
+                            <p className="text-2xl text-brand-500 font-bold">$937,849 🎉</p>
+                            <p className="text-xs text-neutral-600">Mashallah, you're doing great!</p>
                         </div>
+                    </div>
+                    <div className="flex flex-row gap-6">
                         <div className="flex flex-col">
                             <p className="text-neutral-600">Supporters</p>
-                            <p className="text-lg font-bold">24,010</p>
+                            <p className="font-bold">24,010</p>
                         </div>
                         <div className="flex flex-col">
                             <p className="text-neutral-600">Fundraisers</p>
-                            <p className="text-lg font-bold">4</p>
+                            <p className="font-bold">4</p>
                         </div>
                     </div>
                     <div className="flex flex-col">
@@ -306,7 +309,7 @@ export default function InfluencerPage() {
                                         <div className="flex-1">
                                             <div className="font-bold">
                                                 ${donation.amount.toLocaleString()}
-                                                {donation.name && <span className="font-normal text-neutral-600"> · {donation.name}</span>}
+                                                {donation.name ? <span className="font-normal text-neutral-600"> · {donation.name}</span> : <span className="font-normal text-neutral-600"> · Anonymous</span>}
                                             </div>
                                             <div className="text-sm text-neutral-600">
                                                 {donation.timeAgo} · {donation.location}
