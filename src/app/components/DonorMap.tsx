@@ -7,11 +7,9 @@ import worldData from "../data/countries.json";
 interface DonorMapProps {
     data: {
         country: string;
-        flag: string;
         donors: number;
         name: string;
     }[];
-    className?: string;
 }
 
 interface GeographyType {
@@ -58,7 +56,7 @@ const countryToISO: { [key: string]: string } = {
     "South Africa": "ZAF"
 };
 
-export function DonorMap({ data, className }: DonorMapProps) {
+export function DonorMap({ data }: DonorMapProps) {
     const [tooltipContent, setTooltipContent] = useState("");
 
     // Sort data by number of donors to create color ranks
