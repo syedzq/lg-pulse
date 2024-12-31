@@ -213,15 +213,15 @@ export default function InfluencerPage() {
                     </div>
                     
                 </section>
-                <section className="flex flex-col gap-4 pb-4 rounded-lg border border-neutral-200 sm:w-1/2">
-                    <div className="flex flex-row justify-between items-center p-4 pb-0">
+                <section className="flex flex-col gap-4 pb-4  sm:w-1/2">
+                    <div className="flex flex-row justify-between items-center pb-0">
                         <h3 className="text-lg font-bold">Your live fundraisers</h3>
                         <Button variant="tertiary" className="font-normal text-neutral-600">
                             See all
                             <ChevronRightIcon className="w-4 h-4" />
                         </Button>
                     </div>
-                    <div className="flex flex-row gap-4 px-4 justify-start items-center">
+                    <div className="flex flex-row gap-4 justify-start items-center">
                         <img className="w-24 h-20 rounded-lg" src="influencer/campaign.png"/>
                         <div className="flex-col justify-center items-start gap-2">
                             <div className="flex-col justify-center items-start flex">
