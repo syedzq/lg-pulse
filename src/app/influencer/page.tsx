@@ -166,7 +166,7 @@ export default function InfluencerPage() {
                         <div className="flex flex-col">
                             <p className="text-neutral-600">Total raised</p>
                             <p className="text-2xl text-brand-500 font-bold">$937,849 🎉</p>
-                            <p className="text-xs text-neutral-600">Mashallah, you're doing great!</p>
+                            <p className="text-xs text-neutral-600">Mashallah, you&apos;re doing great!</p>
                         </div>
                     </div>
                     <div className="flex flex-row gap-6">
