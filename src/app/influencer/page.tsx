@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "../components/Button"
-import { ChevronRightIcon } from "@heroicons/react/24/outline"
+import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline"
 import { DataCard } from "../components/DataCard"
 import { FundraisingChart } from "../components/FundraisingChart"
 import { DonorMap } from "../components/DonorMap"
@@ -154,12 +154,15 @@ export default function InfluencerPage() {
                             <p className="text-neutral-600">Fundraising since 2021</p>
                         </div>
                         <div className="flex flex-row grow justify-end">
-                        <select className="appearance-none text-neutral-600 bg-white border border-neutral-200 rounded-lg px-2 py-1 text-sm font-normal">
-                            <option value="usd">🇺🇸 USD</option>
-                        </select>
+                            <div className="relative">
+                                <select className="appearance-none text-neutral-900 bg-white border border-neutral-200 rounded-lg pl-2 pr-8 py-2.5 shadow-sm text-sm font-semibold">
+                                    <option value="usd">🇺🇸 USD</option>
+                                </select>
+                                <ChevronDownIcon className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-neutral-600 pointer-events-none" />
+                            </div>
                         </div>
                     </div>
-                    <div className="flex flex-row gap-6 p-4 bg-neutral-100 rounded-lg border border-neutral-200">
+                    <div className="flex flex-row gap-6 p-4 rounded-lg border border-neutral-200">
                         <div className="flex flex-col">
                             <p className="text-neutral-600">Total raised</p>
                             <p className="text-2xl text-brand-500 font-bold">$937,849 🎉</p>
@@ -169,19 +172,18 @@ export default function InfluencerPage() {
                     <div className="flex flex-row gap-6">
                         <div className="flex flex-col">
                             <p className="text-neutral-600">Supporters</p>
-                            <p className="font-bold">24,010</p>
+                            <p className="font-bold text-lg">24,010</p>
                         </div>
                         <div className="flex flex-col">
                             <p className="text-neutral-600">Fundraisers</p>
-                            <p className="font-bold">4</p>
+                            <p className="font-bold text-lg">4</p>
                         </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <div className="text-neutral-600 mb-2">Your partners</div>
+                        <div className="flex flex-col">
+                        <div className="text-neutral-600">Your partners</div>
                         <div className="flex -space-x-3">
                             <div className="relative group">
                                 <img 
-                                    className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
+                                    className="w-8 h-8 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
                                     src="/influencer/charity.png" 
                                 />
                                 <div className="absolute bottom-full left-0 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 after:content-[''] after:absolute after:left-4 after:-bottom-[10px] after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-4 before:-bottom-[11px] before:border-[6px] before:border-transparent before:border-t-neutral-200">
@@ -190,7 +192,7 @@ export default function InfluencerPage() {
                             </div>
                             <div className="relative group">
                                 <img 
-                                    className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
+                                    className="w-8 h-8 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
                                     src="/influencer/hci.png" 
                                 />
                                 <div className="absolute bottom-full left-0 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 after:content-[''] after:absolute after:left-4 after:-bottom-[10px] after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-4 before:-bottom-[11px] before:border-[6px] before:border-transparent before:border-t-neutral-200">
@@ -199,7 +201,7 @@ export default function InfluencerPage() {
                             </div>
                             <div className="relative group">
                                 <img 
-                                    className="w-12 h-12 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
+                                    className="w-8 h-8 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
                                     src="/influencer/ha.jpeg" 
                                 />
                                 <div className="absolute bottom-full left-0 mb-1 px-2.5 py-1.5 bg-white text-neutral-600 border border-neutral-200 rounded-full text-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 after:content-[''] after:absolute after:left-4 after:-bottom-[10px] after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-4 before:-bottom-[11px] before:border-[6px] before:border-transparent before:border-t-neutral-200">
@@ -208,6 +210,8 @@ export default function InfluencerPage() {
                             </div>
                         </div>
                     </div>
+                    </div>
+                    
                 </section>
                 <section className="flex flex-col gap-4 pb-4 rounded-lg border border-neutral-200 sm:w-1/2">
                     <div className="flex flex-row justify-between items-center p-4 pb-0">
@@ -254,7 +258,7 @@ export default function InfluencerPage() {
                     <div>
                         <DataCard title="Total funds raised" expandable showHeaderBorder={false}>
                             <div className="space-y-4">
-                                <div className="flex justify-center -mt-4 -mx-4 border-b border-neutral-200">
+                                <div className="flex justify-start -mt-4 -mx-4 border-b border-neutral-200">
                                     {[
                                         { label: 'By year', mode: 'all-time' as const },
                                         { label: 'By month', mode: 'monthly' as const },
@@ -360,7 +364,7 @@ export default function InfluencerPage() {
                     </div>
 
 
-                    <div className="hidden sm:block">
+                    <div className="hidden sm:block -mt-4">
                         <DataCard title="Top countries" expandable showHeaderBorder={false}>
                             {({ expanded }) => (
                                 <div className="relative">

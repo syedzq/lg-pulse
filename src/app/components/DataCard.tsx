@@ -58,7 +58,6 @@ export function DataCard({ title, children, onClick, expandable = false, showHea
                     )}
                     {expandable && (
                         <button
-                            onClick={() => setExpanded(!expanded)}
                             className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:border-neutral-300 transition-colors"
                         >
                             <ArrowsPointingOutIcon className="w-4 h-4" />
