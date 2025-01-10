@@ -41,7 +41,7 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="mx-auto">
+        <div className="nomx-auto">
             <div className="flex items-center justify-center my-5">
                 <img src="https://launchgood.s3.amazonaws.com/static/logos/launchgood-black.svg"
                     className="h-4 dark:invert"

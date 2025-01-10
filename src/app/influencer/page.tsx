@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "../components/Button"
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline"
+import { ChevronRightIcon, CheckBadgeIcon } from "@heroicons/react/24/solid"
 import { DataCard } from "../components/DataCard"
 import { FundraisingChart } from "../components/FundraisingChart"
 import { DonorMap } from "../components/DonorMap"
@@ -123,7 +123,7 @@ export default function InfluencerPage() {
         <div className="max-w-screen-lg mx-auto">
             <nav className="h-16 sm:h-24 flex flex-row sm:justify-center items-center px-4">
                 <Link href="/">
-                    <svg width="136" height="18" viewBox="0 0 136 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg height="22" viewBox="0 0 136 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_9240_13904)">
                             <path d="M87.2727 0.977539C90.0634 0.977539 93.3801 2.07082 93.3801 4.03786V5.82449C93.3801 6.02012 93.2204 6.17878 93.0241 6.17878H91.1231C90.9264 6.17878 90.7667 6.02012 90.7667 5.82449V5.04203C90.7667 3.97048 89.0755 3.42492 87.406 3.42492C84.0893 3.42492 82.0222 5.52238 82.0222 8.82394C82.0222 12.1451 84.087 14.5729 87.5371 14.5729C88.7893 14.5729 91.1185 14.2447 91.1185 12.9558V11.2952H88.6407C88.444 11.2952 88.2847 11.1366 88.2847 10.941V9.5086C88.2847 9.313 88.444 9.15435 88.6407 9.15435H93.7342V13.8318C93.7342 16.1922 89.5583 17.0225 87.2532 17.0225C82.4634 17.0225 79.0352 13.5688 79.0352 8.9348C79.0329 4.32259 82.4176 0.977539 87.2727 0.977539Z" fill="#1D1F24" />
                             <path d="M0.943951 3.66613C1.21053 3.66613 1.42685 3.88131 1.42685 4.14648V15.2727C1.42685 16.0943 2.09548 16.7594 2.92144 16.7594H9.79784C10.6238 16.7594 11.2924 16.0943 11.2924 15.2727V13.2666C11.2924 13.071 11.1329 12.9123 10.9363 12.9123H9.03525C8.83862 12.9123 8.67909 13.071 8.67909 13.2666V13.8513C8.67909 14.1164 8.46279 14.3316 8.19622 14.3316H4.78968C4.52311 14.3316 4.30677 14.1164 4.30677 13.8513V2.72717C4.30677 1.69909 3.8676 1.24048 2.81219 1.24048H0.356168C0.159511 1.24048 0 1.39914 0 1.59476V3.31185C0 3.50746 0.159511 3.66613 0.356168 3.66613H0.943951Z" fill="#1D1F24" />
@@ -145,42 +145,34 @@ export default function InfluencerPage() {
 
                 </Link>
             </nav>
-            <div className="flex flex-col sm:flex-row gap-6 px-4">
-                <section className="flex flex-col gap-3 sm:w-1/2">
-                    <div className="flex flex-row gap-3 justify-start items-center">
-                        <img className="w-16 h-16 rounded-full" src="/influencer/maryam.png" />
-                        <div className="flex flex-col">
-                            <h1 className="text-xl font-bold">Salam, Maryam!</h1>
-                            <p className="text-neutral-600">Fundraising since 2021</p>
-                        </div>
-                        <div className="flex flex-row grow justify-end">
-                            <div className="relative">
-                                <select className="appearance-none text-neutral-900 bg-white border border-neutral-200 rounded-lg pl-2 pr-8 py-2.5 shadow-sm text-sm font-semibold">
-                                    <option value="usd">🇺🇸 USD</option>
-                                </select>
-                                <ChevronDownIcon className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-neutral-600 pointer-events-none" />
+            <div className="flex flex-col sm:flex-row gap-6 px-4 sm:items-center">
+                <section className="flex flex-col gap-6 sm:w-1/2">
+                    <div className="flex flex-row gap-4 justify-start items-center">
+                        <img className="w-20 h-20 sm:w-24 sm:h-24 rounded-full" src="/influencer/maryam.png" />
+                        <div className="flex-1 gap-1">
+                            <div className="flex items-center gap-2 mb-4">
+                                <h1 className="text-xl sm:text-2xl font-bold">Maryam Malik</h1>
+                                <CheckBadgeIcon className="w-6 h-6 text-brand-500" />
+                            </div>
+                            <div className="flex flex-row gap-6">
+                                <div className="flex flex-col">
+                                    <p className="font-bold">$2.1M</p>
+                                    <p className="text-sm text-neutral-600">raised</p>
+                                </div>
+                                <div className="flex flex-col">
+                                    <p className="font-bold">281K</p>
+                                    <p className="text-sm text-neutral-600">donors</p>
+                                </div>
+                                <div className="flex flex-col">
+                                    <p className="font-bold">3</p>
+                                    <p className="text-sm text-neutral-600">fundraisers</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-row gap-6 p-4 rounded-lg border border-neutral-200">
-                        <div className="flex flex-col">
-                            <p className="text-neutral-600">Total raised</p>
-                            <p className="text-2xl text-brand-500 font-bold">$937,849 🎉</p>
-                            <p className="text-xs text-neutral-600">Mashallah, you&apos;re doing great!</p>
-                        </div>
-                    </div>
-                    <div className="flex flex-row gap-6">
-                        <div className="flex flex-col">
-                            <p className="text-neutral-600">Supporters</p>
-                            <p className="font-bold text-lg">24,010</p>
-                        </div>
-                        <div className="flex flex-col">
-                            <p className="text-neutral-600">Fundraisers</p>
-                            <p className="font-bold text-lg">4</p>
-                        </div>
-                        <div className="flex flex-col">
-                        <div className="text-neutral-600">Your partners</div>
-                        <div className="flex -space-x-3">
+                    {/* <div className="flex flex-col">
+                         <div className="text-neutral-600">Your partners</div>
+                       <div className="flex -space-x-3">
                             <div className="relative group">
                                 <img 
                                     className="w-8 h-8 rounded-full border-2 border-white bg-neutral-100 hover:z-10 transition-transform hover:scale-105" 
@@ -208,21 +200,19 @@ export default function InfluencerPage() {
                                     Human Appeal
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    </div>
-                    
+                        </div> 
+                    </div>*/}
                 </section>
-                <section className="flex flex-col gap-4 pb-4  sm:w-1/2">
-                    <div className="flex flex-row justify-between items-center pb-0">
+                <section className="flex flex-col gap-1 sm:w-1/2">
+                    <div className="flex flex-row justify-between items-center">
                         <h3 className="text-lg font-bold">Your live fundraisers</h3>
                         <Button variant="tertiary" className="font-normal text-neutral-600">
                             See all
                             <ChevronRightIcon className="w-4 h-4" />
                         </Button>
                     </div>
-                    <div className="flex flex-row gap-4 justify-start items-center">
-                        <img className="w-24 h-20 rounded-lg" src="influencer/campaign.png"/>
+                    <div className="flex flex-row gap-4 justify-start items-center border border-neutral-200 rounded-lg p-4 shadow-md hover:bg-neutral-50 transition-colors hover:cursor-pointer">
+                        <img className="w-20 h-16 rounded-lg" src="influencer/campaign.png"/>
                         <div className="flex-col justify-center items-start gap-2">
                             <div className="flex-col justify-center items-start flex">
                                 <div className="self-stretch text-neutral-900 text-base font-semibold leading-tight">Bring hope to those in need w/Maryam Malik</div>
