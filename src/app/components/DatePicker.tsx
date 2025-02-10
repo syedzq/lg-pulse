@@ -20,6 +20,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery"
 export type DatePickerProps = {
   dateRange?: DateRange
   onChange?: (dateRange?: DateRange) => void
+  disabledDays?: (date: Date) => boolean
 }
 
 async function parseDateInput(input: string): Promise<DateRange | null> {
@@ -51,7 +52,7 @@ async function parseDateInput(input: string): Promise<DateRange | null> {
   }
 }
 
-export function DatePicker({ dateRange, onChange }: DatePickerProps) {
+export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProps) {
   const [isOpen, setIsOpen] = React.useState(false)
   const [inputValue, setInputValue] = React.useState("")
   const [isLoading, setIsLoading] = React.useState(false)
@@ -147,6 +148,7 @@ export function DatePicker({ dateRange, onChange }: DatePickerProps) {
           numberOfMonths={isMobile ? 1 : 2}
           month={month}
           onMonthChange={setMonth}
+          disabled={disabledDays}
           className="w-full"
           classNames={{
             months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
