@@ -1,0 +1,223 @@
+"use client"
+
+import * as React from "react"
+import { format, parseISO } from "date-fns"
+import { CalendarDaysIcon } from "@heroicons/react/24/solid"
+import { SparklesIcon } from "@heroicons/react/24/solid"
+import { cn } from "@/lib/utils"
+import { Button as ShadcnButton } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Button } from "../components/Button"
+import { Drawer } from "../components/Drawer"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
+
+export type SingleDatePickerProps = {
+  date?: Date
+  onChange?: (date?: Date) => void
+}
+
+async function parseDateInput(input: string): Promise<Date | null> {
+  try {
+    const currentYear = new Date().getFullYear()
+    const response = await fetch('/api/parse-date', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        input,
+        currentYear,
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to parse date')
+    }
+
+    const result = await response.json()
+    return parseISO(result.start)
+  } catch (error) {
+    console.error('Error parsing date:', error)
+    return null
+  }
+}
+
+export function SingleDatePicker({ date, onChange }: SingleDatePickerProps) {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [inputValue, setInputValue] = React.useState("")
+  const [isLoading, setIsLoading] = React.useState(false)
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  const [selected, setSelected] = React.useState<Date | undefined>(date)
+  const [month, setMonth] = React.useState<Date>(new Date())
+  const isMobile = useMediaQuery("(max-width: 768px)")
+
+  // Update when external date changes
+  React.useEffect(() => {
+    setSelected(date)
+    setInputValue("")
+    if (date) {
+      setMonth(date)
+    }
+  }, [date])
+
+  // Focus input when popover opens
+  React.useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [isOpen])
+
+  const handleInputKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputValue.trim()) {
+      setIsLoading(true)
+      const newDate = await parseDateInput(inputValue.trim())
+      setIsLoading(false)
+
+      if (newDate) {
+        setSelected(newDate)
+        setMonth(newDate)
+      }
+    } else if (e.key === "Escape") {
+      setIsOpen(false)
+    }
+  }
+
+  const handleCalendarSelect = (newDate: Date | undefined) => {
+    setSelected(newDate)
+    setInputValue("")
+    if (newDate) {
+      setMonth(newDate)
+    }
+  }
+
+  const handleOK = () => {
+    onChange?.(selected)
+    setIsOpen(false)
+  }
+
+  const datePickerContent = (
+    <div className="flex flex-col h-full">
+      <div className="p-3 border-b border-neutral-200">
+        <div className="relative">
+          <div className="absolute left-2 top-1/2 -translate-y-1/2">
+            <SparklesIcon className="h-4 w-4 text-violet-500" />
+          </div>
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder='Try "tomorrow" or "next friday"'
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleInputKeyDown}
+            className="w-full pl-8 pr-2 py-1 text-sm border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
+            disabled={isLoading}
+          />
+          {isLoading && (
+            <div className="absolute right-2 top-1/2 -translate-y-1/2">
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-violet-500 border-t-transparent"></div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="flex-1 overflow-auto">
+        <Calendar
+          mode="single"
+          selected={selected}
+          onSelect={handleCalendarSelect}
+          initialFocus={false}
+          month={month}
+          onMonthChange={setMonth}
+          className="w-full"
+          classNames={{
+            months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+            month: "space-y-4 w-full",
+            table: "w-full border-collapse space-y-1",
+            head_row: "flex w-full",
+            row: "flex w-full mt-2",
+            cell: "h-9 flex-1 text-center text-sm p-0 relative",
+            day: "h-9 w-9 p-0 font-normal"
+          }}
+        />
+      </div>
+      <div className="p-3 border-t border-neutral-200 flex justify-between mt-auto">
+        <Button 
+          variant="secondary" 
+          size="extraSmall"
+          onClick={() => {
+            const today = new Date()
+            setSelected(today)
+            setMonth(today)
+          }}
+        >
+          Today
+        </Button>
+        <Button 
+          variant="primary" 
+          size="extraSmall"
+          onClick={handleOK}
+          disabled={!selected}
+        >
+          OK
+        </Button>
+      </div>
+    </div>
+  )
+
+  if (isMobile) {
+    return (
+      <>
+        <ShadcnButton
+          variant={"outline"}
+          className={cn(
+            "w-fit justify-start text-left font-semibold",
+            !date && "text-muted-foreground"
+          )}
+          onClick={() => setIsOpen(true)}
+        >
+          <CalendarDaysIcon className="mr-1 h-5 w-5 text-neutral-600" />
+          {date ? (
+            <span>{format(date, "MM/dd/yy")}</span>
+          ) : (
+            <span className="text-neutral-600 font-semibold text-sm">Select date</span>
+          )}
+        </ShadcnButton>
+        <Drawer
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Select Date"
+        >
+          {datePickerContent}
+        </Drawer>
+      </>
+    )
+  }
+
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
+        <ShadcnButton
+          variant={"outline"}
+          className={cn(
+            "w-fit justify-start text-left font-semibold",
+            !date && "text-muted-foreground"
+          )}
+        >
+          <CalendarDaysIcon className="mr-1 h-5 w-5 text-neutral-600" />
+          {date ? (
+            <span>{format(date, "MM/dd/yy")}</span>
+          ) : (
+            <span className="text-neutral-600 font-semibold text-sm">Select date</span>
+          )}
+        </ShadcnButton>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        {datePickerContent}
+      </PopoverContent>
+    </Popover>
+  )
+} 

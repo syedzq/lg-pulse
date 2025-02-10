@@ -5,9 +5,15 @@ import { useState } from 'react';
 import { Button } from '../components/Button';
 import { CampaignCard } from '../components/CampaignCard';
 import { ProgressBar } from '../components/ProgressBar';
+import { DatePicker } from '../components/DatePicker';
+import { SingleDatePicker } from '../components/SingleDatePicker';
+import { format } from 'date-fns';
+import { DateRange } from "react-day-picker"
 
 export default function DS() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dateRange, setDateRange] = useState<DateRange>();
+    const [singleDate, setSingleDate] = useState<Date>();
     
     return (
         <>
@@ -73,6 +79,43 @@ export default function DS() {
                         <Button variant="destructive" size="extraLarge" onClick={() => toast('extraLarge destructive button clicked')}>
                             Extra Large
                         </Button>
+                    </div>
+                </div>
+                <h2 className="text-2xl font-bold">Date Pickers</h2>
+                <div className="bg-neutral-100 dark:bg-neutral-800 p-4 rounded-lg space-y-4">
+                    <div className="flex flex-wrap gap-4">
+                        <div>
+                            <h3 className="text-sm font-medium mb-2 text-neutral-600">Single Day</h3>
+                            <SingleDatePicker
+                                date={singleDate}
+                                onChange={(newDate) => {
+                                    setSingleDate(newDate);
+                                    if (newDate) {
+                                        toast(`Selected date: ${format(newDate, 'PPP')}`);
+                                    } else {
+                                        toast('Date cleared');
+                                    }
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <h3 className="text-sm font-medium mb-2 text-neutral-600">Date Range</h3>
+                            <DatePicker
+                                dateRange={dateRange}
+                                onChange={(newDateRange) => {
+                                    setDateRange(newDateRange);
+                                    if (newDateRange?.from) {
+                                        if (newDateRange.to && newDateRange.from !== newDateRange.to) {
+                                            toast(`Selected range: ${format(newDateRange.from, 'PPP')} - ${format(newDateRange.to, 'PPP')}`);
+                                        } else {
+                                            toast(`Selected date: ${format(newDateRange.from, 'PPP')}`);
+                                        }
+                                    } else {
+                                        toast('Date range cleared');
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
                 <h2 className="text-2xl font-bold">Toasts</h2>
