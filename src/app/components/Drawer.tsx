@@ -1,14 +1,17 @@
 'use client';
 
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import * as Vaul from 'vaul';
+import { Drawer as VaulDrawer } from 'vaul';
 
 interface DrawerProps {
   open: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
-  direction?: 'left' | 'right' | 'bottom' | 'top';
+  footer?: React.ReactNode;
+  breakpoint?: 'desktop' | 'mobile';
+  width?: 'sm' | 'md' | 'lg' | 'fit';
+  height?: 'full' | 'fit';
 }
 
 export function Drawer({ 
@@ -16,27 +19,27 @@ export function Drawer({
   onClose, 
   title, 
   children, 
-  direction = 'bottom' 
+  footer,
+  breakpoint = 'mobile',
+  width = 'md',
+  height = 'fit'
 }: DrawerProps) {
   return (
-    <Vaul.Root open={open} onOpenChange={onClose}>
-      <Vaul.Portal>
-        <Vaul.Overlay className="fixed inset-0 bg-black/40" />
-        <Vaul.Content 
-          className={`bg-white rounded-xl dark:bg-neutral-800 fixed w-full max-h-[85vh] flex flex-col ${
-            direction === 'bottom' 
-              ? 'inset-x-0 bottom-0 rounded-t-2xl'
-              : direction === 'top'
-              ? 'inset-x-0 top-0 rounded-b-[10px]'
-              : direction === 'left'
-              ? 'left-0 top-0 bottom-0 max-w-md w-full'
-              : 'right-0 top-0 bottom-0 max-w-md w-full'
+    <VaulDrawer.Root open={open} onOpenChange={onClose} direction={breakpoint === 'desktop' ? 'right' : 'bottom'}>
+      <VaulDrawer.Portal>
+        <VaulDrawer.Overlay className="fixed inset-0 bg-black/40" />
+        <VaulDrawer.Content 
+          className={`bg-white dark:bg-neutral-800 fixed flex flex-col ${
+            breakpoint === 'desktop' 
+              ? `right-0 bottom-0 max-w-${width} h-screen`
+              : `inset-x-0 bottom-0 rounded-t-2xl w-full h-${height}`
           }`}
         >
           <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 dark:border-neutral-700">
             <div className="text-xl font-bold text-neutral-900 dark:text-white">
               {title}
             </div>
+            <VaulDrawer.Title className="sr-only">{title}</VaulDrawer.Title>
             <button
               onClick={onClose}
               className="w-6 h-6 flex items-center justify-center rounded-full border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
@@ -44,11 +47,16 @@ export function Drawer({
               <XMarkIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto h-full">
             {children}
           </div>
-        </Vaul.Content>
-      </Vaul.Portal>
-    </Vaul.Root>
+          {footer && (
+            <div className="border-t border-neutral-200 dark:border-neutral-700">
+              {footer}
+            </div>
+          )}
+        </VaulDrawer.Content>
+      </VaulDrawer.Portal>
+    </VaulDrawer.Root>
   );
 } 
