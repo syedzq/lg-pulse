@@ -354,7 +354,7 @@ export default function DrawerModalDemo() {
                                 </div>
                                 <div>
                                     <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">useOriginAnimation?: boolean</code>
-                                    <p className="text-neutral-600 mt-1">When true, animates from the trigger element's position</p>
+                                    <p className="text-neutral-600 mt-1">When true, animates from the trigger element&apos;s position</p>
                                 </div>
                                 <div>
                                     <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">originRect?: DOMRect | null</code>
@@ -499,16 +499,16 @@ export default function DrawerModalDemo() {
                                     <p className="text-neutral-600 mt-1">Array of Button components to display in footer</p>
                                 </div>
                                 <div>
-                                    <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">breakpoint?: 'desktop' | 'mobile'</code>
-                                    <p className="text-neutral-600 mt-1">Controls drawer position (right or bottom), defaults to 'mobile'</p>
+                                    <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">breakpoint?: &apos;desktop&apos; | &apos;mobile&apos;</code>
+                                    <p className="text-neutral-600 mt-1">Controls drawer position (right or bottom), defaults to &apos;mobile&apos;</p>
                                 </div>
                                 <div>
-                                    <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">width?: 'sm' | 'md' | 'lg' | 'fit'</code>
-                                    <p className="text-neutral-600 mt-1">Width of the drawer on desktop, defaults to 'md'</p>
+                                    <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">width?: &apos;sm&apos; | &apos;md&apos; | &apos;lg&apos; | &apos;fit&apos;</code>
+                                    <p className="text-neutral-600 mt-1">Width of the drawer on desktop, defaults to &apos;md&apos;</p>
                                 </div>
                                 <div>
-                                    <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">height?: 'full' | 'fit'</code>
-                                    <p className="text-neutral-600 mt-1">Height of the drawer on mobile, defaults to 'fit'</p>
+                                    <code className="text-sm font-mono bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">height?: &apos;full&apos; | &apos;fit&apos;</code>
+                                    <p className="text-neutral-600 mt-1">Height of the drawer on mobile, defaults to &apos;fit&apos;</p>
                                 </div>
                             </div>
 
@@ -583,7 +583,7 @@ export default function DrawerModalDemo() {
 <Drawer
     open={isDrawerOpen}
     onClose={() => setIsDrawerOpen(false)}
-    title="Parent Drawer"
+    title=&quot;Parent Drawer&quot;
 >
     <Button onClick={() => setIsModalOpen(true)}>
         Open Modal
@@ -593,7 +593,7 @@ export default function DrawerModalDemo() {
 <Modal
     isOpen={isModalOpen}
     onClose={() => setIsModalOpen(false)}
-    title="Nested Modal"
+    title=&quot;Nested Modal&quot;
 >
     <div>Modal content here</div>
 </Modal>`}
