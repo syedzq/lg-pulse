@@ -178,6 +178,10 @@ export default function InfluencerCardlessPage() {
                         </div>
                     </BorderlessDataCard>
 
+                    <div className="md:hidden">
+                        <hr className="border-neutral-200 my-4" />
+                    </div>
+
                     <BorderlessDataCard title="Top countries" expandable showHeaderBorder={false}>
                         {({ expanded }) => (
                             <div className="relative">
@@ -194,6 +198,10 @@ export default function InfluencerCardlessPage() {
                     <BorderlessDataCard title="Top fundraising days" expandable>
                         {({ expanded }) => renderDaysList(expanded ? 25 : 5)}
                     </BorderlessDataCard>
+
+                    <div className="md:hidden">
+                        <hr className="border-neutral-200 my-4" />
+                    </div>
 
                     <BorderlessDataCard title="Top donated times">
                         <DonationHeatmap />
@@ -232,6 +240,10 @@ export default function InfluencerCardlessPage() {
                             ))}
                         </div>
                     </BorderlessDataCard>
+
+                    <div className="md:hidden">
+                        <hr className="border-neutral-200 my-4" />
+                    </div>
 
                     <BorderlessDataCard title="Top sources" expandable>
                         <div className="flex flex-col gap-6">
