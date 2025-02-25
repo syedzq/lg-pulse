@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 
 export default function InfluencersLayout({
@@ -15,14 +14,6 @@ export default function InfluencersLayout({
 
     return (
         <div className="relative min-h-screen">
-            {/* Navigation */}
-            <nav className="border-b border-neutral-200 bg-white">
-                <div className="max-w-screen-lg mx-auto px-4 h-16 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2">
-                        <img src="/logo.svg" alt="LaunchGood" className="h-8 w-auto" />
-                    </Link>
-                </div>
-            </nav>
 
             {/* Main content */}
             <main className="py-8">

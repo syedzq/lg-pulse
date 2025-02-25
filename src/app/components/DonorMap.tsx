@@ -110,7 +110,7 @@ export function DonorMap({ data, expanded = false }: DonorMapProps) {
 
     return (
         <div>
-            <div className="flex justify-start sticky top-0 bg-white dark:bg-neutral-900 -mt-6 -mx-6 border-b border-neutral-200 mb-4">
+            <div className="flex justify-start sticky top-0 bg-white dark:bg-neutral-900 border-b border-neutral-200 mb-4">
                 {[
                     { label: 'Donors', mode: 'donors' as const },
                     { label: 'Raised', mode: 'raised' as const }

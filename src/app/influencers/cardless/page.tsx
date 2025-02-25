@@ -150,6 +150,7 @@ export default function InfluencerCardlessPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 sm:gap-x-16 gap-y-4">
+                    {/* First row */}
                     <BorderlessDataCard title="Total funds raised" expandable showHeaderBorder={false}>
                         <div className="space-y-4">
                             <div className="flex justify-start -mt-4 -mx-4 border-b border-neutral-200">
@@ -177,16 +178,30 @@ export default function InfluencerCardlessPage() {
                         </div>
                     </BorderlessDataCard>
 
-                    <div className="md:hidden">
-                        <hr className="border-neutral-200 my-4" />
-                    </div>
+                    <BorderlessDataCard title="Top countries" expandable showHeaderBorder={false}>
+                        {({ expanded }) => (
+                            <div className="relative">
+                                <div>
+                                    <DonorMap data={topCountries} expanded={expanded} />
+                                </div>
+                            </div>
+                        )}
+                    </BorderlessDataCard>
 
+                    <hr className="col-span-1 md:col-span-2 border-neutral-200 my-4" />
+
+                    {/* Second row */}
                     <BorderlessDataCard title="Top fundraising days" expandable>
                         {({ expanded }) => renderDaysList(expanded ? 25 : 5)}
                     </BorderlessDataCard>
 
-                    <hr className="md:col-span-2 border-neutral-200 my-4" />
+                    <BorderlessDataCard title="Top donated times">
+                        <DonationHeatmap />
+                    </BorderlessDataCard>
 
+                    <hr className="col-span-1 md:col-span-2 border-neutral-200 my-4" />
+
+                    {/* Third row */}
                     <BorderlessDataCard title="Top donations">
                         <div className="flex flex-col divide-y divide-neutral-200">
                             {topDonations.map((donation, index) => (
@@ -218,10 +233,6 @@ export default function InfluencerCardlessPage() {
                         </div>
                     </BorderlessDataCard>
 
-                    <div className="md:hidden">
-                        <hr className="border-neutral-200 my-4" />
-                    </div>
-
                     <BorderlessDataCard title="Top sources" expandable>
                         <div className="flex flex-col gap-6">
                             <SourcesPieChart data={topSources} />
@@ -248,29 +259,10 @@ export default function InfluencerCardlessPage() {
                         </div>
                     </BorderlessDataCard>
 
-                    <hr className="md:col-span-2 border-neutral-200 my-4" />
+                    <hr className="col-span-1 md:col-span-2 border-neutral-200 my-4" />
 
-                    <BorderlessDataCard title="Top countries" expandable showHeaderBorder={false}>
-                        {({ expanded }) => (
-                            <div className="relative">
-                                <div>
-                                    <DonorMap data={topCountries} expanded={expanded} />
-                                </div>
-                            </div>
-                        )}
-                    </BorderlessDataCard>
-
-                    <div className="md:hidden">
-                        <hr className="border-neutral-200 my-4" />
-                    </div>
-
-                    <BorderlessDataCard title="Top donated times">
-                        <DonationHeatmap />
-                    </BorderlessDataCard>
-
-                    <hr className="md:col-span-2 border-neutral-200 my-4" />
-
-                    <BorderlessDataCard title="Donations summary">
+                    {/* Fourth row */}
+                    <BorderlessDataCard title="Donations summary" className="md:col-span-2">
                         <div className="flex flex-col gap-4">
                             <div className="flex justify-between items-center">
                                 <div className="text-neutral-600">Average donation amount</div>
