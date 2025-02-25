@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import { Button as ShadcnButton } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { DateRange } from "react-day-picker"
+import { toast } from "sonner"
 import {
   Popover,
   PopoverContent,
@@ -25,7 +26,6 @@ export type DatePickerProps = {
 
 async function parseDateInput(input: string): Promise<DateRange | null> {
   try {
-    const currentYear = new Date().getFullYear()
     const response = await fetch('/api/parse-date', {
       method: 'POST',
       headers: {
@@ -33,21 +33,23 @@ async function parseDateInput(input: string): Promise<DateRange | null> {
       },
       body: JSON.stringify({
         input,
-        currentYear,
+        currentYear: new Date().getFullYear(),
       }),
     })
 
+    const data = await response.json()
+    
     if (!response.ok) {
-      throw new Error('Failed to parse date')
+      throw new Error(data.error || 'Failed to parse date')
     }
 
-    const result = await response.json()
     return {
-      from: parseISO(result.start),
-      to: parseISO(result.end),
+      from: parseISO(data.start),
+      to: parseISO(data.end),
     }
   } catch (error) {
     console.error('Error parsing date:', error)
+    toast.error(error instanceof Error ? error.message : 'Failed to parse date')
     return null
   }
 }
@@ -65,9 +67,9 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
   // Update when external date range changes
   React.useEffect(() => {
     setSelected(dateRange)
-    setInputValue("")
     if (dateRange?.from) {
       setMonth(dateRange.from)
+      setInputValue(formatDateRange(dateRange))
     }
   }, [dateRange])
 
@@ -86,9 +88,11 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
 
       if (newDateRange) {
         setSelected(newDateRange)
+        setInputValue(formatDateRange(newDateRange))
         if (newDateRange.from) {
           setMonth(newDateRange.from)
         }
+        setSelectedChip(null) // Clear chip selection when using AI parsing
       }
     } else if (e.key === "Escape") {
       setIsOpen(false)
@@ -97,10 +101,13 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
 
   const handleCalendarSelect = (newDateRange: DateRange | undefined) => {
     setSelected(newDateRange)
-    setInputValue("")
+    if (newDateRange) {
+      setInputValue(formatDateRange(newDateRange))
+    }
     if (newDateRange?.from) {
       setMonth(newDateRange.from)
     }
+    setSelectedChip(null) // Clear chip selection when using calendar
   }
 
   const handleOK = () => {
@@ -111,15 +118,15 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
   const formatDateRange = (range: DateRange) => {
     if (!range.from) return ""
     if (!range.to || range.from === range.to) {
-      return format(range.from, "MM/dd/yy")
+      return format(range.from, "MMM d, yyyy")
     }
-    return `${format(range.from, "MM/dd/yy")} - ${format(range.to, "MM/dd/yy")}`
+    return `${format(range.from, "MMM d")} - ${format(range.to, "MMM d, yyyy")}`
   }
 
   const getDefaultDateRange = (): DateRange => {
     const today = new Date();
     return {
-        from: subDays(today, 6),
+        from: today,
         to: today
     };
   };
@@ -127,6 +134,7 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
   const handleChipClick = (range: DateRange, label: string) => {
     setSelected(range)
     setSelectedChip(label)
+    setInputValue(formatDateRange(range))
     onChange?.(range)
   }
 
@@ -141,7 +149,7 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
             ref={inputRef}
             type="text"
             placeholder='Try "Mar 1-15" or "last 10 nights of Ramadan"'
-            value={selected ? formatDateRange(selected) : inputValue}
+            value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleInputKeyDown}
             className="w-full pl-8 pr-2 py-1 text-sm border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"

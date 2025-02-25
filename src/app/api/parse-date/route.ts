@@ -2,24 +2,48 @@ import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { format } from 'date-fns'
 
+// Check for API key before initializing OpenAI
+if (!process.env.OPENAI_API_KEY) {
+  console.error('OPENAI_API_KEY is not set in environment variables')
+}
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
 function normalizeDate(dateStr: string): string {
-  // Set the time to 12:00:00 UTC to avoid timezone issues
-  const date = new Date(dateStr)
-  date.setUTCHours(12, 0, 0, 0)
-  return date.toISOString()
+  try {
+    const date = new Date(dateStr)
+    if (isNaN(date.getTime())) {
+      throw new Error(`Invalid date string: ${dateStr}`)
+    }
+    date.setUTCHours(12, 0, 0, 0)
+    return date.toISOString()
+  } catch (error) {
+    console.error('Error normalizing date:', error)
+    throw error
+  }
 }
 
 export async function POST(request: Request) {
   try {
+    // Check for API key first
+    if (!process.env.OPENAI_API_KEY) {
+      console.error('OpenAI API key is not configured')
+      return NextResponse.json(
+        { error: 'OpenAI API key is not configured' },
+        { status: 500 }
+      )
+    }
+
     const { input, currentYear } = await request.json()
+    console.log('Received input:', input, 'currentYear:', currentYear)
+
     const today = new Date()
+    console.log('Current date:', format(today, 'yyyy-MM-dd'))
 
     const completion = await openai.chat.completions.create({
-      model: process.env.NEXT_PUBLIC_OPENAI_MODEL || 'gpt-4',
+      model: 'gpt-4o-mini',
       messages: [
         {
           role: 'system',
@@ -66,18 +90,29 @@ export async function POST(request: Request) {
 
     const result = completion.choices[0].message.content
     if (!result) {
+      console.error('No response content from OpenAI')
       throw new Error('No response from OpenAI')
     }
 
+    console.log('OpenAI response:', result)
+
     const parsed = JSON.parse(result)
-    return NextResponse.json({
+    if (!parsed.start || !parsed.end) {
+      console.error('Invalid date format in response:', parsed)
+      throw new Error('Invalid date format in response')
+    }
+
+    const response = {
       start: normalizeDate(parsed.start),
       end: normalizeDate(parsed.end)
-    })
+    }
+    console.log('Normalized response:', response)
+
+    return NextResponse.json(response)
   } catch (error) {
-    console.error('Error:', error)
+    console.error('Error in parse-date route:', error)
     return NextResponse.json(
-      { error: 'Failed to parse date' },
+      { error: error instanceof Error ? error.message : 'Failed to parse date' },
       { status: 500 }
     )
   }
