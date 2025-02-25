@@ -140,7 +140,7 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
           <input
             ref={inputRef}
             type="text"
-            placeholder='Try "Mar 1-15" or "last 10 nights of ramadan"'
+            placeholder='Try "Mar 1-15" or "last 10 nights of Ramadan"'
             value={selected ? formatDateRange(selected) : inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleInputKeyDown}
