@@ -358,7 +358,7 @@ export default function InfluencerPage() {
                         <DataCard title="Top countries" expandable showHeaderBorder={false}>
                             {({ expanded }) => (
                                 <div className="relative">
-                                    <div className="sm:sticky top-0 bg-white z-10">
+                                    <div>
                                         <DonorMap data={topCountries} expanded={expanded} />
                                     </div>
                                 </div>

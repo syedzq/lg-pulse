@@ -110,7 +110,7 @@ export function DonorMap({ data, expanded = false }: DonorMapProps) {
 
     return (
         <div>
-            <div className="flex justify-start -mt-4 -mx-4 border-b border-neutral-200 mb-4">
+            <div className="flex justify-start sticky top-0 bg-white dark:bg-neutral-900 -mt-6 -mx-6 border-b border-neutral-200 mb-4">
                 {[
                     { label: 'Donors', mode: 'donors' as const },
                     { label: 'Raised', mode: 'raised' as const }
@@ -129,9 +129,9 @@ export function DonorMap({ data, expanded = false }: DonorMapProps) {
                 ))}
             </div>
 
-            <div className="relative">
+            <div className="">
                 <div 
-                    className="absolute bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-sm pointer-events-none z-10 translate-x-[-50%] after:content-[''] after:absolute after:left-1/2 after:-bottom-2 after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-2.5 before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200"
+                    className="absolute bg-white border border-neutral-200 rounded-md px-2.5 py-1.5 text-sm pointer-events-none translate-x-[-50%] after:content-[''] after:absolute after:left-1/2 after:-bottom-2 after:-translate-x-1/2 after:border-[6px] after:border-transparent after:border-t-white before:content-[''] before:absolute before:left-1/2 before:-bottom-2.5 before:-translate-x-1/2 before:border-[6px] before:border-transparent before:border-t-neutral-200"
                     style={{
                         opacity: tooltipContent ? 1 : 0,
                         transform: `translate(-50%, ${tooltipContent ? '-45px' : '-35px'})`,

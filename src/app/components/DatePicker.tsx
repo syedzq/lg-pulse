@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { format, parseISO } from "date-fns"
+import { format, parseISO, subDays } from "date-fns"
 import { CalendarDaysIcon } from "@heroicons/react/24/solid"
 import { SparklesIcon } from "@heroicons/react/24/solid"
 import { cn } from "@/lib/utils"
@@ -60,6 +60,7 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
   const [selected, setSelected] = React.useState<DateRange | undefined>(dateRange)
   const [month, setMonth] = React.useState<Date>(new Date())
   const isMobile = useMediaQuery("(max-width: 768px)")
+  const [selectedChip, setSelectedChip] = React.useState<string | null>(null)
 
   // Update when external date range changes
   React.useEffect(() => {
@@ -115,6 +116,20 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
     return `${format(range.from, "MM/dd/yy")} - ${format(range.to, "MM/dd/yy")}`
   }
 
+  const getDefaultDateRange = (): DateRange => {
+    const today = new Date();
+    return {
+        from: subDays(today, 6),
+        to: today
+    };
+  };
+
+  const handleChipClick = (range: DateRange, label: string) => {
+    setSelected(range)
+    setSelectedChip(label)
+    onChange?.(range)
+  }
+
   const datePickerContent = (
     <div className="flex flex-col h-full">
       <div className="p-3 border-b border-neutral-200">
@@ -126,7 +141,7 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
             ref={inputRef}
             type="text"
             placeholder='Try "Mar 1-15" or "last 10 nights of ramadan"'
-            value={inputValue}
+            value={selected ? formatDateRange(selected) : inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleInputKeyDown}
             className="w-full pl-8 pr-2 py-1 text-sm border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
@@ -139,13 +154,20 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
           )}
         </div>
       </div>
+      <div className="max-w-[400px] flex justify-start gap-1 p-3 overflow-x-auto">
+        <button className={`px-3 py-2 whitespace-nowrap text-sm font-medium rounded-full ${selectedChip === 'Today' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900 border border-neutral-200 shadow-sm'}`} onClick={() => handleChipClick(getDefaultDateRange(), 'Today')}>Today</button>
+        <button className={`px-3 py-2 whitespace-nowrap text-sm font-medium rounded-full ${selectedChip === 'Last 7 days' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900 border border-neutral-200 shadow-sm'}`} onClick={() => handleChipClick({ from: subDays(new Date(), 6), to: new Date() }, 'Last 7 days')}>Last 7 days</button>
+        <button className={`px-3 py-2 whitespace-nowrap text-sm font-medium rounded-full ${selectedChip === 'Last 30 days' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900 border border-neutral-200 shadow-sm'}`} onClick={() => handleChipClick({ from: subDays(new Date(), 29), to: new Date() }, 'Last 30 days')}>Last 30 days</button>
+        <button className={`px-3 py-2 whitespace-nowrap text-sm font-medium rounded-full ${selectedChip === 'Year to date' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900 border border-neutral-200 shadow-sm'}`} onClick={() => handleChipClick({ from: new Date(new Date().getFullYear(), 0, 1), to: new Date() }, 'Year to date')}>Year to date</button>
+        <button className={`px-3 py-2 whitespace-nowrap text-sm font-medium rounded-full ${selectedChip === 'Last year' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900 border border-neutral-200 shadow-sm'}`} onClick={() => handleChipClick({ from: new Date(new Date().getFullYear() - 1, 0, 1), to: new Date(new Date().getFullYear() - 1, 11, 31) }, 'Last year')}>Last year</button>
+      </div>
       <div className="flex-1 overflow-auto">
         <Calendar
           mode="range"
           selected={selected}
           onSelect={handleCalendarSelect}
           initialFocus={false}
-          numberOfMonths={isMobile ? 1 : 2}
+          numberOfMonths={1}
           month={month}
           onMonthChange={setMonth}
           disabled={disabledDays}
@@ -171,7 +193,7 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
             setMonth(today)
           }}
         >
-          Today
+          Cancel
         </Button>
         <Button 
           variant="primary" 
@@ -179,7 +201,7 @@ export function DatePicker({ dateRange, onChange, disabledDays }: DatePickerProp
           onClick={handleOK}
           disabled={!selected?.from}
         >
-          OK
+          Apply
         </Button>
       </div>
     </div>

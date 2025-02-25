@@ -76,7 +76,7 @@ export function DataCard({ title, children, onClick, expandable = false, showHea
                     onClose={() => setIsOpen(false)}
                     title={typeof title === 'string' ? title : 'Details'}
                     originRect={cardBounds}
-                    useOriginAnimation={true}
+                    useOriginAnimation={false}
                 >
                     {renderChildren(children, true)}
                 </Modal>
