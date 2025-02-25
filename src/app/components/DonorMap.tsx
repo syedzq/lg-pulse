@@ -143,12 +143,13 @@ export function DonorMap({ data, expanded = false }: DonorMapProps) {
                     {tooltipContent}
                 </div>
                 <ComposableMap
+                    projection="geoMercator"
                     projectionConfig={{
-                        rotate: [-10, 0, 0],
-                        scale: 147
+                        scale: 130,
+                        center: [0, 40]
                     }}
                     width={800}
-                    height={400}
+                    height={500}
                 >
                     <Geographies geography={worldData}>
                         {({ geographies }) =>
