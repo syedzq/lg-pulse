@@ -236,7 +236,7 @@ export default function DatePickerDemo() {
                     
                     <div className="bg-gray-50 rounded-lg p-3">
                         <div className="flex items-center justify-between">
-                            <div className="font-medium text-sm">The Good Charity&apos;'s Business A...</div>
+                            <div className="font-medium text-sm">The Good Charity&apos;s Business A...</div>
                             <ChevronDownIcon className="h-4 w-4 text-gray-500" />
                         </div>
                         <div className="text-xs text-gray-500 mt-1">#47302 · US · USD</div>
