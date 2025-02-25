@@ -32,15 +32,34 @@ const CodeBlock = ({ children }: { children: string }) => (
     </pre>
 );
 
+type ControlBase = {
+    name: string;
+};
+
+type BooleanControl = ControlBase & {
+    type: 'boolean';
+    value: boolean;
+    onChange: (value: boolean) => void;
+};
+
+type StringControl = ControlBase & {
+    type: 'string';
+    value: string;
+    onChange: (value: string) => void;
+};
+
+type SelectControl = ControlBase & {
+    type: 'select';
+    value: string;
+    onChange: (value: string) => void;
+    options: string[];
+};
+
+type Control = BooleanControl | StringControl | SelectControl;
+
 interface PropControlsProps {
     title: string;
-    controls: {
-        name: string;
-        type: 'boolean' | 'select' | 'string';
-        value: any;
-        onChange: (value: any) => void;
-        options?: string[];
-    }[];
+    controls: Control[];
 }
 
 const Toggle = ({ checked, onChange }: { checked: boolean; onChange: (checked: boolean) => void }) => (
@@ -65,35 +84,35 @@ const PropControls = ({ title, controls }: PropControlsProps) => (
     <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg p-6 mb-8">
         <h3 className="font-semibold mb-4">{title}</h3>
         <div className="space-y-4">
-            {controls.map(({ name, type, value, onChange, options }) => (
-                <div key={name} className="flex items-center justify-between">
+            {controls.map((control) => (
+                <div key={control.name} className="flex items-center justify-between">
                     <label className="text-sm font-mono text-neutral-600 dark:text-neutral-400">
-                        {name}:
+                        {control.name}:
                     </label>
-                    {type === 'boolean' && (
+                    {control.type === 'boolean' && (
                         <Toggle
-                            checked={value}
-                            onChange={onChange}
+                            checked={control.value}
+                            onChange={control.onChange}
                         />
                     )}
-                    {type === 'select' && options && (
+                    {control.type === 'select' && (
                         <select
-                            value={value}
-                            onChange={(e) => onChange(e.target.value)}
+                            value={control.value}
+                            onChange={(e) => control.onChange(e.target.value)}
                             className="text-sm bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md px-2 py-1"
                         >
-                            {options.map((option) => (
+                            {control.options.map((option) => (
                                 <option key={option} value={option}>
                                     {option}
                                 </option>
                             ))}
                         </select>
                     )}
-                    {type === 'string' && (
+                    {control.type === 'string' && (
                         <input
                             type="text"
-                            value={value}
-                            onChange={(e) => onChange(e.target.value)}
+                            value={control.value}
+                            onChange={(e) => control.onChange(e.target.value)}
                             className="text-sm bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md px-2 py-1"
                         />
                     )}
@@ -435,33 +454,33 @@ export default function DrawerModalDemo() {
                                         name: 'title',
                                         type: 'string',
                                         value: drawerTitle,
-                                        onChange: setDrawerTitle
+                                        onChange: (value: string) => setDrawerTitle(value)
                                     },
                                     {
                                         name: 'subtitle',
                                         type: 'string',
                                         value: drawerSubtitle,
-                                        onChange: setDrawerSubtitle
+                                        onChange: (value: string) => setDrawerSubtitle(value)
                                     },
                                     {
                                         name: 'width',
                                         type: 'select',
                                         value: drawerWidth,
-                                        onChange: setDrawerWidth,
+                                        onChange: (value: string) => setDrawerWidth(value as 'sm' | 'md' | 'lg' | 'fit'),
                                         options: ['sm', 'md', 'lg', 'fit']
                                     },
                                     {
                                         name: 'height',
                                         type: 'select',
                                         value: drawerHeight,
-                                        onChange: setDrawerHeight,
+                                        onChange: (value: string) => setDrawerHeight(value as 'full' | 'fit'),
                                         options: ['full', 'fit']
                                     },
                                     {
                                         name: 'breakpoint',
                                         type: 'select',
                                         value: drawerBreakpoint,
-                                        onChange: setDrawerBreakpoint,
+                                        onChange: (value: string) => setDrawerBreakpoint(value as 'desktop' | 'mobile'),
                                         options: ['desktop', 'mobile']
                                     }
                                 ]}
