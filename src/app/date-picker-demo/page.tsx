@@ -144,7 +144,6 @@ export default function DatePickerDemo() {
     const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
     const [data, setData] = useState<DataPoint[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
     // Generate data on client-side only
     useEffect(() => {
