@@ -29,7 +29,7 @@ export function ToasterWithBreakpoint() {
             description: '',
             actionButton: 'bg-zinc-400',
             cancelButton: 'bg-orange-400',
-          closeButton: 'w-5 h-5 relative mt-4 flex items-center justify-center border-none',
+          closeButton: 'w-5 h-5 relative mt-4 flex items-center justify-center !bg-neutral-800 border-none',
         },
       }}
     />
