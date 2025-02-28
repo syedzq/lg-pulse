@@ -129,12 +129,13 @@ export default function TabBar() {
                                 <GlobeAltIcon className="w-6 h-6" />
                                 <div className='hidden md:block'>Pulse</div>
                             </Link>
-                            <button 
-                                className="p-3 flex flex-row gap-2 items-center rounded-full text-black/50 dark:text-neutral-400"
-                                onClick={() => {}}
+                            <Link 
+                                href="/start"
+                                className="p-3 flex flex-row gap-2 items-center rounded-full text-black/50 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors"
                             >
                                 <PlusCircleIcon className="w-6 h-6" />
-                            </button>
+                                <div className='hidden md:block'>Start a fundraiser</div>
+                            </Link>
                             <Link
                                 href="/list"
                                 className={`p-3 flex flex-row gap-2 items-center rounded-full ${pathname === '/list' ? 'text-black dark:text-white' : 'text-black/50 dark:text-neutral-400'}`}
